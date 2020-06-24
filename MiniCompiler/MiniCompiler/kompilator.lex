@@ -32,6 +32,7 @@ Comment			"//".*
 ")"				{ return (int)Tokens.ClosePar; }
 "{"				{ return (int)Tokens.OpenBlock; }
 "}"				{ return (int)Tokens.CloseBlock; }
+";"             { return (int)Tokens.Semicolon; }
 
 "||"			{ return (int)Tokens.LogOr; }
 "&&"			{ return (int)Tokens.LogAnd }
@@ -52,7 +53,7 @@ Comment			"//".*
 "|"				{ return (int)Tokens.BitOr; }
 "&"				{ return (int)Tokens.BitAnd; }
 "~"				{ return (int)Tokens.BitNot; }
-"!"				{ return (int)Tokens.LogNegation; }
+"!"				{ return (int)Tokens.LogNot; }
 "(int)"         { return (int) Tokens.IntCast; }
 "(double)"      { return (int) Tokens.DoubleCast; }
 
