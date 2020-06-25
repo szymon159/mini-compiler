@@ -5,14 +5,24 @@
 public int      i_val;
 public double   d_val;
 public bool     b_val;
-public string   type;
+public string   s_val;
+public ValType  valType;
 }
 
-%token  Program Int Double Bool If Else While Return Read Write OpenPar ClosePar OpenBlock CloseBlock Semicolon
+%token  Program If Else While Return Read Write OpenPar ClosePar OpenBlock CloseBlock Semicolon
         LogOr LogAnd Equal NotEqual Greater GreaterOrEqual Less LessOrEqual Assign Plus Minus Multiply Divide
         BitOr BitAnd BitNot LogNot IntCast DoubleCast Endl Eof Error 
-%token <val> IntValue DoubleValue BoolValue Ident Text
+%token <i_val> IntValue 
+%token <d_val> DoubleValue 
+%token <b_val> BoolValue 
+%token <s_val> Ident 
+%token <s_val> Text 
 
+%token <valType> Int
+%token <valType> Double
+%token <valType> Bool
+
+%type <valType> type
 // %type <type> line exp term factor
 
 %%
@@ -27,14 +37,10 @@ declarations    :
                 |   declarations declaration
                 ;
             
-declaration     :   type Ident Semicolon  { 
-                        if(IsVariableDeclared) {
-                            // TODO: add handler
-                        }
-                        else {
-                            Compiler.DeclareVariable($2);
-                            Compiler.AddNode(new Declaration($1, $2, lineno)); 
-                        }
+declaration     :   type Ident Semicolon
+                    { 
+                        Compiler.DeclareVariable($2);
+                        Compiler.AddNode(new Declaration($1, $2, 1)); 
                     }
                 ;
 
@@ -43,8 +49,11 @@ type            :   Int { $$ = ValType.Int; }
                 |   Bool { $$ = ValType.Bool; }
                 ;
 
-statements      :
-                |   statements statement
+statements      :   { }
+                |   statements statement 
+                    {
+                        //Compiler.AddNode($2);
+                    }
                 ;
 
 statement       :   block
@@ -56,20 +65,19 @@ statement       :   block
                 |   expStatement
                 ;
 
-block           :   OpenBlock statements CloseBlock { 
+block           :   OpenBlock statements CloseBlock
+                    { 
                         $$ = $2; 
                     }
                 ;
 
 ifStatement     :   If OpenPar exp ClosePar statement {
-                        var st = new IfStatement($3, $5, null, lineNo);
-                        Compiler.AddNode(st);
-                        $$ = st;
+                        //var st = new IfStatement($3, $5, null, 1);
+                        //Compiler.AddNode(st);
                     }
                 |   If OpenPar exp ClosePar statement Else statement {
-                        var st = new IfStatement($3, $5, $7, lineNo);
-                        Compiler.AddNode(st);
-                        $$ = st;
+                        //var st = new IfStatement($3, $5, $7, 1);
+                        //Compiler.AddNode(st);
                     }
                 ;
 
@@ -106,7 +114,7 @@ relOp           : Equal
                 | Greater
                 | GreaterOrEqual
                 | Less
-                | LessOrEquals
+                | LessOrEqual
                 ;
 
 relExp          : relExp relOp addExp
@@ -149,9 +157,10 @@ term            : Ident
                 | OpenPar exp ClosePar
                 ;
 
-const           : IntValue { $$ = $1.val; }
-                | DoubleValue
-                | BoolValue
+const           : IntValue { $$.i_val = $1; }
+                | DoubleValue { $$.d_val = $1; }
+                | BoolValue { $$.b_val = $1; }
                 ;
 
 %%
+public Parser(Scanner scanner) : base(scanner) { }
