@@ -14,19 +14,22 @@ public enum ValType
 
 public class Compiler
 {
-    private static List<SyntaxTreeNode> code;
+    private static Stack<SyntaxTreeNode> code;
     private static List<string> variables;
 
     public static int Main(string[] args)
     {
+        Console.WriteLine("BUILD SUCCEEDED");
 
 
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
         return 0;
     }
 
     public static void AddNode(SyntaxTreeNode node)
     {
-        code.Add(node);
+        code.Push(node);
     }
 
     public static void DeclareVariable(string name)
@@ -81,12 +84,12 @@ public abstract class Expression: SyntaxTreeNode
 
 }
 
-public class Block: Statement
-{
-    private List<Statement> statements;
+//public class Block: Statement
+//{
+//    private List<Statement> statements;
 
-    public Block()
-}
+//    public Block()
+//}
 
 public class IfStatement: Statement
 {
