@@ -1,28 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using MiniCompiler;
 
 public enum ValType
 {
     Int,
     Double,
     Bool,
-    Statement
+    Statement,
+    
+    // Used for compiler declaration of undeclared variable - can be used as int, double, bool
+    Dynamic 
 }
 
 public class Compiler
 {
-    private static Stack<SyntaxTreeNode> code;
-    private static List<string> variables;
+    private static Stack<SyntaxTreeNode> code = new Stack<SyntaxTreeNode>();
+    private static Dictionary<string, MiniCompiler.ValueType> variables = new Dictionary<string, MiniCompiler.ValueType>();
+    private static List<MiniCompilerError> errors = new List<MiniCompilerError>();
 
     public static int Main(string[] args)
     {
         Console.WriteLine("BUILD SUCCEEDED");
 
+        var codeSample = "program \n" +
+            "{\n" +
+            "int a;\n" +
+            "int b;\n" +
+            "a = 1;\n" +
+            "b = 2;\n" +
+            "c = c;\n" +
+            "return;\n" +
+            "}";
 
-        Console.WriteLine("Press any key to continue...");
+        var bytes = Encoding.ASCII.GetBytes(codeSample);
+
+        var stream = new MemoryStream(bytes);
+
+        var scanner = new Scanner(stream);
+        var parser = new Parser(scanner);
+
+        parser.Parse();
+
+        if(errors.Count != 0)
+        {
+            Console.WriteLine("FAILURE");
+            Console.WriteLine($"Found {errors.Count} errors:");
+            foreach (var error in errors)
+                Console.WriteLine(error);
+        }
+        else
+        {
+            Console.WriteLine("SUCCESS");
+        }
+
+        Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey();
         return 0;
     }
@@ -32,14 +70,29 @@ public class Compiler
         code.Push(node);
     }
 
-    public static void DeclareVariable(string name)
+    public static void DeclareVariable(string name, ValType type)
     {
-        variables.Add(name);
+        var value = new MiniCompiler.ValueType() { val_type = type };
+
+        variables.Add(name, value);
     }
 
     public static bool IsVariableDeclared(string name)
     {
-        return variables.Contains(name);
+        return variables.ContainsKey(name);
+    }
+
+    public static MiniCompiler.ValueType? GetVariable(string name)
+    {
+        if (variables.TryGetValue(name, out var result))
+            return result;
+        
+        return null;
+    }
+
+    public static void AddError(MiniCompilerError error)
+    {
+        errors.Add(error);
     }
 }
 
@@ -114,4 +167,58 @@ public class IfStatement: Statement
     }
 }
 
+#endregion
+
+#region Errors
+
+public abstract class MiniCompilerError
+{
+    protected int LineNumber { get; set; }
+
+    protected MiniCompilerError(int lineNumber)
+    {
+        LineNumber = lineNumber;
+    }
+
+    public override string ToString()
+    {
+        return $"Error occured in line {LineNumber}. ";
+    }
+}
+
+public class VariableNotDeclaredError: MiniCompilerError
+{
+    private string VariableName { get; set; }
+
+    public VariableNotDeclaredError(int lineNumber, string variableName)
+        :base(lineNumber)
+    {
+        VariableName = variableName;
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + $"Variable {VariableName} has not been declared.";
+    }
+}
+
+public class InvalidTypeError : MiniCompilerError
+{
+    private ValType ActualType { get; set; }
+    private ValType[] ExpectedTypes { get; set; }
+
+    private string ExpectedTypesList => string.Join(", ", ExpectedTypes);
+
+    public InvalidTypeError(int lineNumber, ValType actualType, params ValType[] expectedTypes)
+        : base(lineNumber)
+    {
+        ActualType = actualType;
+        ExpectedTypes = expectedTypes;
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + $"Invalid type: expected {ExpectedTypesList} but got {ActualType}.";
+    }
+}
 #endregion

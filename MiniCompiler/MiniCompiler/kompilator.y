@@ -1,4 +1,4 @@
-﻿%namespace GardensPoint
+﻿%namespace MiniCompiler
 
 %union
 {
@@ -6,7 +6,7 @@ public int      i_val;
 public double   d_val;
 public bool     b_val;
 public string   s_val;
-public ValType  valType;
+public ValType  val_type;
 }
 
 %token  Program If Else While Return Read Write OpenPar ClosePar OpenBlock CloseBlock Semicolon
@@ -18,11 +18,11 @@ public ValType  valType;
 %token <s_val> Ident 
 %token <s_val> Text 
 
-%token <valType> Int
-%token <valType> Double
-%token <valType> Bool
+%token <val_type> Int
+%token <val_type> Double
+%token <val_type> Bool
 
-%type <valType> type
+%type <val_type> type
 // %type <type> line exp term factor
 
 %%
@@ -38,8 +38,12 @@ declarations    :
                 ;
             
 declaration     :   type Ident Semicolon
-                    { 
-                        Compiler.DeclareVariable($2);
+                    {
+                        var a = $1;
+                        var b = $2;
+
+                        Console.WriteLine("Declaration: {0}\t{1}", a, b);
+                        Compiler.DeclareVariable($2, $1);
                         Compiler.AddNode(new Declaration($1, $2, 1)); 
                     }
                 ;
@@ -49,10 +53,12 @@ type            :   Int { $$ = ValType.Int; }
                 |   Bool { $$ = ValType.Bool; }
                 ;
 
-statements      :   { }
+statements      :   {
+                        Console.WriteLine("Statement");
+                    }
                 |   statements statement 
                     {
-                        //Compiler.AddNode($2);
+
                     }
                 ;
 
@@ -62,11 +68,12 @@ statement       :   block
                 |   returnStatement
                 |   readStatement
                 |   writeStatement
-                |   expStatement
+                |   expStatement { $$ = $1; }
                 ;
 
 block           :   OpenBlock statements CloseBlock
                     { 
+                    Console.WriteLine("A");
                         $$ = $2; 
                     }
                 ;
@@ -97,8 +104,15 @@ writeStatement  : Write expStatement Semicolon
 expStatement    : exp Semicolon
                 ;
 
-exp             : Ident Assign exp
-                | logExp
+exp             :   Ident Assign exp {
+                        var a = $1;
+                        var b = $3;
+
+                        Console.WriteLine("Assignment: {0}\t{1}", a, b);
+
+                        $$ = $3;
+                    }
+                |   logExp
                 ;
 
 logOp           : LogOr
@@ -145,21 +159,157 @@ bitExp          : bitExp bitOp unaryExp
                 | unaryExp
                 ;
 
-unaryExp        : Minus term
-                | BitNot term
-                | LogNot term
-                | IntCast term
-                | DoubleCast term
+unaryExp        :   term 
+                    { 
+                        $$ = $1; 
+                    }
+                |   Minus term 
+                    { 
+                        switch($2.val_type)
+                        {
+                            case ValType.Int:
+                                $$ = $2;
+                                $$.i_val = (-1) * $2.i_val;
+                                break;
+                            case ValType.Double:
+                                $$ = $2;
+                                $$.d_val = (-1) * $2.d_val;
+                                break;
+                            case ValType.Bool:
+                                var error = new InvalidTypeError(0, $2.val_type, ValType.Int, ValType.Double);
+                                Compiler.AddError(error);
+                                $$ = $2;
+                                break;
+                            case ValType.Dynamic:
+                                $$ = $2;
+                                $$.d_val = (-1) * $2.d_val;
+                                $$.i_val = (-1) * $2.i_val;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                |   BitNot term 
+                    { 
+                        switch($2.val_type)
+                        {
+                            case ValType.Int:
+                            case ValType.Dynamic:
+                                $$ = $2;
+                                $$.i_val = ~$2.i_val;
+                                break;
+                            case ValType.Double:
+                            case ValType.Bool:
+                                var error = new InvalidTypeError(0, $2.val_type, ValType.Int);
+                                Compiler.AddError(error);
+                                $$ = $2;
+                                break;
+                            default:
+                                break;
+                        }
+                    } 
+                |   LogNot term
+                    {
+                        switch($2.val_type)
+                        {
+                            case ValType.Bool:
+                            case ValType.Dynamic:
+                                $$ = $2;
+                                $$.b_val = !$2.b_val;
+                                break;
+                            case ValType.Int:
+                            case ValType.Double:
+                                var error = new InvalidTypeError(0, $2.val_type, ValType.Bool);
+                                Compiler.AddError(error);
+                                $$ = $2;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                |   IntCast term
+                    {
+                        switch($2.val_type)
+                        {
+                            case ValType.Int:
+                            case ValType.Dynamic:
+                                $$ = $2;
+                                break;
+                            case ValType.Double:
+                                $$.i_val = (int)$2.d_val;
+                                $$.val_type = ValType.Int;
+                                break;
+                            case ValType.Bool:
+                                $$.i_val = $2.b_val ? 1 : 0;
+                                $$.val_type = ValType.Int;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                |   DoubleCast term
+                    {
+                        switch($2.val_type)
+                        {
+                            case ValType.Int:
+                                $$.d_val = (double)$2.i_val;
+                                $$.val_type = ValType.Double;
+                                break;
+                            case ValType.Double:
+                            case ValType.Dynamic:
+                                $$ = $2;
+                                break;
+                            case ValType.Bool:
+                                $$.d_val = $2.b_val ? 1.0 : 0.0;
+                                $$.val_type = ValType.Double;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 ;
 
-term            : Ident
-                | const
-                | OpenPar exp ClosePar
+term            :   Ident 
+                    {
+                        // Throw if variable not declared, else get ValueType
+                        var varValue =  Compiler.GetVariable($1);
+                        if(varValue == null)
+                        {
+                            var error = new VariableNotDeclaredError(0, $1);
+                            Compiler.AddError(error);
+
+                            // Add declaring variable to run rest of the code
+                            varValue = new ValueType() { val_type = ValType.Dynamic };
+                            Compiler.DeclareVariable($1, ValType.Dynamic);
+                        }
+
+                        $$ = varValue.Value; 
+                    }
+                |   const 
+                    { 
+                        $$ = $1; 
+                    } 
+                |   OpenPar exp ClosePar 
+                    { 
+                        $$ = $2;
+                    }
                 ;
 
-const           : IntValue { $$.i_val = $1; }
-                | DoubleValue { $$.d_val = $1; }
-                | BoolValue { $$.b_val = $1; }
+const           :   IntValue
+                    { 
+                        $$.i_val = $1;
+                        $$.val_type = ValType.Int;
+                    }
+                |   DoubleValue 
+                    { 
+                        $$.d_val = $1;
+                        $$.val_type = ValType.Double;
+                    }
+                |   BoolValue 
+                    { 
+                        $$.b_val = $1;
+                        $$.val_type = ValType.Bool;
+                    }
                 ;
 
 %%
