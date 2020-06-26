@@ -19,10 +19,15 @@ public enum ValType
     Dynamic 
 }
 
+public enum BinaryOperator
+{
+
+}
+
 public class Compiler
 {
     private static Stack<SyntaxTreeNode> code = new Stack<SyntaxTreeNode>();
-    private static Dictionary<string, MiniCompiler.ValueType> variables = new Dictionary<string, MiniCompiler.ValueType>();
+    private static Dictionary<string, ValType> variables = new Dictionary<string, ValType>();
     private static List<MiniCompilerError> errors = new List<MiniCompilerError>();
 
     public static int Main(string[] args)
@@ -72,9 +77,7 @@ public class Compiler
 
     public static void DeclareVariable(string name, ValType type)
     {
-        var value = new MiniCompiler.ValueType() { val_type = type };
-
-        variables.Add(name, value);
+        variables.Add(name, type);
     }
 
     public static bool IsVariableDeclared(string name)
@@ -82,7 +85,7 @@ public class Compiler
         return variables.ContainsKey(name);
     }
 
-    public static MiniCompiler.ValueType? GetVariable(string name)
+    public static ValType? GetVariable(string name)
     {
         if (variables.TryGetValue(name, out var result))
             return result;
