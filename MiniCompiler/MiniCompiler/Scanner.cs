@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.2.2
 //  Machine:  DESKTOP-LRNG15B
-//  DateTime: 26.06.2020 01:43:48
+//  DateTime: 26.06.2020 21:11:52
 //  UserName: szymo
-//  GPLEX input file <../../kompilator.lex - 26.06.2020 00:09:40>
+//  GPLEX input file <../../kompilator.lex - 26.06.2020 15:50:45>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: verbose, parser, minimize
@@ -34,7 +34,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using QUT.Gppg;
 
-namespace GardensPoint
+namespace MiniCompiler
 {   
     /// <summary>
     /// Summary Canonical example of GPLEX automaton

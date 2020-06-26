@@ -1,5 +1,5 @@
 ﻿%using QUT.Gppg;
-%namespace GardensPoint
+%namespace MiniCompiler
 
 Int 			0|[1-9][0-9]*
 Double			(0|[1-9][0-9]*)\.[0-9]+
