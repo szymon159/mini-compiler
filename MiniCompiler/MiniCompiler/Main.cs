@@ -19,9 +19,27 @@ public enum ValType
     Dynamic 
 }
 
-public enum BinaryOperator
+public enum OpType
 {
-
+    LogOr, 
+    LogAnd, 
+    Equal,
+    NotEqual, 
+    Greater, 
+    GreaterOrEqual, 
+    Less, 
+    LessOrEqual, 
+    Assign,
+    Plus, 
+    Minus, 
+    Multiply, 
+    Divide, 
+    BitOr, 
+    BitAnd,
+    BitNot, 
+    LogNot, 
+    IntCast, 
+    DoubleCast
 }
 
 public class Compiler
