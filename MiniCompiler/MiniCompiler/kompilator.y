@@ -7,6 +7,7 @@ public double   d_val;
 public bool     b_val;
 public string   s_val;
 public ValType  val_type;
+public OpType   op_type;
 }
 
 %token  Program If Else While Return Read Write OpenPar ClosePar OpenBlock CloseBlock Semicolon
@@ -21,9 +22,10 @@ public ValType  val_type;
 %token <val_type> Int Double Bool
 
 %type <val_type> type term const 
+//%type <val_type> statements statement block ifStatement whileStatement returnStatement readStatement writeStatement expStatement 
 %type <val_type> exp unaryExp bitExp mulExp addExp relExp logExp 
-// %type <type> line exp term factor
 
+%type <op_type> bitOp mulOp addOp relOp logOp
 %%
 
 start           :   program
@@ -67,99 +69,199 @@ statement       :   block
                 |   returnStatement
                 |   readStatement
                 |   writeStatement
-                |   expStatement { $$ = $1; }
+                |   expStatement
                 ;
 
 block           :   OpenBlock statements CloseBlock
                     { 
-                    Console.WriteLine("A");
+                        Console.WriteLine("A");
                         $$ = $2; 
                     }
                 ;
 
-ifStatement     :   If OpenPar exp ClosePar statement {
-                        //var st = new IfStatement($3, $5, null, 1);
-                        //Compiler.AddNode(st);
+ifStatement     :   If OpenPar exp ClosePar statement
+                    {
+
                     }
-                |   If OpenPar exp ClosePar statement Else statement {
-                        //var st = new IfStatement($3, $5, $7, 1);
-                        //Compiler.AddNode(st);
+                |   If OpenPar exp ClosePar statement Else statement 
+                    {
+
                     }
                 ;
 
-whileStatement  : While OpenPar exp ClosePar statement
+whileStatement  :   While OpenPar exp ClosePar statement
                 ;
 
-returnStatement : Return Semicolon
+returnStatement :   Return Semicolon
                 ;
 
-readStatement   : Read Ident Semicolon
+readStatement   :   Read Ident Semicolon
                 ;
 
-writeStatement  : Write expStatement Semicolon
-                | Write Text Semicolon
+writeStatement  :   Write expStatement Semicolon
+                |   Write Text Semicolon
                 ;
 
-expStatement    : exp Semicolon
+expStatement    :   exp Semicolon
                 ;
 
-exp             :   Ident Assign exp {
+exp             :   Ident Assign exp 
+                    {
                         Console.WriteLine("Assignment: {0}\t{1}", $1, $3);
+
+                        var varType = Compiler.GetVariable($1);
+                        if(varType == null)
+                        {
+                            var error = new VariableNotDeclaredError(0, $1);
+                            Compiler.AddError(error);
+
+                            varType = ValType.Dynamic;
+                        }
+                        else if(varType.HasValue && varType.Value != $3)
+                        {
+                            var error = new InvalidTypeError(0, $3, varType.Value);
+                            Compiler.AddError(error);
+                        }
 
                         $$ = $3;
                     }
                 |   logExp
+                    {
+                        $$ = $1;
+                    }
                 ;
 
-logOp           : LogOr
-                | LogAnd
+logOp           :   LogOr           { $$ = OpType.LogOr; }
+                |   LogAnd          { $$ = OpType.LogAnd; }
                 ;
 
-logExp          : logExp logOp relExp
-                | relExp
+logExp          :   logExp logOp relExp
+                    {
+                        if($1 != ValType.Bool && $1 != ValType.Dynamic)
+                        {
+                            var error = new InvalidTypeError(0, $1, ValType.Bool);
+                            Compiler.AddError(error);
+                        }
+                        if($3 != ValType.Bool && $3 != ValType.Dynamic)
+                        {
+                            var error = new InvalidTypeError(0, $3, ValType.Bool);
+                            Compiler.AddError(error);
+                        }
+
+                        $$ = ValType.Bool;
+                    }
+                |   relExp
+                    {
+                        $$ = $1;
+                    }
                 ;
 
-relOp           : Equal
-                | NotEqual
-                | Greater
-                | GreaterOrEqual
-                | Less
-                | LessOrEqual
+relOp           :   Equal           { $$ = OpType.Equal; } 
+                |   NotEqual        { $$ = OpType.NotEqual; } 
+                |   Greater         { $$ = OpType.Greater; } 
+                |   GreaterOrEqual  { $$ = OpType.GreaterOrEqual; } 
+                |   Less            { $$ = OpType.Less; } 
+                |   LessOrEqual     { $$ = OpType.LessOrEqual; } 
                 ;
 
-relExp          : relExp relOp addExp
-                | addExp
+relExp          :   relExp relOp addExp
+                    {
+                        if($2 != OpType.Equal && $2 != OpType.NotEqual)
+                        {
+                            if($1 == ValType.Bool)
+                            {
+                                var error = new InvalidTypeError(0, $1, ValType.Int, ValType.Double);
+                                Compiler.AddError(error);
+                            }
+                            if($3 == ValType.Bool)
+                            {
+                                var error = new InvalidTypeError(0, $3, ValType.Int, ValType.Double);
+                                Compiler.AddError(error);
+                            }
+                        }
+
+                        $$ = ValType.Bool;
+                    }
+                |   addExp
+                    {
+                        $$ = $1;
+                    }
                 ;
 
-addOp           : Plus
-                | Minus
+addOp           :   Plus              { $$ = OpType.Plus; }
+                |   Minus             { $$ = OpType.Minus; }
                 ;
 
-addExp          : addExp addOp mulExp
-                | mulExp
+addExp          :   addExp addOp mulExp
+                    {
+                        var invalidType = false;
+                        if($1 == ValType.Bool)
+                        {
+                            var error = new InvalidTypeError(0, $1, ValType.Int, ValType.Double);
+                            Compiler.AddError(error);
+                            invalidType = true;
+                        }
+                        if($3 == ValType.Bool)
+                        {
+                            var error = new InvalidTypeError(0, $3, ValType.Int, ValType.Double);
+                            Compiler.AddError(error);
+                            invalidType = true;
+                        }
+
+                        if(invalidType)
+                            $$ = ValType.Int;
+                        else
+                            $$ = $1 == ValType.Int ? $3 : ValType.Double;
+                    }
+                |   mulExp
+                    {
+                        $$ = $1;
+                    }
                 ;
 
-mulOp           : Multiply
-                | Divide
+mulOp           :   Multiply            { $$ = OpType.Multiply; }
+                |   Divide              { $$ = OpType.Divide; }
                 ;
 
-mulExp          : mulExp mulOp bitExp
-                | bitExp
+mulExp          :   mulExp mulOp bitExp
+                    {
+                        var invalidType = false;
+                        if($1 == ValType.Bool)
+                        {
+                            var error = new InvalidTypeError(0, $1, ValType.Int, ValType.Double);
+                            Compiler.AddError(error);
+                            invalidType = true;
+                        }
+                        if($3 == ValType.Bool)
+                        {
+                            var error = new InvalidTypeError(0, $3, ValType.Int, ValType.Double);
+                            Compiler.AddError(error);
+                            invalidType = true;
+                        }
 
+                        if(invalidType)
+                            $$ = ValType.Int;
+                        else
+                            $$ = $1 == ValType.Int ? $3 : ValType.Double;
+                    }
+                |   bitExp
+                    {
+                        $$ = $1;
+                    }
                 ;
 
-bitOp           :   BitOr
-                |   BitAnd
+bitOp           :   BitOr               { $$ = OpType.BitOr; }
+                |   BitAnd              { $$ = OpType.BitAnd; }
                 ;
 
 bitExp          :   bitExp bitOp unaryExp
                     {
-                        if($1 != ValType.Int)
+                        if($1 != ValType.Int && $1 != ValType.Dynamic)
                         {
                             var error = new InvalidTypeError(0, $1, ValType.Int);
                             Compiler.AddError(error);
                         }
-                        if($3 != ValType.Int)
+                        if($3 != ValType.Int && $1 != ValType.Dynamic)
                         {
                             var error = new InvalidTypeError(0, $3, ValType.Int);
                             Compiler.AddError(error);
@@ -221,16 +323,16 @@ unaryExp        :   term
 term            :   Ident 
                     {
                         // Throw if variable not declared, else get ValueType
-                        var varValue =  Compiler.GetVariable($1);
-                        if(varValue == null)
+                        var varType =  Compiler.GetVariable($1);
+                        if(varType == null)
                         {
                             var error = new VariableNotDeclaredError(0, $1);
                             Compiler.AddError(error);
 
-                            varValue = ValType.Dynamic;
+                            varType = ValType.Dynamic;
                         }
 
-                        $$ = varValue.Value; 
+                        $$ = varType.Value; 
                     }
                 |   const 
                     { 
