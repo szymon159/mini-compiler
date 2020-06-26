@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 27.06.2020 01:02:56
+// DateTime: 27.06.2020 01:21:38
 // UserName: szymo
-// Input file <../../kompilator.y - 27.06.2020 01:02:55>
+// Input file <../../kompilator.y - 27.06.2020 01:21:37>
 
 // options: conflicts no-lines diagnose & report gplex conflicts
 
@@ -259,10 +259,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
     {
       case 6: // declaration -> type, Ident, Semicolon
 {
-                        var a = ValueStack[ValueStack.Depth-3].val_type;
-                        var b = ValueStack[ValueStack.Depth-2].s_val;
-
-                        Console.WriteLine("Declaration: {0}\t{1}", a, b);
+                        Console.WriteLine("Declaration: {0}\t{1}", ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-2].s_val);
                         Compiler.DeclareVariable(ValueStack[ValueStack.Depth-2].s_val, ValueStack[ValueStack.Depth-3].val_type);
                         Compiler.AddNode(new Declaration(ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-2].s_val, 1)); 
                     }
@@ -275,42 +272,6 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         break;
       case 9: // type -> Bool
 { CurrentSemanticValue.val_type = ValType.Bool; }
-        break;
-      case 10: // statements -> /* empty */
-{
-                        Console.WriteLine("Statement");
-                    }
-        break;
-      case 11: // statements -> statements, statement
-{
-
-                    }
-        break;
-      case 18: // statement -> expStatement
-{ CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
-        break;
-      case 19: // block -> OpenBlock, statements, CloseBlock
-{ 
-                    Console.WriteLine("A");
-                        CurrentSemanticValue = ValueStack[ValueStack.Depth-2]; 
-                    }
-        break;
-      case 20: // ifStatement -> If, OpenPar, exp, ClosePar, statement
-{
-                        //var st = new IfStatement($3, $5, null, 1);
-                        //Compiler.AddNode(st);
-                    }
-        break;
-      case 21: // ifStatement -> If, OpenPar, exp, ClosePar, statement, Else, statement
-{
-                        //var st = new IfStatement($3, $5, $7, 1);
-                        //Compiler.AddNode(st);
-                    }
-        break;
-      case 27: // expStatement -> exp, Semicolon
-{
-
-                    }
         break;
       case 28: // exp -> Ident, Assign, exp
 {
@@ -357,6 +318,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             Compiler.AddError(error);
                         }
 
+                        Console.WriteLine("Logic expression: {0}\t{1}\t{2}", ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-2].op_type, ValueStack[ValueStack.Depth-1].val_type);
                         CurrentSemanticValue.val_type = ValType.Bool;
                     }
         break;
@@ -399,6 +361,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             }
                         }
 
+                        Console.WriteLine("Relation expression: {0}\t{1}\t{2}", ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-2].op_type, ValueStack[ValueStack.Depth-1].val_type);
                         CurrentSemanticValue.val_type = ValType.Bool;
                     }
         break;
@@ -433,6 +396,8 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             CurrentSemanticValue.val_type = ValType.Int;
                         else
                             CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-3].val_type == ValType.Int ? ValueStack[ValueStack.Depth-1].val_type : ValType.Double;
+
+                        Console.WriteLine("Add expression: {0}\t{1}\t{2}", ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-2].op_type, ValueStack[ValueStack.Depth-1].val_type);
                     }
         break;
       case 45: // addExp -> mulExp
@@ -466,6 +431,8 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             CurrentSemanticValue.val_type = ValType.Int;
                         else
                             CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-3].val_type == ValType.Int ? ValueStack[ValueStack.Depth-1].val_type : ValType.Double;
+
+                        Console.WriteLine("Multiplicative expression: {0}\t{1}\t{2}", ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-2].op_type, ValueStack[ValueStack.Depth-1].val_type);
                     }
         break;
       case 49: // mulExp -> bitExp
@@ -492,6 +459,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             Compiler.AddError(error);
                         }
 
+                        Console.WriteLine("Bit expression: {0}\t{1}\t{2}", ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-2].op_type, ValueStack[ValueStack.Depth-1].val_type);
                         CurrentSemanticValue.val_type = ValType.Int;
                     }
         break;
@@ -513,6 +481,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             Compiler.AddError(error);
                         }
 
+                        Console.WriteLine("Negative number: {0}", ValueStack[ValueStack.Depth-1].val_type);
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
                     }
         break;
@@ -524,6 +493,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             Compiler.AddError(error);
                         }
 
+                        Console.WriteLine("Bit negation number: {0}", ValueStack[ValueStack.Depth-1].val_type);
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
 
                     }
@@ -536,16 +506,19 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             Compiler.AddError(error);
                         }
 
+                        Console.WriteLine("Logic negation number: {0}", ValueStack[ValueStack.Depth-1].val_type);
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
                     }
         break;
       case 58: // unaryExp -> IntCast, term
 {
+                        Console.WriteLine("Int cast: {0}", ValueStack[ValueStack.Depth-1].val_type);
                         CurrentSemanticValue.val_type = ValType.Int;
                     }
         break;
       case 59: // unaryExp -> DoubleCast, term
 {
+                        Console.WriteLine("Int cast: {0}", ValueStack[ValueStack.Depth-1].val_type);
                         CurrentSemanticValue.val_type = ValType.Double;
                     }
         break;
@@ -561,6 +534,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             varType = ValType.Dynamic;
                         }
 
+                        Console.WriteLine("Ident: {0}", ValueStack[ValueStack.Depth-1].s_val);
                         CurrentSemanticValue.val_type = varType.Value; 
                     }
         break;
@@ -570,22 +544,26 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                     }
         break;
       case 62: // term -> OpenPar, exp, ClosePar
-{ 
+{
+                        Console.WriteLine("Expression in (): {0}", ValueStack[ValueStack.Depth-2].val_type);
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-2].val_type;
                     }
         break;
       case 63: // const -> IntValue
-{ 
+{
+                        Console.WriteLine("Const int: {0}", ValueStack[ValueStack.Depth-1].i_val);
                         CurrentSemanticValue.val_type = ValType.Int;
                     }
         break;
       case 64: // const -> DoubleValue
 { 
+                        Console.WriteLine("Const double: {0}", ValueStack[ValueStack.Depth-1].d_val);
                         CurrentSemanticValue.val_type = ValType.Double;
                     }
         break;
       case 65: // const -> BoolValue
 { 
+                        Console.WriteLine("Const bool: {0}", ValueStack[ValueStack.Depth-1].b_val);
                         CurrentSemanticValue.val_type = ValType.Bool;
                     }
         break;

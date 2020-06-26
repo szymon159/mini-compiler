@@ -71,6 +71,7 @@ public class Compiler
 
         parser.Parse();
 
+        Console.WriteLine();
         if(errors.Count != 0)
         {
             Console.WriteLine("FAILURE");
