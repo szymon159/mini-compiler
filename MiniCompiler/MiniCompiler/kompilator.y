@@ -18,11 +18,10 @@ public ValType  val_type;
 %token <s_val> Ident 
 %token <s_val> Text 
 
-%token <val_type> Int
-%token <val_type> Double
-%token <val_type> Bool
+%token <val_type> Int Double Bool
 
-%type <val_type> type
+%type <val_type> type term const 
+%type <val_type> exp unaryExp bitExp mulExp addExp relExp logExp 
 // %type <type> line exp term factor
 
 %%
@@ -105,10 +104,7 @@ expStatement    : exp Semicolon
                 ;
 
 exp             :   Ident Assign exp {
-                        var a = $1;
-                        var b = $3;
-
-                        Console.WriteLine("Assignment: {0}\t{1}", a, b);
+                        Console.WriteLine("Assignment: {0}\t{1}", $1, $3);
 
                         $$ = $3;
                     }
@@ -149,14 +145,32 @@ mulOp           : Multiply
 
 mulExp          : mulExp mulOp bitExp
                 | bitExp
+
                 ;
 
-bitOp           : BitOr
-                | BitAnd
+bitOp           :   BitOr
+                |   BitAnd
                 ;
 
-bitExp          : bitExp bitOp unaryExp
-                | unaryExp
+bitExp          :   bitExp bitOp unaryExp
+                    {
+                        if($1 != ValType.Int)
+                        {
+                            var error = new InvalidTypeError(0, $1, ValType.Int);
+                            Compiler.AddError(error);
+                        }
+                        if($3 != ValType.Int)
+                        {
+                            var error = new InvalidTypeError(0, $3, ValType.Int);
+                            Compiler.AddError(error);
+                        }
+
+                        $$ = ValType.Int;
+                    }
+                |   unaryExp
+                    {
+                        $$ = $1;
+                    }
                 ;
 
 unaryExp        :   term 
@@ -165,107 +179,42 @@ unaryExp        :   term
                     }
                 |   Minus term 
                     { 
-                        switch($2.val_type)
+                        if($2 == ValType.Bool)
                         {
-                            case ValType.Int:
-                                $$ = $2;
-                                $$.i_val = (-1) * $2.i_val;
-                                break;
-                            case ValType.Double:
-                                $$ = $2;
-                                $$.d_val = (-1) * $2.d_val;
-                                break;
-                            case ValType.Bool:
-                                var error = new InvalidTypeError(0, $2.val_type, ValType.Int, ValType.Double);
-                                Compiler.AddError(error);
-                                $$ = $2;
-                                break;
-                            case ValType.Dynamic:
-                                $$ = $2;
-                                $$.d_val = (-1) * $2.d_val;
-                                $$.i_val = (-1) * $2.i_val;
-                                break;
-                            default:
-                                break;
+                            var error = new InvalidTypeError(0, $2, ValType.Int, ValType.Double);
+                            Compiler.AddError(error);
                         }
+
+                        $$ = $2;
                     }
                 |   BitNot term 
                     { 
-                        switch($2.val_type)
+                        if($2 == ValType.Double || $2 == ValType.Bool)
                         {
-                            case ValType.Int:
-                            case ValType.Dynamic:
-                                $$ = $2;
-                                $$.i_val = ~$2.i_val;
-                                break;
-                            case ValType.Double:
-                            case ValType.Bool:
-                                var error = new InvalidTypeError(0, $2.val_type, ValType.Int);
-                                Compiler.AddError(error);
-                                $$ = $2;
-                                break;
-                            default:
-                                break;
+                            var error = new InvalidTypeError(0, $2, ValType.Int);
+                            Compiler.AddError(error);
                         }
+
+                        $$ = $2;
+
                     } 
                 |   LogNot term
                     {
-                        switch($2.val_type)
+                        if($2 == ValType.Int || $2 == ValType.Double)
                         {
-                            case ValType.Bool:
-                            case ValType.Dynamic:
-                                $$ = $2;
-                                $$.b_val = !$2.b_val;
-                                break;
-                            case ValType.Int:
-                            case ValType.Double:
-                                var error = new InvalidTypeError(0, $2.val_type, ValType.Bool);
-                                Compiler.AddError(error);
-                                $$ = $2;
-                                break;
-                            default:
-                                break;
+                            var error = new InvalidTypeError(0, $2, ValType.Bool);
+                            Compiler.AddError(error);
                         }
+
+                        $$ = $2;
                     }
                 |   IntCast term
                     {
-                        switch($2.val_type)
-                        {
-                            case ValType.Int:
-                            case ValType.Dynamic:
-                                $$ = $2;
-                                break;
-                            case ValType.Double:
-                                $$.i_val = (int)$2.d_val;
-                                $$.val_type = ValType.Int;
-                                break;
-                            case ValType.Bool:
-                                $$.i_val = $2.b_val ? 1 : 0;
-                                $$.val_type = ValType.Int;
-                                break;
-                            default:
-                                break;
-                        }
+                        $$ = ValType.Int;
                     }
                 |   DoubleCast term
                     {
-                        switch($2.val_type)
-                        {
-                            case ValType.Int:
-                                $$.d_val = (double)$2.i_val;
-                                $$.val_type = ValType.Double;
-                                break;
-                            case ValType.Double:
-                            case ValType.Dynamic:
-                                $$ = $2;
-                                break;
-                            case ValType.Bool:
-                                $$.d_val = $2.b_val ? 1.0 : 0.0;
-                                $$.val_type = ValType.Double;
-                                break;
-                            default:
-                                break;
-                        }
+                        $$ = ValType.Double;
                     }
                 ;
 
@@ -278,16 +227,14 @@ term            :   Ident
                             var error = new VariableNotDeclaredError(0, $1);
                             Compiler.AddError(error);
 
-                            // Add declaring variable to run rest of the code
-                            varValue = new ValueType() { val_type = ValType.Dynamic };
-                            Compiler.DeclareVariable($1, ValType.Dynamic);
+                            varValue = ValType.Dynamic;
                         }
 
                         $$ = varValue.Value; 
                     }
                 |   const 
                     { 
-                        $$ = $1; 
+                        $$ = $1;
                     } 
                 |   OpenPar exp ClosePar 
                     { 
@@ -297,18 +244,15 @@ term            :   Ident
 
 const           :   IntValue
                     { 
-                        $$.i_val = $1;
-                        $$.val_type = ValType.Int;
+                        $$ = ValType.Int;
                     }
                 |   DoubleValue 
                     { 
-                        $$.d_val = $1;
-                        $$.val_type = ValType.Double;
+                        $$ = ValType.Double;
                     }
                 |   BoolValue 
                     { 
-                        $$.b_val = $1;
-                        $$.val_type = ValType.Bool;
+                        $$ = ValType.Bool;
                     }
                 ;
 
