@@ -40,10 +40,7 @@ declarations    :
             
 declaration     :   type Ident Semicolon
                     {
-                        var a = $1;
-                        var b = $2;
-
-                        Console.WriteLine("Declaration: {0}\t{1}", a, b);
+                        Console.WriteLine("Declaration: {0}\t{1}", $1, $2);
                         Compiler.DeclareVariable($2, $1);
                         Compiler.AddNode(new Declaration($1, $2, 1)); 
                     }
@@ -54,13 +51,8 @@ type            :   Int { $$ = ValType.Int; }
                 |   Bool { $$ = ValType.Bool; }
                 ;
 
-statements      :   {
-                        Console.WriteLine("Statement");
-                    }
+statements      :   
                 |   statements statement 
-                    {
-
-                    }
                 ;
 
 statement       :   block
@@ -73,20 +65,10 @@ statement       :   block
                 ;
 
 block           :   OpenBlock statements CloseBlock
-                    { 
-                        Console.WriteLine("A");
-                        $$ = $2; 
-                    }
                 ;
 
 ifStatement     :   If OpenPar exp ClosePar statement
-                    {
-
-                    }
-                |   If OpenPar exp ClosePar statement Else statement 
-                    {
-
-                    }
+                |   If OpenPar exp ClosePar statement Else statement
                 ;
 
 whileStatement  :   While OpenPar exp ClosePar statement
@@ -148,6 +130,7 @@ logExp          :   logExp logOp relExp
                             Compiler.AddError(error);
                         }
 
+                        Console.WriteLine("Logic expression: {0}\t{1}\t{2}", $1, $2, $3);
                         $$ = ValType.Bool;
                     }
                 |   relExp
@@ -180,6 +163,7 @@ relExp          :   relExp relOp addExp
                             }
                         }
 
+                        Console.WriteLine("Relation expression: {0}\t{1}\t{2}", $1, $2, $3);
                         $$ = ValType.Bool;
                     }
                 |   addExp
@@ -212,6 +196,8 @@ addExp          :   addExp addOp mulExp
                             $$ = ValType.Int;
                         else
                             $$ = $1 == ValType.Int ? $3 : ValType.Double;
+
+                        Console.WriteLine("Add expression: {0}\t{1}\t{2}", $1, $2, $3);
                     }
                 |   mulExp
                     {
@@ -243,6 +229,8 @@ mulExp          :   mulExp mulOp bitExp
                             $$ = ValType.Int;
                         else
                             $$ = $1 == ValType.Int ? $3 : ValType.Double;
+
+                        Console.WriteLine("Multiplicative expression: {0}\t{1}\t{2}", $1, $2, $3);
                     }
                 |   bitExp
                     {
@@ -267,6 +255,7 @@ bitExp          :   bitExp bitOp unaryExp
                             Compiler.AddError(error);
                         }
 
+                        Console.WriteLine("Bit expression: {0}\t{1}\t{2}", $1, $2, $3);
                         $$ = ValType.Int;
                     }
                 |   unaryExp
@@ -287,6 +276,7 @@ unaryExp        :   term
                             Compiler.AddError(error);
                         }
 
+                        Console.WriteLine("Negative number: {0}", $2);
                         $$ = $2;
                     }
                 |   BitNot term 
@@ -297,6 +287,7 @@ unaryExp        :   term
                             Compiler.AddError(error);
                         }
 
+                        Console.WriteLine("Bit negation number: {0}", $2);
                         $$ = $2;
 
                     } 
@@ -308,14 +299,17 @@ unaryExp        :   term
                             Compiler.AddError(error);
                         }
 
+                        Console.WriteLine("Logic negation number: {0}", $2);
                         $$ = $2;
                     }
                 |   IntCast term
                     {
+                        Console.WriteLine("Int cast: {0}", $2);
                         $$ = ValType.Int;
                     }
                 |   DoubleCast term
                     {
+                        Console.WriteLine("Int cast: {0}", $2);
                         $$ = ValType.Double;
                     }
                 ;
@@ -332,6 +326,7 @@ term            :   Ident
                             varType = ValType.Dynamic;
                         }
 
+                        Console.WriteLine("Ident: {0}", $1);
                         $$ = varType.Value; 
                     }
                 |   const 
@@ -339,21 +334,25 @@ term            :   Ident
                         $$ = $1;
                     } 
                 |   OpenPar exp ClosePar 
-                    { 
+                    {
+                        Console.WriteLine("Expression in (): {0}", $2);
                         $$ = $2;
                     }
                 ;
 
 const           :   IntValue
-                    { 
+                    {
+                        Console.WriteLine("Const int: {0}", $1);
                         $$ = ValType.Int;
                     }
                 |   DoubleValue 
                     { 
+                        Console.WriteLine("Const double: {0}", $1);
                         $$ = ValType.Double;
                     }
                 |   BoolValue 
                     { 
+                        Console.WriteLine("Const bool: {0}", $1);
                         $$ = ValType.Bool;
                     }
                 ;
