@@ -31,7 +31,8 @@ public OpType   op_type;
 start           :   program
                 ;
 
-program         :   Program OpenBlock declarations statements CloseBlock
+program         :   Program OpenBlock declarations CloseBlock
+                |   Program OpenBlock declarations statement CloseBlock
                 ;
 
 declarations    : 
@@ -51,7 +52,17 @@ type            :   Int             { $$ = ValType.Int; }
                 ;
 
 statements      :   
-                |   statements statement 
+                {
+                    Compiler.AddNode(new StatementsBlockNode(0));
+                }
+                |   statements statement
+                    {
+                        var innerNode = Compiler.GetNode();
+                        var blockNode = Compiler.GetNode() as StatementsBlockNode;
+                        blockNode.AddInnerNode(innerNode);
+
+                        Compiler.AddNode(blockNode);
+                    }
                 ;
 
 statement       :   block
