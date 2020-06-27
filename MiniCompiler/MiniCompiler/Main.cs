@@ -179,7 +179,7 @@ public class BinaryOperationNode : SyntaxTreeNode
     {
         Console.WriteLine("-----");
         var text = string.Format("{0,20}{1,10}{2,10}", "Binary operation:", OperatorType, Type);
-        Console.WriteLine(text);
+        //Console.WriteLine(text);
 
         Console.WriteLine($"BIN({OperatorType}) left: ");
         Left.GenCode();
@@ -207,9 +207,11 @@ public class AssignmentNode : BinaryOperationNode
     {
         Console.WriteLine("-----");
         var text = string.Format("{0,20}{1,10}{2,10}", "Assignment:", Name, Type);
-        Console.WriteLine(text);
+        //Console.WriteLine(text);
+        Console.WriteLine($"ASS left: ");
+        Console.WriteLine("{0,20}{1,10}{2,10}", "NotVariable:", Name, Type);
 
-        Console.WriteLine($"BIN({OperatorType}) right: ");
+        Console.WriteLine($"ASS right: ");
         Right.GenCode();
 
         Console.WriteLine("-----");
@@ -234,7 +236,7 @@ public class UnaryOperationNode : SyntaxTreeNode
     {
         Console.WriteLine("-----");
         var text = string.Format("{0,20}{1,10}{2,10}", "Unary operation:", OperatorType, Type);
-        Console.WriteLine(text);
+        //Console.WriteLine(text);
 
         Console.WriteLine($"UNARY({OperatorType}) child: ");
         Child.GenCode();
