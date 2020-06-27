@@ -103,7 +103,9 @@ exp             :   Ident Assign exp
                         }
 
                         $$ = $3;
-                        Compiler.AddNode(new AssignmentNode(0, $$, $1)); 
+
+                        var right = Compiler.GetNode();
+                        Compiler.AddNode(new AssignmentNode(0, $$, $1, right)); 
                     }
                 |   logExp
                     {
@@ -129,7 +131,10 @@ logExp          :   logExp logOp relExp
                         }
 
                         $$ = ValType.Bool;
-                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2)); 
+
+                        var right = Compiler.GetNode();
+                        var left = Compiler.GetNode();
+                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2, left, right)); 
                     }
                 |   relExp
                     {
@@ -162,7 +167,10 @@ relExp          :   relExp relOp addExp
                         }
 
                         $$ = ValType.Bool;
-                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2)); 
+
+                        var right = Compiler.GetNode();
+                        var left = Compiler.GetNode();
+                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2, left, right)); 
                     }
                 |   addExp
                     {
@@ -195,7 +203,9 @@ addExp          :   addExp addOp mulExp
                         else
                             $$ = $1 == ValType.Int ? $3 : ValType.Double;
 
-                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2)); 
+                        var right = Compiler.GetNode();
+                        var left = Compiler.GetNode();
+                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2, left, right)); 
                     }
                 |   mulExp
                     {
@@ -228,7 +238,9 @@ mulExp          :   mulExp mulOp bitExp
                         else
                             $$ = $1 == ValType.Int ? $3 : ValType.Double;
 
-                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2)); 
+                        var right = Compiler.GetNode();
+                        var left = Compiler.GetNode();
+                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2, left, right)); 
                     }
                 |   bitExp
                     {
@@ -254,7 +266,10 @@ bitExp          :   bitExp bitOp unaryExp
                         }
 
                         $$ = ValType.Int;
-                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2)); 
+                        
+                        var right = Compiler.GetNode();
+                        var left = Compiler.GetNode();
+                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2, left, right)); 
                     }
                 |   unaryExp
                     {
@@ -275,7 +290,9 @@ unaryExp        :   term
                         }
 
                         $$ = $2;
-                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.Minus)); 
+
+                        var child = Compiler.GetNode();
+                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.Minus, child)); 
                     }
                 |   BitNot term 
                     { 
@@ -286,7 +303,9 @@ unaryExp        :   term
                         }
 
                         $$ = $2;
-                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.BitNot)); 
+
+                        var child = Compiler.GetNode();
+                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.BitNot, child)); 
                     } 
                 |   LogNot term
                     {
@@ -297,17 +316,23 @@ unaryExp        :   term
                         }
 
                         $$ = $2;
-                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.LogNot)); 
+
+                        var child = Compiler.GetNode();
+                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.LogNot, child)); 
                     }
                 |   IntCast term
                     {
                         $$ = ValType.Int;
-                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.IntCast)); 
+
+                        var child = Compiler.GetNode();
+                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.IntCast, child)); 
                     }
                 |   DoubleCast term
                     {
                         $$ = ValType.Double;
-                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.DoubleCast)); 
+
+                        var child = Compiler.GetNode();
+                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.DoubleCast, child)); 
                     }
                 ;
 

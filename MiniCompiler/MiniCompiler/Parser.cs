@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 27.06.2020 18:30:14
+// DateTime: 27.06.2020 21:54:59
 // UserName: szymo
-// Input file <../../kompilator.y - 27.06.2020 18:22:20>
+// Input file <../../kompilator.y - 27.06.2020 21:52:58>
 
 // options: conflicts no-lines diagnose & report gplex conflicts
 
@@ -289,7 +289,9 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         }
 
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
-                        Compiler.AddNode(new AssignmentNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-3].s_val)); 
+
+                        var right = Compiler.GetNode();
+                        Compiler.AddNode(new AssignmentNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-3].s_val, right)); 
                     }
         break;
       case 29: // exp -> logExp
@@ -317,7 +319,10 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         }
 
                         CurrentSemanticValue.val_type = ValType.Bool;
-                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type)); 
+
+                        var right = Compiler.GetNode();
+                        var left = Compiler.GetNode();
+                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
         break;
       case 33: // logExp -> relExp
@@ -360,7 +365,10 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         }
 
                         CurrentSemanticValue.val_type = ValType.Bool;
-                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type)); 
+
+                        var right = Compiler.GetNode();
+                        var left = Compiler.GetNode();
+                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
         break;
       case 41: // relExp -> addExp
@@ -395,7 +403,9 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         else
                             CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-3].val_type == ValType.Int ? ValueStack[ValueStack.Depth-1].val_type : ValType.Double;
 
-                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type)); 
+                        var right = Compiler.GetNode();
+                        var left = Compiler.GetNode();
+                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
         break;
       case 45: // addExp -> mulExp
@@ -430,7 +440,9 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         else
                             CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-3].val_type == ValType.Int ? ValueStack[ValueStack.Depth-1].val_type : ValType.Double;
 
-                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type)); 
+                        var right = Compiler.GetNode();
+                        var left = Compiler.GetNode();
+                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
         break;
       case 49: // mulExp -> bitExp
@@ -458,7 +470,10 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         }
 
                         CurrentSemanticValue.val_type = ValType.Int;
-                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type)); 
+                        
+                        var right = Compiler.GetNode();
+                        var left = Compiler.GetNode();
+                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
         break;
       case 53: // bitExp -> unaryExp
@@ -480,7 +495,9 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         }
 
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
-                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.Minus)); 
+
+                        var child = Compiler.GetNode();
+                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.Minus, child)); 
                     }
         break;
       case 56: // unaryExp -> BitNot, term
@@ -492,7 +509,9 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         }
 
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
-                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.BitNot)); 
+
+                        var child = Compiler.GetNode();
+                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.BitNot, child)); 
                     }
         break;
       case 57: // unaryExp -> LogNot, term
@@ -504,19 +523,25 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         }
 
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
-                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.LogNot)); 
+
+                        var child = Compiler.GetNode();
+                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.LogNot, child)); 
                     }
         break;
       case 58: // unaryExp -> IntCast, term
 {
                         CurrentSemanticValue.val_type = ValType.Int;
-                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.IntCast)); 
+
+                        var child = Compiler.GetNode();
+                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.IntCast, child)); 
                     }
         break;
       case 59: // unaryExp -> DoubleCast, term
 {
                         CurrentSemanticValue.val_type = ValType.Double;
-                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.DoubleCast)); 
+
+                        var child = Compiler.GetNode();
+                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.DoubleCast, child)); 
                     }
         break;
       case 60: // term -> Ident
