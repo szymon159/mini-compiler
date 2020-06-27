@@ -56,8 +56,10 @@ public class Compiler
             "int a;\n" +
             "int b;\n" +
             "while(true){\n" +
-            "a = -1;\n" +
+            "write a = -1;\n" +
+            "write \"HELLO WORLD\";\n" +
             "b = (a+b)*a;\n" +
+            "return;\n" +
             "}\n" +
             "}";
 
@@ -139,7 +141,7 @@ public abstract class SyntaxTreeNode
     public int LineNo = -1;
     public ValType Type;
 
-    public SyntaxTreeNode(int lineNo, ValType type)
+    public SyntaxTreeNode(int lineNo, ValType type = ValType.None)
     {
         LineNo = lineNo;
         Type = type;
@@ -329,7 +331,7 @@ public class StatementsBlockNode : SyntaxTreeNode
     private List<SyntaxTreeNode> innerNodes;
 
     public StatementsBlockNode(int lineNo)
-        :base(lineNo, ValType.None)
+        :base(lineNo)
     {
         innerNodes = new List<SyntaxTreeNode>();
     }
@@ -357,7 +359,7 @@ public class IfStatementNode : SyntaxTreeNode
     private SyntaxTreeNode ElseStatement { get; set; }
 
     public IfStatementNode(int lineNo, SyntaxTreeNode condition, SyntaxTreeNode thenStatement, SyntaxTreeNode elseStatement = null)
-        :base(lineNo, ValType.None)
+        :base(lineNo)
     {
         Condition = condition;
         ThenStatement = thenStatement;
@@ -388,7 +390,7 @@ public class WhileStatementNode : SyntaxTreeNode
     private SyntaxTreeNode ThenStatement { get; set; }
 
     public WhileStatementNode(int lineNo, SyntaxTreeNode condition, SyntaxTreeNode thenStatement)
-        : base(lineNo, ValType.None)
+        : base(lineNo)
     {
         Condition = condition;
         ThenStatement = thenStatement;
@@ -407,6 +409,77 @@ public class WhileStatementNode : SyntaxTreeNode
     }
 }
 
+public class ReturnNode: SyntaxTreeNode
+{
+    public ReturnNode(int lineNo)
+        : base(lineNo)
+    {
+
+    }
+
+    public override string GenCode()
+    {
+        var text = "RETURN";
+        Console.WriteLine(text);
+
+        return text;
+    }
+}
+
+public class ReadNode : SyntaxTreeNode
+{
+    private string Name { get; set; }
+
+    public ReadNode(int lineNo, string name)
+        :base(lineNo)
+    {
+        Name = name;
+    }
+
+    public override string GenCode()
+    {
+        var text = $"READ TO {Name}";
+
+        return text;
+    }
+}
+
+public class WriteNode : SyntaxTreeNode
+{
+    private SyntaxTreeNode ExpressionNode { get; set; }
+    private string Text { get; set; }
+
+    public WriteNode(int lineNo, SyntaxTreeNode expressionNode)
+        : base(lineNo)
+    {
+        ExpressionNode = expressionNode;
+        Text = null;
+    }
+
+    public WriteNode(int lineNo, string text)
+        : base(lineNo)
+    {
+        ExpressionNode = null;
+        Text = text;
+    }
+    public override string GenCode()
+    {
+        string text;
+        if(Text != null)
+        {
+            text = $"WRITE TEXT: {Text}";
+            Console.WriteLine(text);
+        }
+        else
+        {
+            text = "WRITE EXP:";
+            Console.WriteLine(text);
+            ExpressionNode.GenCode();
+        }
+
+        return text;
+    }
+}
 
 #endregion
 
