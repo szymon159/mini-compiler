@@ -14,7 +14,7 @@ public enum ValType
     Int,
     Double,
     Bool,
-    Statement,
+    None,
     
     // Used for compiler declaration of undeclared variable - can be used as int, double, bool
     Dynamic 
@@ -55,9 +55,10 @@ public class Compiler
             "{\n" +
             "int a;\n" +
             "int b;\n" +
+            "{\n" +
             "a = -1;\n" +
             "b = (a+b)*a;\n" +
-            "return;\n" +
+            "}\n" +
             "}";
 
         Console.WriteLine("Code:\n");
@@ -318,6 +319,31 @@ public class ConstantNode : SyntaxTreeNode
     }
 }
 
+public class StatementsBlockNode : SyntaxTreeNode
+{
+    private List<SyntaxTreeNode> innerNodes;
+
+    public StatementsBlockNode(int lineNo)
+        :base(lineNo, ValType.None)
+    {
+        innerNodes = new List<SyntaxTreeNode>();
+    }
+
+    public void AddInnerNode(SyntaxTreeNode node)
+    {
+        innerNodes.Add(node);
+    }
+
+    public override string GenCode()
+    {
+        Console.WriteLine("BLOCK BEGIN");
+        foreach (var node in innerNodes)
+            node.GenCode();
+        Console.WriteLine("BLOCK END");
+
+        return "";
+    }
+}
 
 #endregion
 
