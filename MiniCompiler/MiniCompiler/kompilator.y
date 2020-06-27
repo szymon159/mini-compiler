@@ -16,13 +16,12 @@ public OpType   op_type;
 %token <i_val> IntValue 
 %token <d_val> DoubleValue 
 %token <b_val> BoolValue 
-%token <s_val> Ident 
-%token <s_val> Text 
+%token <s_val> Ident
+%token <s_val> Text
 
 %token <val_type> Int Double Bool
 
 %type <val_type> type term const 
-//%type <val_type> statements statement block ifStatement whileStatement returnStatement readStatement writeStatement expStatement 
 %type <val_type> exp unaryExp bitExp mulExp addExp relExp logExp 
 
 %type <op_type> bitOp mulOp addOp relOp logOp
@@ -104,13 +103,26 @@ whileStatement  :   While OpenPar exp ClosePar statement
                 ;
 
 returnStatement :   Return Semicolon
+                    {
+                        Compiler.AddNode(new ReturnNode(0));
+                    }
                 ;
 
 readStatement   :   Read Ident Semicolon
+                    {
+                        Compiler.AddNode(new ReadNode(0, $2));
+                    }
                 ;
 
-writeStatement  :   Write expStatement Semicolon
+writeStatement  :   Write exp Semicolon
+                    {
+                        var expNode = Compiler.GetNode();
+                        Compiler.AddNode(new WriteNode(0, expNode));
+                    }
                 |   Write Text Semicolon
+                    {
+                        Compiler.AddNode(new WriteNode(0, $2));
+                    }
                 ;
 
 expStatement    :   exp Semicolon
