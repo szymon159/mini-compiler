@@ -163,19 +163,32 @@ public class DeclarationNode: SyntaxTreeNode
 
 public class BinaryOperationNode : SyntaxTreeNode
 {
-    private OpType OperatorType { get; set; }
+    protected OpType OperatorType { get; set; }
+    protected SyntaxTreeNode Left { get; set; }
+    protected SyntaxTreeNode Right { get; set; }
 
-    public BinaryOperationNode(int lineNo, ValType type, OpType operatorType)
+    public BinaryOperationNode(int lineNo, ValType type, OpType operatorType, SyntaxTreeNode left, SyntaxTreeNode right)
         :base(lineNo, type)
     {
         OperatorType = operatorType;
+        Left = left;
+        Right = right;
     }
 
     public override string GenCode()
     {
+        Console.WriteLine("-----");
         var text = string.Format("{0,20}{1,10}{2,10}", "Binary operation:", OperatorType, Type);
         Console.WriteLine(text);
 
+        Console.WriteLine($"BIN({OperatorType}) left: ");
+        Left.GenCode();
+
+        Console.WriteLine($"BIN({OperatorType}) right: ");
+        Right.GenCode();
+
+        Console.WriteLine("-----");
+        Console.WriteLine();
         return text;
     }
 }
@@ -184,17 +197,23 @@ public class AssignmentNode : BinaryOperationNode
 {
     private string Name { get; set; }
 
-    public AssignmentNode(int lineNo, ValType type, string name)
-        :base(lineNo, type, OpType.Assign)
+    public AssignmentNode(int lineNo, ValType type, string name, SyntaxTreeNode right)
+        :base(lineNo, type, OpType.Assign, null, right)
     {
         Name = name;
     }
 
     public override string GenCode()
     {
+        Console.WriteLine("-----");
         var text = string.Format("{0,20}{1,10}{2,10}", "Assignment:", Name, Type);
         Console.WriteLine(text);
 
+        Console.WriteLine($"BIN({OperatorType}) right: ");
+        Right.GenCode();
+
+        Console.WriteLine("-----");
+        Console.WriteLine();
         return text;
     }
 }
@@ -202,17 +221,26 @@ public class AssignmentNode : BinaryOperationNode
 public class UnaryOperationNode : SyntaxTreeNode
 {
     private OpType OperatorType { get; set; }
+    private SyntaxTreeNode Child { get; set; }
 
-    public UnaryOperationNode(int lineNo, ValType type, OpType operatorType)
+    public UnaryOperationNode(int lineNo, ValType type, OpType operatorType, SyntaxTreeNode child)
         : base(lineNo, type)
     {
         OperatorType = operatorType;
+        Child = child;
     }
 
     public override string GenCode()
     {
+        Console.WriteLine("-----");
         var text = string.Format("{0,20}{1,10}{2,10}", "Unary operation:", OperatorType, Type);
         Console.WriteLine(text);
+
+        Console.WriteLine($"UNARY({OperatorType}) child: ");
+        Child.GenCode();
+
+        Console.WriteLine("-----");
+        Console.WriteLine();
 
         return text;
     }
