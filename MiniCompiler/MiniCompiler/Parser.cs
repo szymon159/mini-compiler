@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 27.06.2020 23:18:44
+// DateTime: 27.06.2020 23:34:21
 // UserName: szymo
-// Input file <../../kompilator.y - 27.06.2020 23:18:17>
+// Input file <../../kompilator.y - 27.06.2020 23:32:32>
 
 // options: conflicts no-lines diagnose & report gplex conflicts
 
@@ -286,6 +286,23 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         blockNode.AddInnerNode(innerNode);
 
                         Compiler.AddNode(blockNode);
+                    }
+        break;
+      case 21: // ifStatement -> If, OpenPar, exp, ClosePar, statement
+{
+                        var thenStatement = Compiler.GetNode();
+                        var condition = Compiler.GetNode();
+
+                        Compiler.AddNode(new IfStatementNode(0, condition, thenStatement));
+                    }
+        break;
+      case 22: // ifStatement -> If, OpenPar, exp, ClosePar, statement, Else, statement
+{
+                        var elseStatement = Compiler.GetNode();
+                        var thenStatement = Compiler.GetNode();
+                        var condition = Compiler.GetNode();
+
+                        Compiler.AddNode(new IfStatementNode(0, condition, thenStatement, elseStatement));
                     }
         break;
       case 29: // exp -> Ident, Assign, exp

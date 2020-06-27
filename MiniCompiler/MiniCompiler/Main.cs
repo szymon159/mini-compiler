@@ -55,7 +55,7 @@ public class Compiler
             "{\n" +
             "int a;\n" +
             "int b;\n" +
-            "{\n" +
+            "if(true){\n" +
             "a = -1;\n" +
             "b = (a+b)*a;\n" +
             "}\n" +
@@ -91,6 +91,11 @@ public class Compiler
         Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey();
         return 0;
+    }
+
+    public static void Breakpoint()
+    {
+
     }
 
     public static void AddNode(SyntaxTreeNode node)
@@ -342,6 +347,38 @@ public class StatementsBlockNode : SyntaxTreeNode
         Console.WriteLine("BLOCK END");
 
         return "";
+    }
+}
+
+public class IfStatementNode : SyntaxTreeNode
+{
+    private SyntaxTreeNode Condition { get; set; }
+    private SyntaxTreeNode ThenStatement { get; set; }
+    private SyntaxTreeNode ElseStatement { get; set; }
+
+    public IfStatementNode(int lineNo, SyntaxTreeNode condition, SyntaxTreeNode thenStatement, SyntaxTreeNode elseStatement = null)
+        :base(lineNo, ValType.None)
+    {
+        Condition = condition;
+        ThenStatement = thenStatement;
+        ElseStatement = elseStatement;
+    }
+
+    public override string GenCode()
+    {
+        var text = "IF:";
+        Console.WriteLine(text);
+        Console.WriteLine("COND:");
+        Condition.GenCode();
+        Console.WriteLine("THEN:");
+        ThenStatement.GenCode();
+        Console.WriteLine("ELSE:");
+        if (ElseStatement != null)
+            ElseStatement.GenCode();
+        else
+            Console.WriteLine("NONE");
+
+        return text;
     }
 }
 
