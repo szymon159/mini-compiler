@@ -55,7 +55,7 @@ public class Compiler
             "{\n" +
             "int a;\n" +
             "int b;\n" +
-            "if(true){\n" +
+            "while(true){\n" +
             "a = -1;\n" +
             "b = (a+b)*a;\n" +
             "}\n" +
@@ -381,6 +381,32 @@ public class IfStatementNode : SyntaxTreeNode
         return text;
     }
 }
+
+public class WhileStatementNode : SyntaxTreeNode
+{
+    private SyntaxTreeNode Condition { get; set; }
+    private SyntaxTreeNode ThenStatement { get; set; }
+
+    public WhileStatementNode(int lineNo, SyntaxTreeNode condition, SyntaxTreeNode thenStatement)
+        : base(lineNo, ValType.None)
+    {
+        Condition = condition;
+        ThenStatement = thenStatement;
+    }
+
+    public override string GenCode()
+    {
+        var text = "WHILE:";
+        Console.WriteLine(text);
+        Console.WriteLine("COND:");
+        Condition.GenCode();
+        Console.WriteLine("THEN:");
+        ThenStatement.GenCode();
+
+        return text;
+    }
+}
+
 
 #endregion
 

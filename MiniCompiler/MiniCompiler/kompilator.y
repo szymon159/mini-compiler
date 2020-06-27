@@ -95,6 +95,12 @@ ifStatement     :   If OpenPar exp ClosePar statement
                 ;
 
 whileStatement  :   While OpenPar exp ClosePar statement
+                    {
+                        var thenStatement = Compiler.GetNode();
+                        var condition = Compiler.GetNode();
+
+                        Compiler.AddNode(new WhileStatementNode(0, condition, thenStatement));
+                    }
                 ;
 
 returnStatement :   Return Semicolon
