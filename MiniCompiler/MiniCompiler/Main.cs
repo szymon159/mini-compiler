@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,17 +51,18 @@ public class Compiler
 
     public static int Main(string[] args)
     {
-        Console.WriteLine("BUILD SUCCEEDED");
-
         var codeSample = "program \n" +
             "{\n" +
             "int a;\n" +
             "int b;\n" +
-            "a = 1;\n" +
-            "b = 2;\n" +
-            "c = c;\n" +
+            "a = -1;\n" +
+            "b = (a+b)*a;\n" +
             "return;\n" +
             "}";
+
+        Console.WriteLine("Code:\n");
+        Console.WriteLine(codeSample);
+        Console.WriteLine("\n");
 
         var bytes = Encoding.ASCII.GetBytes(codeSample);
 
@@ -70,7 +72,8 @@ public class Compiler
         var parser = new Parser(scanner);
 
         parser.Parse();
-
+        while(code.Count != 0)
+            code.Pop().GenCode();
         Console.WriteLine();
         if(errors.Count != 0)
         {
@@ -94,7 +97,12 @@ public class Compiler
         code.Push(node);
     }
 
-    public static void DeclareVariable(string name, ValType type)
+    public static SyntaxTreeNode GetNode()
+    {
+        return code.Count != 0 ? code.Pop() : null;
+    }
+
+    public static void DeclareVariable(ValType type, string name)
     {
         variables.Add(name, type);
     }
@@ -125,69 +133,161 @@ public abstract class SyntaxTreeNode
     public int LineNo = -1;
     public ValType Type;
 
+    public SyntaxTreeNode(int lineNo, ValType type)
+    {
+        LineNo = lineNo;
+        Type = type;
+    }
     public abstract string GenCode();
 }
 
-public class Declaration: SyntaxTreeNode
+public class DeclarationNode: SyntaxTreeNode
 {
-    private string name;
-    private ValType valType;
+    private string Name { get; set; }
 
-    public Declaration(ValType type, string name, int lineNo)
+    public DeclarationNode(int lineNo, ValType type, string name)
+        :base(lineNo, type)
     {
-        LineNo = lineNo;
-        Type = ValType.Statement;
-
-        this.valType = type;
-        this.name = name;
+        Name = name;
     }
 
     // TODO: Implement
     public override string GenCode()
     {
-        throw new NotImplementedException();
+        var text = string.Format("{0,20}{1,10}{2,10}", "Declaration:", Name, Type);
+        Console.WriteLine(text);
+
+        return text;
     }
 }
 
-public abstract class Statement: SyntaxTreeNode
+public class BinaryOperationNode : SyntaxTreeNode
 {
+    private OpType OperatorType { get; set; }
 
-}
-
-public abstract class Expression: SyntaxTreeNode
-{
-
-}
-
-//public class Block: Statement
-//{
-//    private List<Statement> statements;
-
-//    public Block()
-//}
-
-public class IfStatement: Statement
-{
-    private Expression condition;
-    private Statement trueStatement;
-    private Statement falseStatement;
-
-    public IfStatement(Expression condition, Statement trueStatement, Statement falseStatement, int lineNo)
+    public BinaryOperationNode(int lineNo, ValType type, OpType operatorType)
+        :base(lineNo, type)
     {
-        LineNo = lineNo;
-        Type = ValType.Statement;
-
-        this.condition = condition;
-        this.trueStatement = trueStatement;
-        this.falseStatement = falseStatement;
+        OperatorType = operatorType;
     }
 
-    // TODO: Implement
     public override string GenCode()
     {
-        throw new NotImplementedException();
+        var text = string.Format("{0,20}{1,10}{2,10}", "Binary operation:", OperatorType, Type);
+        Console.WriteLine(text);
+
+        return text;
     }
 }
+
+public class AssignmentNode : BinaryOperationNode
+{
+    private string Name { get; set; }
+
+    public AssignmentNode(int lineNo, ValType type, string name)
+        :base(lineNo, type, OpType.Assign)
+    {
+        Name = name;
+    }
+
+    public override string GenCode()
+    {
+        var text = string.Format("{0,20}{1,10}{2,10}", "Assignment:", Name, Type);
+        Console.WriteLine(text);
+
+        return text;
+    }
+}
+
+public class UnaryOperationNode : SyntaxTreeNode
+{
+    private OpType OperatorType { get; set; }
+
+    public UnaryOperationNode(int lineNo, ValType type, OpType operatorType)
+        : base(lineNo, type)
+    {
+        OperatorType = operatorType;
+    }
+
+    public override string GenCode()
+    {
+        var text = string.Format("{0,20}{1,10}{2,10}", "Unary operation:", OperatorType, Type);
+        Console.WriteLine(text);
+
+        return text;
+    }
+}
+
+public class VariableNode : SyntaxTreeNode
+{
+    private string Name { get; set; }
+
+    public VariableNode(int lineNo, ValType type, string name)
+        : base(lineNo, type)
+    {
+        Name = name;
+    }
+
+    public override string GenCode()
+    {
+        var text = string.Format("{0,20}{1,10}{2,10}", "Variable:", Name, Type);
+        Console.WriteLine(text);
+
+        return text;
+    }
+}
+
+public class ConstantNode : SyntaxTreeNode
+{
+    private int IntValue { get; set; }
+    private double DoubleValue { get; set; }
+    private bool BoolValue { get; set; }
+
+    private string Value
+    {
+        get
+        {
+            switch (Type)
+            {
+                case ValType.Int:
+                    return IntValue.ToString();
+                case ValType.Double:
+                    return DoubleValue.ToString();
+                case ValType.Bool:
+                    return BoolValue.ToString();
+                default:
+                    return "";
+            }
+        }
+    }
+
+    public ConstantNode(int lineNo, ValType type, int intValue)
+        : base(lineNo, type)
+    {
+        IntValue = intValue;
+    }
+
+    public ConstantNode(int lineNo, ValType type, double doubleValue)
+        : base(lineNo, type)
+    {
+        DoubleValue = doubleValue;
+    }
+
+    public ConstantNode(int lineNo, ValType type, bool boolValue)
+        : base(lineNo, type)
+    {
+        BoolValue = boolValue;
+    }
+
+    public override string GenCode()
+    {
+        var text = string.Format("{0,20}{1,10}{2,10}", "Const:", Value, Type);
+        Console.WriteLine(text);
+
+        return text;
+    }
+}
+
 
 #endregion
 
