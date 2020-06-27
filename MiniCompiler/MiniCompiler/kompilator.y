@@ -40,15 +40,14 @@ declarations    :
             
 declaration     :   type Ident Semicolon
                     {
-                        Console.WriteLine("Declaration: {0}\t{1}", $1, $2);
-                        Compiler.DeclareVariable($2, $1);
-                        Compiler.AddNode(new Declaration($1, $2, 1)); 
+                        Compiler.DeclareVariable($1, $2);
+                        Compiler.AddNode(new DeclarationNode(1, $1, $2)); 
                     }
                 ;
 
-type            :   Int { $$ = ValType.Int; }
-                |   Double { $$ = ValType.Double; }
-                |   Bool { $$ = ValType.Bool; }
+type            :   Int             { $$ = ValType.Int; }
+                |   Double          { $$ = ValType.Double; }
+                |   Bool            { $$ = ValType.Bool; }
                 ;
 
 statements      :   
@@ -89,8 +88,6 @@ expStatement    :   exp Semicolon
 
 exp             :   Ident Assign exp 
                     {
-                        Console.WriteLine("Assignment: {0}\t{1}", $1, $3);
-
                         var varType = Compiler.GetVariable($1);
                         if(varType == null)
                         {
@@ -106,6 +103,7 @@ exp             :   Ident Assign exp
                         }
 
                         $$ = $3;
+                        Compiler.AddNode(new AssignmentNode(0, $$, $1)); 
                     }
                 |   logExp
                     {
@@ -130,8 +128,8 @@ logExp          :   logExp logOp relExp
                             Compiler.AddError(error);
                         }
 
-                        Console.WriteLine("Logic expression: {0}\t{1}\t{2}", $1, $2, $3);
                         $$ = ValType.Bool;
+                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2)); 
                     }
                 |   relExp
                     {
@@ -163,8 +161,8 @@ relExp          :   relExp relOp addExp
                             }
                         }
 
-                        Console.WriteLine("Relation expression: {0}\t{1}\t{2}", $1, $2, $3);
                         $$ = ValType.Bool;
+                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2)); 
                     }
                 |   addExp
                     {
@@ -197,7 +195,7 @@ addExp          :   addExp addOp mulExp
                         else
                             $$ = $1 == ValType.Int ? $3 : ValType.Double;
 
-                        Console.WriteLine("Add expression: {0}\t{1}\t{2}", $1, $2, $3);
+                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2)); 
                     }
                 |   mulExp
                     {
@@ -230,7 +228,7 @@ mulExp          :   mulExp mulOp bitExp
                         else
                             $$ = $1 == ValType.Int ? $3 : ValType.Double;
 
-                        Console.WriteLine("Multiplicative expression: {0}\t{1}\t{2}", $1, $2, $3);
+                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2)); 
                     }
                 |   bitExp
                     {
@@ -255,8 +253,8 @@ bitExp          :   bitExp bitOp unaryExp
                             Compiler.AddError(error);
                         }
 
-                        Console.WriteLine("Bit expression: {0}\t{1}\t{2}", $1, $2, $3);
                         $$ = ValType.Int;
+                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2)); 
                     }
                 |   unaryExp
                     {
@@ -276,8 +274,8 @@ unaryExp        :   term
                             Compiler.AddError(error);
                         }
 
-                        Console.WriteLine("Negative number: {0}", $2);
                         $$ = $2;
+                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.Minus)); 
                     }
                 |   BitNot term 
                     { 
@@ -287,9 +285,8 @@ unaryExp        :   term
                             Compiler.AddError(error);
                         }
 
-                        Console.WriteLine("Bit negation number: {0}", $2);
                         $$ = $2;
-
+                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.BitNot)); 
                     } 
                 |   LogNot term
                     {
@@ -299,18 +296,18 @@ unaryExp        :   term
                             Compiler.AddError(error);
                         }
 
-                        Console.WriteLine("Logic negation number: {0}", $2);
                         $$ = $2;
+                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.LogNot)); 
                     }
                 |   IntCast term
                     {
-                        Console.WriteLine("Int cast: {0}", $2);
                         $$ = ValType.Int;
+                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.IntCast)); 
                     }
                 |   DoubleCast term
                     {
-                        Console.WriteLine("Int cast: {0}", $2);
                         $$ = ValType.Double;
+                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.DoubleCast)); 
                     }
                 ;
 
@@ -326,8 +323,8 @@ term            :   Ident
                             varType = ValType.Dynamic;
                         }
 
-                        Console.WriteLine("Ident: {0}", $1);
-                        $$ = varType.Value; 
+                        $$ = varType.Value;
+                        Compiler.AddNode(new VariableNode(0, $$, $1)); 
                     }
                 |   const 
                     { 
@@ -335,25 +332,24 @@ term            :   Ident
                     } 
                 |   OpenPar exp ClosePar 
                     {
-                        Console.WriteLine("Expression in (): {0}", $2);
                         $$ = $2;
                     }
                 ;
 
 const           :   IntValue
                     {
-                        Console.WriteLine("Const int: {0}", $1);
                         $$ = ValType.Int;
+                        Compiler.AddNode(new ConstantNode(0, $$, $1)); 
                     }
                 |   DoubleValue 
                     { 
-                        Console.WriteLine("Const double: {0}", $1);
                         $$ = ValType.Double;
+                        Compiler.AddNode(new ConstantNode(0, $$, $1)); 
                     }
                 |   BoolValue 
                     { 
-                        Console.WriteLine("Const bool: {0}", $1);
                         $$ = ValType.Bool;
+                        Compiler.AddNode(new ConstantNode(0, $$, $1)); 
                     }
                 ;
 
