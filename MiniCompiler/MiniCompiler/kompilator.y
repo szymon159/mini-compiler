@@ -78,7 +78,20 @@ block           :   OpenBlock statements CloseBlock
                 ;
 
 ifStatement     :   If OpenPar exp ClosePar statement
+                    {
+                        var thenStatement = Compiler.GetNode();
+                        var condition = Compiler.GetNode();
+
+                        Compiler.AddNode(new IfStatementNode(0, condition, thenStatement));
+                    }
                 |   If OpenPar exp ClosePar statement Else statement
+                    {
+                        var elseStatement = Compiler.GetNode();
+                        var thenStatement = Compiler.GetNode();
+                        var condition = Compiler.GetNode();
+
+                        Compiler.AddNode(new IfStatementNode(0, condition, thenStatement, elseStatement));
+                    }
                 ;
 
 whileStatement  :   While OpenPar exp ClosePar statement
