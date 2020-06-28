@@ -30,8 +30,7 @@ public OpType   op_type;
 start           :   program
                 ;
 
-program         :   Program OpenBlock declarations CloseBlock
-                |   Program OpenBlock declarations statement CloseBlock
+program         :   Program OpenBlock declarations statements CloseBlock
                 ;
 
 declarations    : 
