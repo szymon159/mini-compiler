@@ -48,6 +48,9 @@ public class Compiler
     private static Stack<SyntaxTreeNode> code = new Stack<SyntaxTreeNode>();
     private static Dictionary<string, ValType> variables = new Dictionary<string, ValType>();
     private static List<MiniCompilerError> errors = new List<MiniCompilerError>();
+    private static int labelNo = 0;
+
+    public static string GetReturnLabel() => "LAB_RET";
 
     public static int Main(string[] args)
     {
@@ -70,7 +73,9 @@ public class Compiler
             "int b;\n" +
             "bool c;\n" +
             "double d;\n" +
+            "while(c)\n" +
             "c = !c\n;" +
+            "c = false;\n" +
             "a = -1;\n" +
             "b = (a+b)*a;\n" +
             "}";
@@ -144,6 +149,23 @@ public class Compiler
     {
         errors.Add(error);
     }
+
+    public static string GenerateLabel()
+    {
+        return $"LAB_{labelNo++}";
+    }
+
+    public static void EmitCode(string code, bool addLabel = true, string label = null)
+    {
+        if (label == null && addLabel)
+            label = GenerateLabel();
+
+        code = code.Replace(" ", "\t");
+        if(addLabel)
+            Console.WriteLine($"{label}:\t{code}");
+        else
+            Console.WriteLine($"{code}");
+    }
 }
 
 #region  Syntax Tree
@@ -189,7 +211,7 @@ public class DeclarationNode: SyntaxTreeNode
                 //TODO: add error
                 break;
         }
-        Console.WriteLine(text);
+        Compiler.EmitCode(text, false);
 
         return text;
     }
@@ -230,7 +252,7 @@ public class BinaryOperationNode : SyntaxTreeNode
             case OpType.NotEqual:
                 // Check for equality
                 // And negate stack top (equality result)
-                Console.WriteLine("ceq");
+                Compiler.EmitCode("ceq");
                 helperNode.GenCode();
                 break;
             case OpType.Greater:
@@ -239,7 +261,7 @@ public class BinaryOperationNode : SyntaxTreeNode
             case OpType.GreaterOrEqual:
                 // Check for less
                 // And negate stack top (less result)
-                Console.WriteLine("clt");
+                Compiler.EmitCode("clt");
                 helperNode.GenCode();
                 break;
             case OpType.Less:
@@ -248,7 +270,7 @@ public class BinaryOperationNode : SyntaxTreeNode
             case OpType.LessOrEqual:
                 // Check for greater
                 // And negate stack top (greater result)
-                Console.WriteLine("cgt");
+                Compiler.EmitCode("cgt");
                 helperNode.GenCode();
                 break;
             case OpType.Plus:
@@ -274,7 +296,7 @@ public class BinaryOperationNode : SyntaxTreeNode
                 break;
         }
 
-        Console.WriteLine(text);
+        Compiler.EmitCode(text);
 
         return text;
     }
@@ -295,7 +317,7 @@ public class AssignmentNode : BinaryOperationNode
         var text = $"stloc.s _{Name}";
 
         Right?.GenCode();
-        Console.WriteLine(text);
+        Compiler.EmitCode(text);
 
         return text;
     }
@@ -331,7 +353,7 @@ public class UnaryOperationNode : SyntaxTreeNode
                 // Add it to stack and call bit and with old stack top
                 var helperNode = new ConstantNode(-1, ValType.Bool, true);
                 helperNode.GenCode();
-                text = "and";
+                text = "xor";
                 break;
             case OpType.IntCast:
                 text = "conv.i4";
@@ -344,7 +366,7 @@ public class UnaryOperationNode : SyntaxTreeNode
                 break;
         }
 
-        Console.WriteLine(text);
+        Compiler.EmitCode(text);
 
         return text;
     }
@@ -363,7 +385,7 @@ public class VariableNode : SyntaxTreeNode
     public override string GenCode()
     {
         var text = $"ldloc.s _{Name}";
-        Console.WriteLine(text);
+        Compiler.EmitCode(text);
 
         return text;
     }
@@ -411,7 +433,7 @@ public class ConstantNode : SyntaxTreeNode
                 break;
         }
 
-        Console.WriteLine(text);
+        Compiler.EmitCode(text);
 
         return text;
     }
@@ -434,10 +456,8 @@ public class StatementsBlockNode : SyntaxTreeNode
 
     public override string GenCode()
     {
-        Console.WriteLine("BLOCK BEGIN");
         foreach (var node in innerNodes)
             node.GenCode();
-        Console.WriteLine("BLOCK END");
 
         return "";
     }
@@ -459,19 +479,26 @@ public class IfStatementNode : SyntaxTreeNode
 
     public override string GenCode()
     {
-        var text = "IF:";
-        Console.WriteLine(text);
-        Console.WriteLine("COND:");
         Condition.GenCode();
-        Console.WriteLine("THEN:");
-        ThenStatement.GenCode();
-        Console.WriteLine("ELSE:");
-        if (ElseStatement != null)
-            ElseStatement.GenCode();
-        else
-            Console.WriteLine("NONE");
+        string elseLabel = "";
 
-        return text;
+        if (ElseStatement != null)
+        {
+            elseLabel = Compiler.GenerateLabel();
+            Compiler.EmitCode($"brfalse.s {elseLabel}");
+        }
+        ThenStatement.GenCode();
+
+        if (ElseStatement != null)
+        {
+            var afterLabel = Compiler.GenerateLabel();
+            Compiler.EmitCode($"br.s {afterLabel}");
+            Compiler.EmitCode("nop", true, elseLabel);
+            ElseStatement.GenCode();
+            Compiler.EmitCode("nop", true, afterLabel);
+        }
+
+        return "";
     }
 }
 
@@ -489,14 +516,16 @@ public class WhileStatementNode : SyntaxTreeNode
 
     public override string GenCode()
     {
-        var text = "WHILE:";
-        Console.WriteLine(text);
-        Console.WriteLine("COND:");
-        Condition.GenCode();
-        Console.WriteLine("THEN:");
+        var beginLabel = Compiler.GenerateLabel();
+        Compiler.EmitCode("nop", true, beginLabel);
         ThenStatement.GenCode();
 
-        return text;
+        var condLabel = Compiler.GenerateLabel();
+        Compiler.EmitCode("nop", true, condLabel);
+        Condition.GenCode();
+        Compiler.EmitCode($"brtrue.s {beginLabel}");
+
+        return "";
     }
 }
 
@@ -510,10 +539,9 @@ public class ReturnNode: SyntaxTreeNode
 
     public override string GenCode()
     {
-        var text = "RETURN";
-        Console.WriteLine(text);
+        Compiler.EmitCode($"br.s {Compiler.GetReturnLabel()}");
 
-        return text;
+        return "";
     }
 }
 
