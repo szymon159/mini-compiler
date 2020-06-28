@@ -48,8 +48,8 @@ Comment			"//".*
 "&"				{ return (int)Tokens.BitAnd; }
 "~"				{ return (int)Tokens.BitNot; }
 "!"				{ return (int)Tokens.LogNot; }
-"(int)"         { return (int) Tokens.IntCast; }
-"(double)"      { return (int) Tokens.DoubleCast; }
+"(int)"         { return (int)Tokens.IntCast; }
+"(double)"      { return (int)Tokens.DoubleCast; }
 
 {Int}			{ yylval.i_val = int.Parse(yytext); return (int)Tokens.IntValue; }
 {Double}		{ yylval.d_val = double.Parse(yytext); return (int)Tokens.DoubleValue; }
@@ -60,8 +60,9 @@ Comment			"//".*
 " "				{ }
 "\t"			{ }
 {Comment}		{ }
-"\r"			{ return (int)Tokens.Endl; }
+"\r"			{ }
+"\n"			{ Compiler.IncrementLineNumber(); }
 
 <<EOF>>			{ return (int)Tokens.Eof; }
 
-.				{ return (int)Tokens.Error; }
+.				{ Compiler.AddError(new InvalidSymbolError(yyline)); return (int)Tokens.Error; }

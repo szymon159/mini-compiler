@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
@@ -49,62 +50,48 @@ public class Compiler
     private static Dictionary<string, ValType> variables = new Dictionary<string, ValType>();
     private static List<MiniCompilerError> errors = new List<MiniCompilerError>();
     private static int labelNo = 0;
+    private static int currentLineNo = 1;
 
     public static string GetReturnLabel() => "LAB_RET";
 
     public static int Main(string[] args)
     {
-        //var codeSample = "program \n" +
-        //    "{\n" +
-        //    "int a;\n" +
-        //    "double b;\n" +
-        //    "bool c;\n" +
-        //    "while(true){\n" +
-        //    "write a = -1;\n" +
-        //    "write \"HELLO WORLD\";\n" +
-        //    "b = (a+(int)b)*a;\n" +
-        //    "return;\n" +
-        //    "}\n" +
-        //    "}";
+        // TODO: Remove it
+        args = new string[] { "./code2.mini" };
 
-        var codeSample = "program \n" +
-            "{\n" +
-            "int a;\n" +
-            "int b;\n" +
-            "bool c;\n" +
-            "double d;\n" +
-            "while(c)\n" +
-            "c = !c\n;" +
-            "c = false;\n" +
-            "a = -1;\n" +
-            "b = (a+b)*a;\n" +
-            "}";
-
-        Console.WriteLine("Code:\n");
-        Console.WriteLine(codeSample);
-        Console.WriteLine("\n");
-
-        var bytes = Encoding.ASCII.GetBytes(codeSample);
-
-        var stream = new MemoryStream(bytes);
-
-        var scanner = new Scanner(stream);
-        var parser = new Parser(scanner);
-
-        parser.Parse();
-        if (errors.Count == 0)
+        string file;
+        if (args.Length >= 1)
         {
-            Console.WriteLine("SUCCESS\n");
-            var parsedCode = code.Reverse();
-            foreach (var statement in parsedCode)
-                statement.GenCode();
+            file = args[0];
         }
         else
         {
-            Console.WriteLine("FAILURE");
-            Console.WriteLine($"Found {errors.Count} errors:");
-            foreach (var error in errors)
-                Console.WriteLine(error);
+            Console.WriteLine("Invalid argment: Source code file not provided");
+            return -1;
+        }
+        using (var source = new FileStream(file, FileMode.Open))
+        {
+            var scanner = new Scanner(source);
+            var parser = new Parser(scanner);
+
+            parser.Parse();
+            if (errors.Count == 0)
+            {
+                Console.WriteLine("SUCCESS\n");
+                var parsedCode = code.Reverse();
+
+                GenProlog();
+                foreach (var statement in parsedCode)
+                    statement.GenCode();
+                GenEpilog();
+            }
+            else
+            {
+                Console.WriteLine("FAILURE");
+                Console.WriteLine($"Found {errors.Count} errors:");
+                foreach (var error in errors)
+                    Console.WriteLine($"* {error}");
+            }
         }
 
         Console.WriteLine("\nPress any key to continue...");
@@ -132,11 +119,6 @@ public class Compiler
         variables.Add(name, type);
     }
 
-    public static bool IsVariableDeclared(string name)
-    {
-        return variables.ContainsKey(name);
-    }
-
     public static ValType? GetVariable(string name)
     {
         if (variables.TryGetValue(name, out var result))
@@ -155,16 +137,42 @@ public class Compiler
         return $"LAB_{labelNo++}";
     }
 
+    public static void GenProlog()
+    {
+        EmitCode(".assembly extern mscorlib { }", false);
+        EmitCode(".assembly kompilator { }", false);
+        EmitCode(".method static int32 main()", false);
+        EmitCode("{", false);
+        EmitCode(".entrypoint", false);
+        EmitCode(".maxstack 8", false);
+    }
+
     public static void EmitCode(string code, bool addLabel = true, string label = null)
     {
         if (label == null && addLabel)
             label = GenerateLabel();
 
-        code = code.Replace(" ", "\t");
         if(addLabel)
-            Console.WriteLine($"{label}:\t{code}");
+            Console.WriteLine($"{label}: {code}");
         else
             Console.WriteLine($"{code}");
+    }
+
+    public static void GenEpilog()
+    {
+        EmitCode("ldc.i4.0", true, GetReturnLabel());
+        EmitCode("ret");
+        EmitCode("}", false);
+    }
+
+    public static void IncrementLineNumber()
+    {
+        ++currentLineNo;
+    }
+
+    public static int GetLineNumber()
+    {
+        return currentLineNo;
     }
 }
 
@@ -208,8 +216,8 @@ public class DeclarationNode: SyntaxTreeNode
                 text = $".locals init ( int32 _{Name} )";
                 break;
             default:
-                //TODO: add error
-                break;
+                Compiler.AddError(new UndefinedError(LineNo));
+                return text;
         }
         Compiler.EmitCode(text, false);
 
@@ -292,7 +300,7 @@ public class BinaryOperationNode : SyntaxTreeNode
                 text = "and";
                 break;
             default:
-                // ADD ERROR
+                Compiler.AddError(new UndefinedError(LineNo));
                 break;
         }
 
@@ -362,7 +370,7 @@ public class UnaryOperationNode : SyntaxTreeNode
                 text = "conv.r8";
                 break;
             default:
-                // TODO: ADD ERROR
+                Compiler.AddError(new UndefinedError(LineNo));
                 break;
         }
 
@@ -607,15 +615,45 @@ public class WriteNode : SyntaxTreeNode
 public abstract class MiniCompilerError
 {
     protected int LineNumber { get; set; }
+    protected bool IsSyntaxError { get; set; }
 
-    protected MiniCompilerError(int lineNumber)
+    protected MiniCompilerError(int lineNumber, bool isSyntaxError = false)
     {
         LineNumber = lineNumber;
+        IsSyntaxError = isSyntaxError;
     }
 
     public override string ToString()
     {
-        return $"Error occured in line {LineNumber}. ";
+        return (IsSyntaxError? "Syntax " : "") + $"Error occured in line {LineNumber}. ";
+    }
+}
+
+public class UnexpectedTokenError: MiniCompilerError
+{
+    public UnexpectedTokenError(int lineNumber)
+        :base(lineNumber, true)
+    {
+
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + $"Unexpected symbol.";
+    }
+}
+
+public class InvalidSymbolError: MiniCompilerError
+{
+    public InvalidSymbolError(int lineNumber)
+        :base(lineNumber, true)
+    {
+
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + $"Invalid character.";
     }
 }
 
@@ -635,12 +673,28 @@ public class VariableNotDeclaredError: MiniCompilerError
     }
 }
 
+public class VariableAlreadyDeclaredError: MiniCompilerError
+{
+    private string VariableName { get; set; }
+
+    public VariableAlreadyDeclaredError(int lineNumber, string variableName)
+        : base(lineNumber)
+    {
+        VariableName = variableName;
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + $"Variable {VariableName} has already been declared.";
+    }
+}
+
 public class InvalidTypeError : MiniCompilerError
 {
     private ValType ActualType { get; set; }
     private ValType[] ExpectedTypes { get; set; }
 
-    private string ExpectedTypesList => string.Join(", ", ExpectedTypes);
+    private string ExpectedTypesList => string.Join(" or ", ExpectedTypes.Select(type => type.ToString().ToLower()));
 
     public InvalidTypeError(int lineNumber, ValType actualType, params ValType[] expectedTypes)
         : base(lineNumber)
@@ -651,7 +705,21 @@ public class InvalidTypeError : MiniCompilerError
 
     public override string ToString()
     {
-        return base.ToString() + $"Invalid type: expected {ExpectedTypesList} but got {ActualType}.";
+        return base.ToString() + $"Invalid type: expected {ExpectedTypesList} but got {ActualType.ToString().ToLower()}.";
+    }
+}
+
+public class UndefinedError : MiniCompilerError
+{
+    public UndefinedError(int lineNumber)
+        :base(lineNumber)
+    {
+
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + "Undefined error.";
     }
 }
 #endregion

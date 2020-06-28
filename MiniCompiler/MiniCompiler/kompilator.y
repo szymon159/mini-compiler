@@ -12,7 +12,7 @@ public OpType   op_type;
 
 %token  Program If Else While Return Read Write OpenPar ClosePar OpenBlock CloseBlock Semicolon
         LogOr LogAnd Equal NotEqual Greater GreaterOrEqual Less LessOrEqual Assign Plus Minus Multiply Divide
-        BitOr BitAnd BitNot LogNot IntCast DoubleCast Endl Eof Error 
+        BitOr BitAnd BitNot LogNot IntCast DoubleCast Eof Error 
 %token <i_val> IntValue 
 %token <d_val> DoubleValue 
 %token <b_val> BoolValue 
@@ -27,7 +27,28 @@ public OpType   op_type;
 %type <op_type> bitOp mulOp addOp relOp logOp
 %%
 
-start           :   program
+start           :   program Eof 
+                    {
+                        YYACCEPT;
+                    }
+                |   error program Eof
+                    {
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        yyerrok();
+                        YYABORT;
+                    }
+                |   program error Eof
+                    {
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        yyerrok();
+                        YYABORT;
+                    }
+                |   error Eof
+                    {
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        yyerrok();
+                        YYABORT;
+                    }
                 ;
 
 program         :   Program OpenBlock declarations statements CloseBlock
@@ -39,8 +60,15 @@ declarations    :
             
 declaration     :   type Ident Semicolon
                     {
-                        Compiler.DeclareVariable($1, $2);
-                        Compiler.AddNode(new DeclarationNode(1, $1, $2)); 
+                        if(Compiler.GetVariable($2) == null)
+                        {
+                            Compiler.DeclareVariable($1, $2);
+                            Compiler.AddNode(new DeclarationNode(1, $1, $2)); 
+                        }
+                        else
+                        {
+                            Compiler.AddError(new VariableAlreadyDeclaredError(Compiler.GetLineNumber(), $2));
+                        }
                     }
                 ;
 
@@ -132,14 +160,14 @@ exp             :   Ident Assign exp
                         var varType = Compiler.GetVariable($1);
                         if(varType == null)
                         {
-                            var error = new VariableNotDeclaredError(0, $1);
+                            var error = new VariableNotDeclaredError(Compiler.GetLineNumber(), $1);
                             Compiler.AddError(error);
 
                             varType = ValType.Dynamic;
                         }
                         else if(varType.HasValue && varType.Value != $3)
                         {
-                            var error = new InvalidTypeError(0, $3, varType.Value);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $3, varType.Value);
                             Compiler.AddError(error);
                         }
 
@@ -162,12 +190,12 @@ logExp          :   logExp logOp relExp
                     {
                         if($1 != ValType.Bool && $1 != ValType.Dynamic)
                         {
-                            var error = new InvalidTypeError(0, $1, ValType.Bool);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $1, ValType.Bool);
                             Compiler.AddError(error);
                         }
                         if($3 != ValType.Bool && $3 != ValType.Dynamic)
                         {
-                            var error = new InvalidTypeError(0, $3, ValType.Bool);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $3, ValType.Bool);
                             Compiler.AddError(error);
                         }
 
@@ -197,12 +225,12 @@ relExp          :   relExp relOp addExp
                         {
                             if($1 == ValType.Bool)
                             {
-                                var error = new InvalidTypeError(0, $1, ValType.Int, ValType.Double);
+                                var error = new InvalidTypeError(Compiler.GetLineNumber(), $1, ValType.Int, ValType.Double);
                                 Compiler.AddError(error);
                             }
                             if($3 == ValType.Bool)
                             {
-                                var error = new InvalidTypeError(0, $3, ValType.Int, ValType.Double);
+                                var error = new InvalidTypeError(Compiler.GetLineNumber(), $3, ValType.Int, ValType.Double);
                                 Compiler.AddError(error);
                             }
                         }
@@ -228,13 +256,13 @@ addExp          :   addExp addOp mulExp
                         var invalidType = false;
                         if($1 == ValType.Bool)
                         {
-                            var error = new InvalidTypeError(0, $1, ValType.Int, ValType.Double);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $1, ValType.Int, ValType.Double);
                             Compiler.AddError(error);
                             invalidType = true;
                         }
                         if($3 == ValType.Bool)
                         {
-                            var error = new InvalidTypeError(0, $3, ValType.Int, ValType.Double);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $3, ValType.Int, ValType.Double);
                             Compiler.AddError(error);
                             invalidType = true;
                         }
@@ -263,13 +291,13 @@ mulExp          :   mulExp mulOp bitExp
                         var invalidType = false;
                         if($1 == ValType.Bool)
                         {
-                            var error = new InvalidTypeError(0, $1, ValType.Int, ValType.Double);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $1, ValType.Int, ValType.Double);
                             Compiler.AddError(error);
                             invalidType = true;
                         }
                         if($3 == ValType.Bool)
                         {
-                            var error = new InvalidTypeError(0, $3, ValType.Int, ValType.Double);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $3, ValType.Int, ValType.Double);
                             Compiler.AddError(error);
                             invalidType = true;
                         }
@@ -297,12 +325,12 @@ bitExp          :   bitExp bitOp unaryExp
                     {
                         if($1 != ValType.Int && $1 != ValType.Dynamic)
                         {
-                            var error = new InvalidTypeError(0, $1, ValType.Int);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $1, ValType.Int);
                             Compiler.AddError(error);
                         }
                         if($3 != ValType.Int && $1 != ValType.Dynamic)
                         {
-                            var error = new InvalidTypeError(0, $3, ValType.Int);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $3, ValType.Int);
                             Compiler.AddError(error);
                         }
 
@@ -326,7 +354,7 @@ unaryExp        :   term
                     { 
                         if($2 == ValType.Bool)
                         {
-                            var error = new InvalidTypeError(0, $2, ValType.Int, ValType.Double);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $2, ValType.Int, ValType.Double);
                             Compiler.AddError(error);
                         }
 
@@ -339,7 +367,7 @@ unaryExp        :   term
                     { 
                         if($2 == ValType.Double || $2 == ValType.Bool)
                         {
-                            var error = new InvalidTypeError(0, $2, ValType.Int);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $2, ValType.Int);
                             Compiler.AddError(error);
                         }
 
@@ -352,7 +380,7 @@ unaryExp        :   term
                     {
                         if($2 == ValType.Int || $2 == ValType.Double)
                         {
-                            var error = new InvalidTypeError(0, $2, ValType.Bool);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $2, ValType.Bool);
                             Compiler.AddError(error);
                         }
 
@@ -383,7 +411,7 @@ term            :   Ident
                         var varType =  Compiler.GetVariable($1);
                         if(varType == null)
                         {
-                            var error = new VariableNotDeclaredError(0, $1);
+                            var error = new VariableNotDeclaredError(Compiler.GetLineNumber(), $1);
                             Compiler.AddError(error);
 
                             varType = ValType.Dynamic;
