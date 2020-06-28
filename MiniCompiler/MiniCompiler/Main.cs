@@ -51,16 +51,28 @@ public class Compiler
 
     public static int Main(string[] args)
     {
+        //var codeSample = "program \n" +
+        //    "{\n" +
+        //    "int a;\n" +
+        //    "double b;\n" +
+        //    "bool c;\n" +
+        //    "while(true){\n" +
+        //    "write a = -1;\n" +
+        //    "write \"HELLO WORLD\";\n" +
+        //    "b = (a+(int)b)*a;\n" +
+        //    "return;\n" +
+        //    "}\n" +
+        //    "}";
+
         var codeSample = "program \n" +
             "{\n" +
             "int a;\n" +
             "int b;\n" +
-            "while(true){\n" +
-            "write a = -1;\n" +
-            "write \"HELLO WORLD\";\n" +
+            "bool c;\n" +
+            "double d;\n" +
+            "c = !c\n;" +
+            "a = -1;\n" +
             "b = (a+b)*a;\n" +
-            "return;\n" +
-            "}\n" +
             "}";
 
         Console.WriteLine("Code:\n");
@@ -75,19 +87,19 @@ public class Compiler
         var parser = new Parser(scanner);
 
         parser.Parse();
-        while(code.Count != 0)
-            code.Pop().GenCode();
-        Console.WriteLine();
-        if(errors.Count != 0)
+        if (errors.Count == 0)
+        {
+            Console.WriteLine("SUCCESS\n");
+            var parsedCode = code.Reverse();
+            foreach (var statement in parsedCode)
+                statement.GenCode();
+        }
+        else
         {
             Console.WriteLine("FAILURE");
             Console.WriteLine($"Found {errors.Count} errors:");
             foreach (var error in errors)
                 Console.WriteLine(error);
-        }
-        else
-        {
-            Console.WriteLine("SUCCESS");
         }
 
         Console.WriteLine("\nPress any key to continue...");
@@ -159,10 +171,24 @@ public class DeclarationNode: SyntaxTreeNode
         Name = name;
     }
 
-    // TODO: Implement
     public override string GenCode()
     {
-        var text = string.Format("{0,20}{1,10}{2,10}", "Declaration:", Name, Type);
+        string text = "";
+        switch (Type)
+        {
+            case ValType.Int:
+                text = $".locals init ( int32 _{Name} )";
+                break;
+            case ValType.Double:
+                text = $".locals init ( float64 _{Name} )";
+                break;
+            case ValType.Bool:
+                text = $".locals init ( int32 _{Name} )";
+                break;
+            default:
+                //TODO: add error
+                break;
+        }
         Console.WriteLine(text);
 
         return text;
@@ -185,18 +211,71 @@ public class BinaryOperationNode : SyntaxTreeNode
 
     public override string GenCode()
     {
-        Console.WriteLine("-----");
-        var text = string.Format("{0,20}{1,10}{2,10}", "Binary operation:", OperatorType, Type);
-        //Console.WriteLine(text);
+        Left?.GenCode();
+        Right?.GenCode();
 
-        Console.WriteLine($"BIN({OperatorType}) left: ");
-        Left.GenCode();
+        string text = "";
+        var helperNode = new UnaryOperationNode(-1, ValType.Bool, OpType.LogNot, null);
+        switch (OperatorType)
+        {
+            case OpType.LogOr:
+                text = "or";
+                break;
+            case OpType.LogAnd:
+                text = "and";
+                break;
+            case OpType.Equal:
+                text = "ceq";
+                break;
+            case OpType.NotEqual:
+                // Check for equality
+                // And negate stack top (equality result)
+                Console.WriteLine("ceq");
+                helperNode.GenCode();
+                break;
+            case OpType.Greater:
+                text = "cgt";
+                break;
+            case OpType.GreaterOrEqual:
+                // Check for less
+                // And negate stack top (less result)
+                Console.WriteLine("clt");
+                helperNode.GenCode();
+                break;
+            case OpType.Less:
+                text = "clt";
+                break;
+            case OpType.LessOrEqual:
+                // Check for greater
+                // And negate stack top (greater result)
+                Console.WriteLine("cgt");
+                helperNode.GenCode();
+                break;
+            case OpType.Plus:
+                text = "add";
+                break;
+            case OpType.Minus:
+                text = "sub";
+                break;
+            case OpType.Multiply:
+                text = "mul";
+                break;
+            case OpType.Divide:
+                text = "div";
+                break;
+            case OpType.BitOr:
+                text = "or";
+                break;
+            case OpType.BitAnd:
+                text = "and";
+                break;
+            default:
+                // ADD ERROR
+                break;
+        }
 
-        Console.WriteLine($"BIN({OperatorType}) right: ");
-        Right.GenCode();
+        Console.WriteLine(text);
 
-        Console.WriteLine("-----");
-        Console.WriteLine();
         return text;
     }
 }
@@ -213,17 +292,11 @@ public class AssignmentNode : BinaryOperationNode
 
     public override string GenCode()
     {
-        Console.WriteLine("-----");
-        var text = string.Format("{0,20}{1,10}{2,10}", "Assignment:", Name, Type);
-        //Console.WriteLine(text);
-        Console.WriteLine($"ASS left: ");
-        Console.WriteLine("{0,20}{1,10}{2,10}", "NotVariable:", Name, Type);
+        var text = $"stloc.s _{Name}";
 
-        Console.WriteLine($"ASS right: ");
-        Right.GenCode();
+        Right?.GenCode();
+        Console.WriteLine(text);
 
-        Console.WriteLine("-----");
-        Console.WriteLine();
         return text;
     }
 }
@@ -242,15 +315,36 @@ public class UnaryOperationNode : SyntaxTreeNode
 
     public override string GenCode()
     {
-        Console.WriteLine("-----");
-        var text = string.Format("{0,20}{1,10}{2,10}", "Unary operation:", OperatorType, Type);
-        //Console.WriteLine(text);
+        Child?.GenCode();
 
-        Console.WriteLine($"UNARY({OperatorType}) child: ");
-        Child.GenCode();
+        string text = "";
+        switch (OperatorType)
+        {
+            case OpType.Minus:
+                text = "neg";
+                break;
+            case OpType.BitNot:
+                text = "not";
+                break;
+            case OpType.LogNot:
+                // Create fake node with const 1
+                // Add it to stack and call bit and with old stack top
+                var helperNode = new ConstantNode(-1, ValType.Bool, true);
+                helperNode.GenCode();
+                text = "and";
+                break;
+            case OpType.IntCast:
+                text = "conv.i4";
+                break;
+            case OpType.DoubleCast:
+                text = "conv.r8";
+                break;
+            default:
+                // TODO: ADD ERROR
+                break;
+        }
 
-        Console.WriteLine("-----");
-        Console.WriteLine();
+        Console.WriteLine(text);
 
         return text;
     }
@@ -268,7 +362,7 @@ public class VariableNode : SyntaxTreeNode
 
     public override string GenCode()
     {
-        var text = string.Format("{0,20}{1,10}{2,10}", "Variable:", Name, Type);
+        var text = $"ldloc.s _{Name}";
         Console.WriteLine(text);
 
         return text;
@@ -280,24 +374,6 @@ public class ConstantNode : SyntaxTreeNode
     private int IntValue { get; set; }
     private double DoubleValue { get; set; }
     private bool BoolValue { get; set; }
-
-    private string Value
-    {
-        get
-        {
-            switch (Type)
-            {
-                case ValType.Int:
-                    return IntValue.ToString();
-                case ValType.Double:
-                    return DoubleValue.ToString();
-                case ValType.Bool:
-                    return BoolValue.ToString();
-                default:
-                    return "";
-            }
-        }
-    }
 
     public ConstantNode(int lineNo, ValType type, int intValue)
         : base(lineNo, type)
@@ -319,7 +395,22 @@ public class ConstantNode : SyntaxTreeNode
 
     public override string GenCode()
     {
-        var text = string.Format("{0,20}{1,10}{2,10}", "Const:", Value, Type);
+        string text = "";
+        switch (Type)
+        {
+            case ValType.Int:
+                text = $"ldc.i4 {IntValue}";
+                break;
+            case ValType.Double:
+                text = $"ldc.r8 {BoolValue}";
+                break;
+            case ValType.Bool:
+                text = $"ldc.i4 {(BoolValue ? 1 : 0)}";
+                break;
+            default:
+                break;
+        }
+
         Console.WriteLine(text);
 
         return text;
