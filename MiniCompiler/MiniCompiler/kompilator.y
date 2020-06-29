@@ -137,7 +137,14 @@ returnStatement :   Return Semicolon
 
 readStatement   :   Read Ident Semicolon
                     {
-                        Compiler.AddNode(new ReadNode(Compiler.GetLineNumber(), $2));
+                        if(Compiler.GetVariable($2) == null)
+                        {
+                            Compiler.AddError(new VariableNotDeclaredError(Compiler.GetLineNumber(), $2));
+                        }
+                        else
+                        {
+                            Compiler.AddNode(new ReadNode(Compiler.GetLineNumber(), $2));
+                        }
                     }
                 ;
 

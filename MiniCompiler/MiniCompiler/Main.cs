@@ -87,6 +87,7 @@ public class Compiler
                 foreach (var statement in parsedCode)
                     statement.GenCode();
                 GenEpilog();
+                streamWriter.Dispose();
             }
             else
             {
@@ -99,7 +100,6 @@ public class Compiler
 
         Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey();
-        streamWriter.Dispose();
         return 0;
     }
 
@@ -459,7 +459,7 @@ public class ConstantNode : SyntaxTreeNode
                 text = $"ldc.i4 {IntValue}";
                 break;
             case ValType.Double:
-                text = $"ldc.r8 {BoolValue}";
+                text = $"ldc.r8 {string.Format(System.Globalization.CultureInfo.InvariantCulture,"{0}",DoubleValue)}";
                 break;
             case ValType.Bool:
                 text = $"ldc.i4 {(BoolValue ? 1 : 0)}";
@@ -594,9 +594,28 @@ public class ReadNode : SyntaxTreeNode
 
     public override string GenCode()
     {
-        var text = $"READ TO {Name}";
+        var type = Compiler.GetVariable(Name);
 
-        return text;
+        Compiler.EmitCode("call string [mscorlib]System.Console::ReadLine()");
+        switch (type)
+        {
+            case ValType.Int:
+                Compiler.EmitCode("call int32 [mscorlib]System.Int32::Parse(string)");
+                break;
+            case ValType.Double:
+                Compiler.EmitCode("call class [mscorlib]System.Globalization.CultureInfo [mscorlib]System.Globalization.CultureInfo::get_InvariantCulture()");
+                Compiler.EmitCode("call float64 [mscorlib]System.Double::Parse(string, class [mscorlib]System.IFormatProvider)");
+                break;
+            case ValType.Bool:
+                Compiler.EmitCode("call bool [mscorlib]System.Boolean::Parse(string)");
+                break;
+            default:
+                Compiler.AddError(new UndefinedError(LineNo));
+                break;
+        }
+        Compiler.EmitCode($"stloc _{Name}");
+
+        return "";
     }
 }
 
@@ -620,20 +639,38 @@ public class WriteNode : SyntaxTreeNode
     }
     public override string GenCode()
     {
-        string text;
         if(Text != null)
         {
-            text = $"WRITE TEXT: {Text}";
-            Console.WriteLine(text);
+            Compiler.EmitCode($"ldstr {Text}");
+            Compiler.EmitCode($"call void [mscorlib]System.Console::Write(string)");
         }
         else
         {
-            text = "WRITE EXP:";
-            Console.WriteLine(text);
-            ExpressionNode.GenCode();
+            switch (ExpressionNode.Type)
+            {
+                case ValType.Int:
+                    ExpressionNode.GenCode();
+                    Compiler.EmitCode($"call void [mscorlib]System.Console::Write(int32)");
+                    break;
+                case ValType.Double:
+                    Compiler.EmitCode($"call class [mscorlib]System.Globalization.CultureInfo [mscorlib]System.Globalization.CultureInfo::get_InvariantCulture()");
+                    Compiler.EmitCode("ldstr \"{0:0.000000}\"");
+                    ExpressionNode.GenCode();
+                    Compiler.EmitCode("box [mscorlib]System.Double");
+                    Compiler.EmitCode("call string [mscorlib]System.String::Format(class [mscorlib]System.IFormatProvider, string, object)");
+                    Compiler.EmitCode("call void [mscorlib]System.Console::Write(string)");
+                    break;
+                case ValType.Bool:
+                    ExpressionNode.GenCode();
+                    Compiler.EmitCode($"call void [mscorlib]System.Console::Write(bool)");
+                    break;
+                default:
+                    Compiler.AddError(new UndefinedError(LineNo));
+                    break;
+            }
         }
 
-        return text;
+        return "";
     }
 }
 
