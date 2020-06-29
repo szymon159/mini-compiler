@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 29.06.2020 22:06:37
+// DateTime: 29.06.2020 22:34:45
 // UserName: szymo
-// Input file <../../kompilator.y - 29.06.2020 20:46:04>
+// Input file <../../kompilator.y - 29.06.2020 22:30:32>
 
 // options: conflicts no-lines diagnose & report gplex conflicts
 
@@ -390,22 +390,37 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
       case 31: // exp -> Ident, Assign, exp
 {
                         var varType = Compiler.GetVariable(ValueStack[ValueStack.Depth-3].s_val);
+                        SyntaxTreeNode right;
                         if(varType == null)
                         {
                             var error = new VariableNotDeclaredError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-3].s_val);
                             Compiler.AddError(error);
 
-                            varType = ValType.Dynamic;
+                            right = Compiler.GetNode();
+                            CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
                         }
-                        else if(varType.HasValue && varType.Value != ValueStack[ValueStack.Depth-1].val_type)
+                        else if(varType == ValType.Double && ValueStack[ValueStack.Depth-1].val_type == ValType.Int)
+                        {
+                            // Implicit cast from int to double
+                            var tempNode = Compiler.GetNode();
+
+                            CurrentSemanticValue.val_type = varType.Value;
+                            right = new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.DoubleCast, tempNode);
+                        }
+                        else if(varType.Value != ValueStack[ValueStack.Depth-1].val_type)
                         {
                             var error = new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-1].val_type, varType.Value);
                             Compiler.AddError(error);
+
+                            right = Compiler.GetNode();
+                            CurrentSemanticValue.val_type = varType.Value;
                         }
-
-                        CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
-
-                        var right = Compiler.GetNode();
+                        else
+                        {
+                            right = Compiler.GetNode();
+                            CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
+                        }
+                        
                         Compiler.AddNode(new AssignmentNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-3].s_val, right)); 
                     }
         break;
