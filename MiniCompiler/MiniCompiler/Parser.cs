@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 29.06.2020 01:03:22
+// DateTime: 29.06.2020 18:01:07
 // UserName: szymo
-// Input file <../../kompilator.y - 29.06.2020 01:03:21>
+// Input file <../../kompilator.y - 29.06.2020 17:07:32>
 
 // options: conflicts no-lines diagnose & report gplex conflicts
 
@@ -298,7 +298,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         if(Compiler.GetVariable(ValueStack[ValueStack.Depth-2].s_val) == null)
                         {
                             Compiler.DeclareVariable(ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-2].s_val);
-                            Compiler.AddNode(new DeclarationNode(1, ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-2].s_val)); 
+                            Compiler.AddNode(new DeclarationNode(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-2].s_val)); 
                         }
                         else
                         {
@@ -317,7 +317,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         break;
       case 13: // statements -> /* empty */
 {
-                    Compiler.AddNode(new StatementsBlockNode(0));
+                    Compiler.AddNode(new StatementsBlockNode(Compiler.GetLineNumber()));
                 }
         break;
       case 14: // statements -> statements, statement
@@ -334,7 +334,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         var thenStatement = Compiler.GetNode();
                         var condition = Compiler.GetNode();
 
-                        Compiler.AddNode(new IfStatementNode(0, condition, thenStatement));
+                        Compiler.AddNode(new IfStatementNode(Compiler.GetLineNumber(), condition, thenStatement));
                     }
         break;
       case 24: // ifStatement -> If, OpenPar, exp, ClosePar, statement, Else, statement
@@ -343,7 +343,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         var thenStatement = Compiler.GetNode();
                         var condition = Compiler.GetNode();
 
-                        Compiler.AddNode(new IfStatementNode(0, condition, thenStatement, elseStatement));
+                        Compiler.AddNode(new IfStatementNode(Compiler.GetLineNumber(), condition, thenStatement, elseStatement));
                     }
         break;
       case 25: // whileStatement -> While, OpenPar, exp, ClosePar, statement
@@ -351,28 +351,33 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         var thenStatement = Compiler.GetNode();
                         var condition = Compiler.GetNode();
 
-                        Compiler.AddNode(new WhileStatementNode(0, condition, thenStatement));
+                        Compiler.AddNode(new WhileStatementNode(Compiler.GetLineNumber(), condition, thenStatement));
                     }
         break;
       case 26: // returnStatement -> Return, Semicolon
 {
-                        Compiler.AddNode(new ReturnNode(0));
+                        Compiler.AddNode(new ReturnNode(Compiler.GetLineNumber()));
                     }
         break;
       case 27: // readStatement -> Read, Ident, Semicolon
 {
-                        Compiler.AddNode(new ReadNode(0, ValueStack[ValueStack.Depth-2].s_val));
+                        Compiler.AddNode(new ReadNode(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-2].s_val));
                     }
         break;
       case 28: // writeStatement -> Write, exp, Semicolon
 {
                         var expNode = Compiler.GetNode();
-                        Compiler.AddNode(new WriteNode(0, expNode));
+                        Compiler.AddNode(new WriteNode(Compiler.GetLineNumber(), expNode));
                     }
         break;
       case 29: // writeStatement -> Write, Text, Semicolon
 {
-                        Compiler.AddNode(new WriteNode(0, ValueStack[ValueStack.Depth-2].s_val));
+                        Compiler.AddNode(new WriteNode(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-2].s_val));
+                    }
+        break;
+      case 30: // expStatement -> exp, Semicolon
+{
+                        Compiler.Pop();
                     }
         break;
       case 31: // exp -> Ident, Assign, exp
@@ -394,7 +399,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
 
                         var right = Compiler.GetNode();
-                        Compiler.AddNode(new AssignmentNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-3].s_val, right)); 
+                        Compiler.AddNode(new AssignmentNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-3].s_val, right)); 
                     }
         break;
       case 32: // exp -> logExp
@@ -425,7 +430,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
 
                         var right = Compiler.GetNode();
                         var left = Compiler.GetNode();
-                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
+                        Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
         break;
       case 36: // logExp -> relExp
@@ -471,7 +476,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
 
                         var right = Compiler.GetNode();
                         var left = Compiler.GetNode();
-                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
+                        Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
         break;
       case 44: // relExp -> addExp
@@ -508,7 +513,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
 
                         var right = Compiler.GetNode();
                         var left = Compiler.GetNode();
-                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
+                        Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
         break;
       case 48: // addExp -> mulExp
@@ -545,7 +550,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
 
                         var right = Compiler.GetNode();
                         var left = Compiler.GetNode();
-                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
+                        Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
         break;
       case 52: // mulExp -> bitExp
@@ -576,7 +581,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         
                         var right = Compiler.GetNode();
                         var left = Compiler.GetNode();
-                        Compiler.AddNode(new BinaryOperationNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
+                        Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
         break;
       case 56: // bitExp -> unaryExp
@@ -600,7 +605,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
 
                         var child = Compiler.GetNode();
-                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.Minus, child)); 
+                        Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.Minus, child)); 
                     }
         break;
       case 59: // unaryExp -> BitNot, term
@@ -614,7 +619,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
 
                         var child = Compiler.GetNode();
-                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.BitNot, child)); 
+                        Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.BitNot, child)); 
                     }
         break;
       case 60: // unaryExp -> LogNot, term
@@ -628,7 +633,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
 
                         var child = Compiler.GetNode();
-                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.LogNot, child)); 
+                        Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.LogNot, child)); 
                     }
         break;
       case 61: // unaryExp -> IntCast, term
@@ -636,7 +641,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         CurrentSemanticValue.val_type = ValType.Int;
 
                         var child = Compiler.GetNode();
-                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.IntCast, child)); 
+                        Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.IntCast, child)); 
                     }
         break;
       case 62: // unaryExp -> DoubleCast, term
@@ -644,7 +649,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         CurrentSemanticValue.val_type = ValType.Double;
 
                         var child = Compiler.GetNode();
-                        Compiler.AddNode(new UnaryOperationNode(0, CurrentSemanticValue.val_type, OpType.DoubleCast, child)); 
+                        Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.DoubleCast, child)); 
                     }
         break;
       case 63: // term -> Ident
@@ -660,7 +665,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         }
 
                         CurrentSemanticValue.val_type = varType.Value;
-                        Compiler.AddNode(new VariableNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-1].s_val)); 
+                        Compiler.AddNode(new VariableNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-1].s_val)); 
                     }
         break;
       case 64: // term -> const
@@ -676,19 +681,19 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
       case 66: // const -> IntValue
 {
                         CurrentSemanticValue.val_type = ValType.Int;
-                        Compiler.AddNode(new ConstantNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-1].i_val)); 
+                        Compiler.AddNode(new ConstantNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-1].i_val)); 
                     }
         break;
       case 67: // const -> DoubleValue
 { 
                         CurrentSemanticValue.val_type = ValType.Double;
-                        Compiler.AddNode(new ConstantNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-1].d_val)); 
+                        Compiler.AddNode(new ConstantNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-1].d_val)); 
                     }
         break;
       case 68: // const -> BoolValue
 { 
                         CurrentSemanticValue.val_type = ValType.Bool;
-                        Compiler.AddNode(new ConstantNode(0, CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-1].b_val)); 
+                        Compiler.AddNode(new ConstantNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-1].b_val)); 
                     }
         break;
     }

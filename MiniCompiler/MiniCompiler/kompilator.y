@@ -63,7 +63,7 @@ declaration     :   type Ident Semicolon
                         if(Compiler.GetVariable($2) == null)
                         {
                             Compiler.DeclareVariable($1, $2);
-                            Compiler.AddNode(new DeclarationNode(1, $1, $2)); 
+                            Compiler.AddNode(new DeclarationNode(Compiler.GetLineNumber(), $1, $2)); 
                         }
                         else
                         {
@@ -79,7 +79,7 @@ type            :   Int             { $$ = ValType.Int; }
 
 statements      :   
                 {
-                    Compiler.AddNode(new StatementsBlockNode(0));
+                    Compiler.AddNode(new StatementsBlockNode(Compiler.GetLineNumber()));
                 }
                 |   statements statement
                     {
@@ -108,7 +108,7 @@ ifStatement     :   If OpenPar exp ClosePar statement
                         var thenStatement = Compiler.GetNode();
                         var condition = Compiler.GetNode();
 
-                        Compiler.AddNode(new IfStatementNode(0, condition, thenStatement));
+                        Compiler.AddNode(new IfStatementNode(Compiler.GetLineNumber(), condition, thenStatement));
                     }
                 |   If OpenPar exp ClosePar statement Else statement
                     {
@@ -116,7 +116,7 @@ ifStatement     :   If OpenPar exp ClosePar statement
                         var thenStatement = Compiler.GetNode();
                         var condition = Compiler.GetNode();
 
-                        Compiler.AddNode(new IfStatementNode(0, condition, thenStatement, elseStatement));
+                        Compiler.AddNode(new IfStatementNode(Compiler.GetLineNumber(), condition, thenStatement, elseStatement));
                     }
                 ;
 
@@ -125,34 +125,37 @@ whileStatement  :   While OpenPar exp ClosePar statement
                         var thenStatement = Compiler.GetNode();
                         var condition = Compiler.GetNode();
 
-                        Compiler.AddNode(new WhileStatementNode(0, condition, thenStatement));
+                        Compiler.AddNode(new WhileStatementNode(Compiler.GetLineNumber(), condition, thenStatement));
                     }
                 ;
 
 returnStatement :   Return Semicolon
                     {
-                        Compiler.AddNode(new ReturnNode(0));
+                        Compiler.AddNode(new ReturnNode(Compiler.GetLineNumber()));
                     }
                 ;
 
 readStatement   :   Read Ident Semicolon
                     {
-                        Compiler.AddNode(new ReadNode(0, $2));
+                        Compiler.AddNode(new ReadNode(Compiler.GetLineNumber(), $2));
                     }
                 ;
 
 writeStatement  :   Write exp Semicolon
                     {
                         var expNode = Compiler.GetNode();
-                        Compiler.AddNode(new WriteNode(0, expNode));
+                        Compiler.AddNode(new WriteNode(Compiler.GetLineNumber(), expNode));
                     }
                 |   Write Text Semicolon
                     {
-                        Compiler.AddNode(new WriteNode(0, $2));
+                        Compiler.AddNode(new WriteNode(Compiler.GetLineNumber(), $2));
                     }
                 ;
 
 expStatement    :   exp Semicolon
+                    {
+                        Compiler.Pop();
+                    }
                 ;
 
 exp             :   Ident Assign exp 
@@ -174,7 +177,7 @@ exp             :   Ident Assign exp
                         $$ = $3;
 
                         var right = Compiler.GetNode();
-                        Compiler.AddNode(new AssignmentNode(0, $$, $1, right)); 
+                        Compiler.AddNode(new AssignmentNode(Compiler.GetLineNumber(), $$, $1, right)); 
                     }
                 |   logExp
                     {
@@ -203,7 +206,7 @@ logExp          :   logExp logOp relExp
 
                         var right = Compiler.GetNode();
                         var left = Compiler.GetNode();
-                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2, left, right)); 
+                        Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), $$, $2, left, right)); 
                     }
                 |   relExp
                     {
@@ -239,7 +242,7 @@ relExp          :   relExp relOp addExp
 
                         var right = Compiler.GetNode();
                         var left = Compiler.GetNode();
-                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2, left, right)); 
+                        Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), $$, $2, left, right)); 
                     }
                 |   addExp
                     {
@@ -274,7 +277,7 @@ addExp          :   addExp addOp mulExp
 
                         var right = Compiler.GetNode();
                         var left = Compiler.GetNode();
-                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2, left, right)); 
+                        Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), $$, $2, left, right)); 
                     }
                 |   mulExp
                     {
@@ -309,7 +312,7 @@ mulExp          :   mulExp mulOp bitExp
 
                         var right = Compiler.GetNode();
                         var left = Compiler.GetNode();
-                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2, left, right)); 
+                        Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), $$, $2, left, right)); 
                     }
                 |   bitExp
                     {
@@ -338,7 +341,7 @@ bitExp          :   bitExp bitOp unaryExp
                         
                         var right = Compiler.GetNode();
                         var left = Compiler.GetNode();
-                        Compiler.AddNode(new BinaryOperationNode(0, $$, $2, left, right)); 
+                        Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), $$, $2, left, right)); 
                     }
                 |   unaryExp
                     {
@@ -361,7 +364,7 @@ unaryExp        :   term
                         $$ = $2;
 
                         var child = Compiler.GetNode();
-                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.Minus, child)); 
+                        Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), $$, OpType.Minus, child)); 
                     }
                 |   BitNot term 
                     { 
@@ -374,7 +377,7 @@ unaryExp        :   term
                         $$ = $2;
 
                         var child = Compiler.GetNode();
-                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.BitNot, child)); 
+                        Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), $$, OpType.BitNot, child)); 
                     } 
                 |   LogNot term
                     {
@@ -387,21 +390,21 @@ unaryExp        :   term
                         $$ = $2;
 
                         var child = Compiler.GetNode();
-                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.LogNot, child)); 
+                        Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), $$, OpType.LogNot, child)); 
                     }
                 |   IntCast term
                     {
                         $$ = ValType.Int;
 
                         var child = Compiler.GetNode();
-                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.IntCast, child)); 
+                        Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), $$, OpType.IntCast, child)); 
                     }
                 |   DoubleCast term
                     {
                         $$ = ValType.Double;
 
                         var child = Compiler.GetNode();
-                        Compiler.AddNode(new UnaryOperationNode(0, $$, OpType.DoubleCast, child)); 
+                        Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), $$, OpType.DoubleCast, child)); 
                     }
                 ;
 
@@ -418,7 +421,7 @@ term            :   Ident
                         }
 
                         $$ = varType.Value;
-                        Compiler.AddNode(new VariableNode(0, $$, $1)); 
+                        Compiler.AddNode(new VariableNode(Compiler.GetLineNumber(), $$, $1)); 
                     }
                 |   const 
                     { 
@@ -433,17 +436,17 @@ term            :   Ident
 const           :   IntValue
                     {
                         $$ = ValType.Int;
-                        Compiler.AddNode(new ConstantNode(0, $$, $1)); 
+                        Compiler.AddNode(new ConstantNode(Compiler.GetLineNumber(), $$, $1)); 
                     }
                 |   DoubleValue 
                     { 
                         $$ = ValType.Double;
-                        Compiler.AddNode(new ConstantNode(0, $$, $1)); 
+                        Compiler.AddNode(new ConstantNode(Compiler.GetLineNumber(), $$, $1)); 
                     }
                 |   BoolValue 
                     { 
                         $$ = ValType.Bool;
-                        Compiler.AddNode(new ConstantNode(0, $$, $1)); 
+                        Compiler.AddNode(new ConstantNode(Compiler.GetLineNumber(), $$, $1)); 
                     }
                 ;
 
