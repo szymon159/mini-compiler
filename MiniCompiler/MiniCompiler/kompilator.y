@@ -375,7 +375,7 @@ unaryExp        :   term
                     { 
                         $$ = $1; 
                     }
-                |   Minus term 
+                |   Minus unaryExp 
                     { 
                         if($2 == ValType.Bool)
                         {
@@ -388,7 +388,7 @@ unaryExp        :   term
                         var child = Compiler.GetNode();
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), $$, OpType.Minus, child)); 
                     }
-                |   BitNot term 
+                |   BitNot unaryExp 
                     { 
                         if($2 == ValType.Double || $2 == ValType.Bool)
                         {
@@ -401,7 +401,7 @@ unaryExp        :   term
                         var child = Compiler.GetNode();
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), $$, OpType.BitNot, child)); 
                     } 
-                |   LogNot term
+                |   LogNot unaryExp
                     {
                         if($2 == ValType.Int || $2 == ValType.Double)
                         {
@@ -414,14 +414,14 @@ unaryExp        :   term
                         var child = Compiler.GetNode();
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), $$, OpType.LogNot, child)); 
                     }
-                |   IntCast term
+                |   IntCast unaryExp
                     {
                         $$ = ValType.Int;
 
                         var child = Compiler.GetNode();
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), $$, OpType.IntCast, child)); 
                     }
-                |   DoubleCast term
+                |   DoubleCast unaryExp
                     {
                         $$ = ValType.Double;
 

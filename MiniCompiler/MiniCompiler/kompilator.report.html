@@ -1,7 +1,7 @@
 <html><head><title>../../kompilator.y</title></head>
 <body bgcolor="white">
 <hr><pre>
-<b>Grammar and Diagnosis ../../kompilator.y - 29.06.2020 22:30:32</b>
+<b>Grammar and Diagnosis ../../kompilator.y - 29.06.2020 23:26:08</b>
 
 <a name="prod1">    1</a> $accept: start EOF
              ;
@@ -112,11 +112,11 @@
             ;
 
 <a name="prod57">   57</a> unaryExp: term
-<a name="prod58">   58</a>         | Minus term
-<a name="prod59">   59</a>         | BitNot term
-<a name="prod60">   60</a>         | LogNot term
-<a name="prod61">   61</a>         | IntCast term
-<a name="prod62">   62</a>         | DoubleCast term
+<a name="prod58">   58</a>         | Minus unaryExp
+<a name="prod59">   59</a>         | BitNot unaryExp
+<a name="prod60">   60</a>         | LogNot unaryExp
+<a name="prod61">   61</a>         | IntCast unaryExp
+<a name="prod62">   62</a>         | DoubleCast unaryExp
               ;
 
 <a name="prod63">   63</a> term: Ident
@@ -1748,7 +1748,8 @@
 <b><a name="state58">State</a> <a href="#state58">58</a></b>
     Shortest prefix: Program OpenBlock term
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state58">58</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state39">39</a>, <a href="#state45">45</a>, <a href="#state48">48</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state64">64</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state39">39</a>, <a href="#state45">45</a>, <a href="#state48">48</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state64">64</a>, <a href="#state84">84</a>, 
+                  <a href="#state86">86</a>, <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>
 
   <b>Kernel Items</b>
     57 unaryExp: term .
@@ -2454,10 +2455,11 @@
 <b><a name="state84">State</a> <a href="#state84">84</a></b>
     Shortest prefix: Program OpenBlock Minus
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state84">84</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state39">39</a>, <a href="#state45">45</a>, <a href="#state48">48</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state64">64</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state39">39</a>, <a href="#state45">45</a>, <a href="#state48">48</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state64">64</a>, <a href="#state84">84</a>, 
+                  <a href="#state86">86</a>, <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>
 
   <b>Kernel Items</b>
-    58 unaryExp: Minus . term
+    58 unaryExp: Minus . unaryExp
 
   <b>Parser Actions</b>
     Ident          shift, and go to state <a href="#state59">59</a>
@@ -2465,19 +2467,25 @@
     DoubleValue    shift, and go to state <a href="#state62">62</a>
     BoolValue      shift, and go to state <a href="#state63">63</a>
     OpenPar        shift, and go to state <a href="#state64">64</a>
+    Minus          shift, and go to state <a href="#state84">84</a>
+    BitNot         shift, and go to state <a href="#state86">86</a>
+    LogNot         shift, and go to state <a href="#state88">88</a>
+    IntCast        shift, and go to state <a href="#state90">90</a>
+    DoubleCast     shift, and go to state <a href="#state92">92</a>
 
   <b>Transitions</b>
-    term           go to state <a href="#state85">85</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state58">58</a>
     const          go to state <a href="#state60">60</a>
 
 
 <b><a name="state85">State</a> <a href="#state85">85</a></b>
-    Shortest prefix: Program OpenBlock Minus term
+    Shortest prefix: Program OpenBlock Minus unaryExp
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state84">84</a>-><a href="#state85">85</a>
     Predecessors: <a href="#state84">84</a>
 
   <b>Kernel Items</b>
-    58 unaryExp: Minus term .
+    58 unaryExp: Minus unaryExp .
 	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
                 Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
                 Semicolon, ClosePar }
@@ -2505,10 +2513,11 @@
 <b><a name="state86">State</a> <a href="#state86">86</a></b>
     Shortest prefix: Program OpenBlock BitNot
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state86">86</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state39">39</a>, <a href="#state45">45</a>, <a href="#state48">48</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state64">64</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state39">39</a>, <a href="#state45">45</a>, <a href="#state48">48</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state64">64</a>, <a href="#state84">84</a>, 
+                  <a href="#state86">86</a>, <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>
 
   <b>Kernel Items</b>
-    59 unaryExp: BitNot . term
+    59 unaryExp: BitNot . unaryExp
 
   <b>Parser Actions</b>
     Ident          shift, and go to state <a href="#state59">59</a>
@@ -2516,19 +2525,25 @@
     DoubleValue    shift, and go to state <a href="#state62">62</a>
     BoolValue      shift, and go to state <a href="#state63">63</a>
     OpenPar        shift, and go to state <a href="#state64">64</a>
+    Minus          shift, and go to state <a href="#state84">84</a>
+    BitNot         shift, and go to state <a href="#state86">86</a>
+    LogNot         shift, and go to state <a href="#state88">88</a>
+    IntCast        shift, and go to state <a href="#state90">90</a>
+    DoubleCast     shift, and go to state <a href="#state92">92</a>
 
   <b>Transitions</b>
-    term           go to state <a href="#state87">87</a>
+    unaryExp       go to state <a href="#state87">87</a>
+    term           go to state <a href="#state58">58</a>
     const          go to state <a href="#state60">60</a>
 
 
 <b><a name="state87">State</a> <a href="#state87">87</a></b>
-    Shortest prefix: Program OpenBlock BitNot term
+    Shortest prefix: Program OpenBlock BitNot unaryExp
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state86">86</a>-><a href="#state87">87</a>
     Predecessors: <a href="#state86">86</a>
 
   <b>Kernel Items</b>
-    59 unaryExp: BitNot term .
+    59 unaryExp: BitNot unaryExp .
 	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
                 Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
                 Semicolon, ClosePar }
@@ -2556,10 +2571,11 @@
 <b><a name="state88">State</a> <a href="#state88">88</a></b>
     Shortest prefix: Program OpenBlock LogNot
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state88">88</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state39">39</a>, <a href="#state45">45</a>, <a href="#state48">48</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state64">64</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state39">39</a>, <a href="#state45">45</a>, <a href="#state48">48</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state64">64</a>, <a href="#state84">84</a>, 
+                  <a href="#state86">86</a>, <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>
 
   <b>Kernel Items</b>
-    60 unaryExp: LogNot . term
+    60 unaryExp: LogNot . unaryExp
 
   <b>Parser Actions</b>
     Ident          shift, and go to state <a href="#state59">59</a>
@@ -2567,19 +2583,25 @@
     DoubleValue    shift, and go to state <a href="#state62">62</a>
     BoolValue      shift, and go to state <a href="#state63">63</a>
     OpenPar        shift, and go to state <a href="#state64">64</a>
+    Minus          shift, and go to state <a href="#state84">84</a>
+    BitNot         shift, and go to state <a href="#state86">86</a>
+    LogNot         shift, and go to state <a href="#state88">88</a>
+    IntCast        shift, and go to state <a href="#state90">90</a>
+    DoubleCast     shift, and go to state <a href="#state92">92</a>
 
   <b>Transitions</b>
-    term           go to state <a href="#state89">89</a>
+    unaryExp       go to state <a href="#state89">89</a>
+    term           go to state <a href="#state58">58</a>
     const          go to state <a href="#state60">60</a>
 
 
 <b><a name="state89">State</a> <a href="#state89">89</a></b>
-    Shortest prefix: Program OpenBlock LogNot term
+    Shortest prefix: Program OpenBlock LogNot unaryExp
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state88">88</a>-><a href="#state89">89</a>
     Predecessors: <a href="#state88">88</a>
 
   <b>Kernel Items</b>
-    60 unaryExp: LogNot term .
+    60 unaryExp: LogNot unaryExp .
 	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
                 Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
                 Semicolon, ClosePar }
@@ -2607,10 +2629,11 @@
 <b><a name="state90">State</a> <a href="#state90">90</a></b>
     Shortest prefix: Program OpenBlock IntCast
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state39">39</a>, <a href="#state45">45</a>, <a href="#state48">48</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state64">64</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state39">39</a>, <a href="#state45">45</a>, <a href="#state48">48</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state64">64</a>, <a href="#state84">84</a>, 
+                  <a href="#state86">86</a>, <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>
 
   <b>Kernel Items</b>
-    61 unaryExp: IntCast . term
+    61 unaryExp: IntCast . unaryExp
 
   <b>Parser Actions</b>
     Ident          shift, and go to state <a href="#state59">59</a>
@@ -2618,19 +2641,25 @@
     DoubleValue    shift, and go to state <a href="#state62">62</a>
     BoolValue      shift, and go to state <a href="#state63">63</a>
     OpenPar        shift, and go to state <a href="#state64">64</a>
+    Minus          shift, and go to state <a href="#state84">84</a>
+    BitNot         shift, and go to state <a href="#state86">86</a>
+    LogNot         shift, and go to state <a href="#state88">88</a>
+    IntCast        shift, and go to state <a href="#state90">90</a>
+    DoubleCast     shift, and go to state <a href="#state92">92</a>
 
   <b>Transitions</b>
-    term           go to state <a href="#state91">91</a>
+    unaryExp       go to state <a href="#state91">91</a>
+    term           go to state <a href="#state58">58</a>
     const          go to state <a href="#state60">60</a>
 
 
 <b><a name="state91">State</a> <a href="#state91">91</a></b>
-    Shortest prefix: Program OpenBlock IntCast term
+    Shortest prefix: Program OpenBlock IntCast unaryExp
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>-><a href="#state91">91</a>
     Predecessors: <a href="#state90">90</a>
 
   <b>Kernel Items</b>
-    61 unaryExp: IntCast term .
+    61 unaryExp: IntCast unaryExp .
 	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
                 Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
                 Semicolon, ClosePar }
@@ -2658,10 +2687,11 @@
 <b><a name="state92">State</a> <a href="#state92">92</a></b>
     Shortest prefix: Program OpenBlock DoubleCast
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state92">92</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state39">39</a>, <a href="#state45">45</a>, <a href="#state48">48</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state64">64</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state39">39</a>, <a href="#state45">45</a>, <a href="#state48">48</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state64">64</a>, <a href="#state84">84</a>, 
+                  <a href="#state86">86</a>, <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>
 
   <b>Kernel Items</b>
-    62 unaryExp: DoubleCast . term
+    62 unaryExp: DoubleCast . unaryExp
 
   <b>Parser Actions</b>
     Ident          shift, and go to state <a href="#state59">59</a>
@@ -2669,19 +2699,25 @@
     DoubleValue    shift, and go to state <a href="#state62">62</a>
     BoolValue      shift, and go to state <a href="#state63">63</a>
     OpenPar        shift, and go to state <a href="#state64">64</a>
+    Minus          shift, and go to state <a href="#state84">84</a>
+    BitNot         shift, and go to state <a href="#state86">86</a>
+    LogNot         shift, and go to state <a href="#state88">88</a>
+    IntCast        shift, and go to state <a href="#state90">90</a>
+    DoubleCast     shift, and go to state <a href="#state92">92</a>
 
   <b>Transitions</b>
-    term           go to state <a href="#state93">93</a>
+    unaryExp       go to state <a href="#state93">93</a>
+    term           go to state <a href="#state58">58</a>
     const          go to state <a href="#state60">60</a>
 
 
 <b><a name="state93">State</a> <a href="#state93">93</a></b>
-    Shortest prefix: Program OpenBlock DoubleCast term
+    Shortest prefix: Program OpenBlock DoubleCast unaryExp
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state92">92</a>-><a href="#state93">93</a>
     Predecessors: <a href="#state92">92</a>
 
   <b>Kernel Items</b>
-    62 unaryExp: DoubleCast term .
+    62 unaryExp: DoubleCast unaryExp .
 	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
                 Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
                 Semicolon, ClosePar }

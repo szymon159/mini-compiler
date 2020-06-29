@@ -68,6 +68,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>./gp.bat</PreBuildEvent>
+    <PreBuildEvent>echo f | xcopy /y ..\..\gp.bat .\gp.bat
+echo f | xcopy /y ..\..\Gplex.exe .\Gplex.exe
+echo f | xcopy /y ..\..\Gppg.exe .\Gppg.exe
+./gp.bat</PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -58,7 +58,9 @@ public class Compiler
     public static int Main(string[] args)
     {
         // TODO: Remove it
+#if DEBUG
         args = new string[] { "./code.mini" };
+#endif
 
         string inputFile;
         if (args.Length >= 1)
@@ -102,11 +104,17 @@ public class Compiler
                 Console.WriteLine($"Other errors ({otherErrors.Count()}):");
                 foreach (var error in otherErrors)
                     Console.WriteLine($"* {error}");
+
+                return 2;
             }
         }
 
+        // TODO: Remove it
+#if DEBUG
         Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey();
+#endif
+
         return 0;
     }
 
