@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 29.06.2020 18:33:05
+// DateTime: 29.06.2020 21:22:48
 // UserName: szymo
-// Input file <../../kompilator.y - 29.06.2020 17:07:32>
+// Input file <../../kompilator.y - 29.06.2020 20:46:04>
 
 // options: conflicts no-lines diagnose & report gplex conflicts
 
@@ -361,7 +361,14 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         break;
       case 27: // readStatement -> Read, Ident, Semicolon
 {
-                        Compiler.AddNode(new ReadNode(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-2].s_val));
+                        if(Compiler.GetVariable(ValueStack[ValueStack.Depth-2].s_val) == null)
+                        {
+                            Compiler.AddError(new VariableNotDeclaredError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-2].s_val));
+                        }
+                        else
+                        {
+                            Compiler.AddNode(new ReadNode(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-2].s_val));
+                        }
                     }
         break;
       case 28: // writeStatement -> Write, exp, Semicolon

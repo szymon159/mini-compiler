@@ -1,9 +1,17 @@
 program
- {
- int i;
- double d;
- bool b;
- i=2;
-while(i>0)
-i = i-1;
- }
+{
+    int a;
+    bool b;
+    double c;
+    write "INT:";
+    read a;
+    write a;
+
+    write "BOOL:";
+    read b;
+    write b;
+
+    write "DOUBLE:";
+    read c;
+    write c;
+}

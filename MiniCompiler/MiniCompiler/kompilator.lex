@@ -52,7 +52,7 @@ Comment			"//".*
 "(double)"      { return (int)Tokens.DoubleCast; }
 
 {Int}			{ yylval.i_val = int.Parse(yytext); return (int)Tokens.IntValue; }
-{Double}		{ yylval.d_val = double.Parse(yytext); return (int)Tokens.DoubleValue; }
+{Double}		{ yylval.d_val = double.Parse(yytext, System.Globalization.CultureInfo.InvariantCulture); return (int)Tokens.DoubleValue; }
 {Bool}			{ yylval.b_val = yytext == "true" ? true : false; return (int)Tokens.BoolValue; }
 {Ident}			{ yylval.s_val=yytext; return (int)Tokens.Ident; }
 {Text}			{ yylval.s_val=yytext; return (int)Tokens.Text; }
