@@ -78,7 +78,7 @@ public class Compiler
             parser.Parse();
             if (errors.Count == 0)
             {
-                Console.WriteLine("SUCCESS\n");
+                Console.WriteLine("SUCCESS");
                 var parsedCode = code.Reverse();
                 var outputFile = inputFile + ".il";
                 streamWriter = new StreamWriter(outputFile);
@@ -145,10 +145,12 @@ public class Compiler
     {
         EmitCode(".assembly extern mscorlib { }", false);
         EmitCode(".assembly kompilator { }", false);
-        EmitCode(".method static int32 main()", false);
+        EmitCode(".method static void main()", false);
         EmitCode("{", false);
         EmitCode(".entrypoint", false);
         EmitCode(".maxstack 8", false);
+        EmitCode(".try", false);
+        EmitCode("{", false);
     }
 
     public static void EmitCode(string code, bool addLabel = true, string label = null)
@@ -164,9 +166,18 @@ public class Compiler
 
     public static void GenEpilog()
     {
-        EmitCode("ldc.i4.0", true, GetReturnLabel());
-        EmitCode("ret");
+        EmitCode($"leave {GetReturnLabel()}");
         EmitCode("}", false);
+
+        EmitCode("catch [mscorlib]System.Exception", false);
+        EmitCode("{", false);
+        EmitCode("callvirt instance string [mscorlib]System.Exception::get_Message()");
+        EmitCode("call void [mscorlib]System.Console::WriteLine(string)");
+        EmitCode($"leave {GetReturnLabel()}");
+        EmitCode("}", false);
+
+        EmitCode("ret", true, GetReturnLabel());
+        EmitCode("}",false);
     }
 
     public static void Pop()
