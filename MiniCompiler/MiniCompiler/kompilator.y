@@ -168,22 +168,37 @@ expStatement    :   exp Semicolon
 exp             :   Ident Assign exp 
                     {
                         var varType = Compiler.GetVariable($1);
+                        SyntaxTreeNode right;
                         if(varType == null)
                         {
                             var error = new VariableNotDeclaredError(Compiler.GetLineNumber(), $1);
                             Compiler.AddError(error);
 
-                            varType = ValType.Dynamic;
+                            right = Compiler.GetNode();
+                            $$ = $3;
                         }
-                        else if(varType.HasValue && varType.Value != $3)
+                        else if(varType == ValType.Double && $3 == ValType.Int)
+                        {
+                            // Implicit cast from int to double
+                            var tempNode = Compiler.GetNode();
+
+                            $$ = varType.Value;
+                            right = new UnaryOperationNode(Compiler.GetLineNumber(), $$, OpType.DoubleCast, tempNode);
+                        }
+                        else if(varType.Value != $3)
                         {
                             var error = new InvalidTypeError(Compiler.GetLineNumber(), $3, varType.Value);
                             Compiler.AddError(error);
+
+                            right = Compiler.GetNode();
+                            $$ = varType.Value;
                         }
-
-                        $$ = $3;
-
-                        var right = Compiler.GetNode();
+                        else
+                        {
+                            right = Compiler.GetNode();
+                            $$ = $3;
+                        }
+                        
                         Compiler.AddNode(new AssignmentNode(Compiler.GetLineNumber(), $$, $1, right)); 
                     }
                 |   logExp

@@ -58,7 +58,7 @@ public class Compiler
     public static int Main(string[] args)
     {
         // TODO: Remove it
-        args = new string[] { "./code2.mini" };
+        args = new string[] { "./code.mini" };
 
         string inputFile;
         if (args.Length >= 1)
@@ -93,7 +93,14 @@ public class Compiler
             {
                 Console.WriteLine("FAILURE");
                 Console.WriteLine($"Found {errors.Count} errors:");
-                foreach (var error in errors)
+                var syntaxErrors = errors.Where(e => e.IsSyntaxError);
+                var otherErrors = errors.Where(e => !e.IsSyntaxError);
+                Console.WriteLine($"Syntax errors ({syntaxErrors.Count()}):");
+                foreach (var error in syntaxErrors)
+                    Console.WriteLine($"* {error}");
+
+                Console.WriteLine($"Other errors ({otherErrors.Count()}):");
+                foreach (var error in otherErrors)
                     Console.WriteLine($"* {error}");
             }
         }
@@ -691,8 +698,8 @@ public class WriteNode : SyntaxTreeNode
 
 public abstract class MiniCompilerError
 {
-    protected int LineNumber { get; set; }
-    protected bool IsSyntaxError { get; set; }
+    public int LineNumber { get; set; }
+    public bool IsSyntaxError { get; set; }
 
     protected MiniCompilerError(int lineNumber, bool isSyntaxError = false)
     {

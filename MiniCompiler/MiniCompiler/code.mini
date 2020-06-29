@@ -6,11 +6,11 @@ program
     int b;
     bool c;
     double d;
-    d = 5,5;
-    while(c + 1)
+    d = 5.5 + 1;
+    while(c)
         c = !c;
     c = false;
-    a = -1;
+    d = -1 + 2.5;
     b = (a+b)*a;
-}a
+}
 // test
