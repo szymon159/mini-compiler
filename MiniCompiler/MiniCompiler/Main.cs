@@ -68,7 +68,7 @@ public class Compiler
         else
         {
             Console.WriteLine("Invalid argment: Source code file not provided");
-            return -1;
+            return 1;
         }
         using (var source = new FileStream(inputFile, FileMode.Open))
         {
@@ -108,11 +108,6 @@ public class Compiler
         Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey();
         return 0;
-    }
-
-    public static void Breakpoint()
-    {
-
     }
 
     public static void AddNode(SyntaxTreeNode node)
