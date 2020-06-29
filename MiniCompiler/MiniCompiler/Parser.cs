@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 29.06.2020 23:12:10
+// DateTime: 30.06.2020 00:54:00
 // UserName: szymo
-// Input file <../../kompilator.y - 29.06.2020 22:30:32>
+// Input file <../../kompilator.y - 29.06.2020 23:26:08>
 
 // options: conflicts no-lines diagnose & report gplex conflicts
 
@@ -156,15 +156,15 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
     states[81] = new State(-53);
     states[82] = new State(-54);
     states[83] = new State(-56);
-    states[84] = new State(new int[]{40,59,37,61,38,62,39,63,11,64},new int[]{-2,85,-3,60});
+    states[84] = new State(new int[]{40,59,37,61,38,62,39,63,11,64,26,84,31,86,32,88,33,90,34,92},new int[]{-5,85,-2,58,-3,60});
     states[85] = new State(-58);
-    states[86] = new State(new int[]{40,59,37,61,38,62,39,63,11,64},new int[]{-2,87,-3,60});
+    states[86] = new State(new int[]{40,59,37,61,38,62,39,63,11,64,26,84,31,86,32,88,33,90,34,92},new int[]{-5,87,-2,58,-3,60});
     states[87] = new State(-59);
-    states[88] = new State(new int[]{40,59,37,61,38,62,39,63,11,64},new int[]{-2,89,-3,60});
+    states[88] = new State(new int[]{40,59,37,61,38,62,39,63,11,64,26,84,31,86,32,88,33,90,34,92},new int[]{-5,89,-2,58,-3,60});
     states[89] = new State(-60);
-    states[90] = new State(new int[]{40,59,37,61,38,62,39,63,11,64},new int[]{-2,91,-3,60});
+    states[90] = new State(new int[]{40,59,37,61,38,62,39,63,11,64,26,84,31,86,32,88,33,90,34,92},new int[]{-5,91,-2,58,-3,60});
     states[91] = new State(-61);
-    states[92] = new State(new int[]{40,59,37,61,38,62,39,63,11,64},new int[]{-2,93,-3,60});
+    states[92] = new State(new int[]{40,59,37,61,38,62,39,63,11,64,26,84,31,86,32,88,33,90,34,92},new int[]{-5,93,-2,58,-3,60});
     states[93] = new State(-62);
     states[94] = new State(-33);
     states[95] = new State(-34);
@@ -242,11 +242,11 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
     rules[55] = new Rule(-6, new int[]{-6,-11,-5});
     rules[56] = new Rule(-6, new int[]{-5});
     rules[57] = new Rule(-5, new int[]{-2});
-    rules[58] = new Rule(-5, new int[]{26,-2});
-    rules[59] = new Rule(-5, new int[]{31,-2});
-    rules[60] = new Rule(-5, new int[]{32,-2});
-    rules[61] = new Rule(-5, new int[]{33,-2});
-    rules[62] = new Rule(-5, new int[]{34,-2});
+    rules[58] = new Rule(-5, new int[]{26,-5});
+    rules[59] = new Rule(-5, new int[]{31,-5});
+    rules[60] = new Rule(-5, new int[]{32,-5});
+    rules[61] = new Rule(-5, new int[]{33,-5});
+    rules[62] = new Rule(-5, new int[]{34,-5});
     rules[63] = new Rule(-2, new int[]{40});
     rules[64] = new Rule(-2, new int[]{-3});
     rules[65] = new Rule(-2, new int[]{11,-4,12});
@@ -616,7 +616,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type; 
                     }
         break;
-      case 58: // unaryExp -> Minus, term
+      case 58: // unaryExp -> Minus, unaryExp
 { 
                         if(ValueStack[ValueStack.Depth-1].val_type == ValType.Bool)
                         {
@@ -630,7 +630,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.Minus, child)); 
                     }
         break;
-      case 59: // unaryExp -> BitNot, term
+      case 59: // unaryExp -> BitNot, unaryExp
 { 
                         if(ValueStack[ValueStack.Depth-1].val_type == ValType.Double || ValueStack[ValueStack.Depth-1].val_type == ValType.Bool)
                         {
@@ -644,7 +644,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.BitNot, child)); 
                     }
         break;
-      case 60: // unaryExp -> LogNot, term
+      case 60: // unaryExp -> LogNot, unaryExp
 {
                         if(ValueStack[ValueStack.Depth-1].val_type == ValType.Int || ValueStack[ValueStack.Depth-1].val_type == ValType.Double)
                         {
@@ -658,7 +658,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.LogNot, child)); 
                     }
         break;
-      case 61: // unaryExp -> IntCast, term
+      case 61: // unaryExp -> IntCast, unaryExp
 {
                         CurrentSemanticValue.val_type = ValType.Int;
 
@@ -666,7 +666,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.IntCast, child)); 
                     }
         break;
-      case 62: // unaryExp -> DoubleCast, term
+      case 62: // unaryExp -> DoubleCast, unaryExp
 {
                         CurrentSemanticValue.val_type = ValType.Double;
 

@@ -5,7 +5,7 @@ Int 			0|[1-9][0-9]*
 Double			(0|[1-9][0-9]*)\.[0-9]+
 Bool			"true"|"false"
 Ident			[A-Za-z][A-Za-z0-9]*
-Text			\".*\"
+Text			\"([^\""\n""\r\n"\\]|\\.)*\"
 Comment			"//".*
 
 %%
