@@ -51,6 +51,7 @@ public class Compiler
     private static List<MiniCompilerError> errors = new List<MiniCompilerError>();
     private static int labelNo = 0;
     private static int currentLineNo = 1;
+    private static StreamWriter streamWriter;
 
     public static string GetReturnLabel() => "LAB_RET";
 
@@ -59,17 +60,17 @@ public class Compiler
         // TODO: Remove it
         args = new string[] { "./code2.mini" };
 
-        string file;
+        string inputFile;
         if (args.Length >= 1)
         {
-            file = args[0];
+            inputFile = args[0];
         }
         else
         {
             Console.WriteLine("Invalid argment: Source code file not provided");
             return -1;
         }
-        using (var source = new FileStream(file, FileMode.Open))
+        using (var source = new FileStream(inputFile, FileMode.Open))
         {
             var scanner = new Scanner(source);
             var parser = new Parser(scanner);
@@ -79,6 +80,8 @@ public class Compiler
             {
                 Console.WriteLine("SUCCESS\n");
                 var parsedCode = code.Reverse();
+                var outputFile = inputFile + ".il";
+                streamWriter = new StreamWriter(outputFile);
 
                 GenProlog();
                 foreach (var statement in parsedCode)
@@ -96,6 +99,7 @@ public class Compiler
 
         Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey();
+        streamWriter.Dispose();
         return 0;
     }
 
@@ -153,9 +157,9 @@ public class Compiler
             label = GenerateLabel();
 
         if(addLabel)
-            Console.WriteLine($"{label}: {code}");
+            streamWriter.Write($"{label}: {code}\n");
         else
-            Console.WriteLine($"{code}");
+            streamWriter.Write($"{code}\n");
     }
 
     public static void GenEpilog()
