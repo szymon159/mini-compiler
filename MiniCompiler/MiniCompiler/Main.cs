@@ -165,6 +165,14 @@ public class Compiler
         EmitCode("}", false);
     }
 
+    public static void Pop()
+    {
+        // Get node from the top and add generating "pop" at CIL stack after generating code
+        // Necessary to clean value on stack after expression without assignment
+        var topNode = code.Peek();
+        topNode.EnablePopGenerator();
+    }
+
     public static void IncrementLineNumber()
     {
         ++currentLineNo;
@@ -182,12 +190,19 @@ public abstract class SyntaxTreeNode
 {
     public int LineNo = -1;
     public ValType Type;
+    protected bool GenPop;
 
     public SyntaxTreeNode(int lineNo, ValType type = ValType.None)
     {
         LineNo = lineNo;
         Type = type;
     }
+
+    public void EnablePopGenerator()
+    {
+        GenPop = true;
+    }
+
     public abstract string GenCode();
 }
 
@@ -305,6 +320,8 @@ public class BinaryOperationNode : SyntaxTreeNode
         }
 
         Compiler.EmitCode(text);
+        if (GenPop)
+            Compiler.EmitCode("pop", true);
 
         return text;
     }
@@ -322,10 +339,12 @@ public class AssignmentNode : BinaryOperationNode
 
     public override string GenCode()
     {
-        var text = $"stloc.s _{Name}";
+        var text = $"stloc _{Name}";
 
         Right?.GenCode();
         Compiler.EmitCode(text);
+        if (!GenPop)
+            Compiler.EmitCode($"ldloc _{Name}");
 
         return text;
     }
@@ -375,6 +394,8 @@ public class UnaryOperationNode : SyntaxTreeNode
         }
 
         Compiler.EmitCode(text);
+        if (GenPop)
+            Compiler.EmitCode("pop", true);
 
         return text;
     }
@@ -392,8 +413,10 @@ public class VariableNode : SyntaxTreeNode
 
     public override string GenCode()
     {
-        var text = $"ldloc.s _{Name}";
+        var text = $"ldloc _{Name}";
         Compiler.EmitCode(text);
+        if (GenPop)
+            Compiler.EmitCode("pop", true);
 
         return text;
     }
@@ -442,6 +465,8 @@ public class ConstantNode : SyntaxTreeNode
         }
 
         Compiler.EmitCode(text);
+        if (GenPop)
+            Compiler.EmitCode("pop", true);
 
         return text;
     }
@@ -493,14 +518,14 @@ public class IfStatementNode : SyntaxTreeNode
         if (ElseStatement != null)
         {
             elseLabel = Compiler.GenerateLabel();
-            Compiler.EmitCode($"brfalse.s {elseLabel}");
+            Compiler.EmitCode($"brfalse {elseLabel}");
         }
         ThenStatement.GenCode();
 
         if (ElseStatement != null)
         {
             var afterLabel = Compiler.GenerateLabel();
-            Compiler.EmitCode($"br.s {afterLabel}");
+            Compiler.EmitCode($"br {afterLabel}");
             Compiler.EmitCode("nop", true, elseLabel);
             ElseStatement.GenCode();
             Compiler.EmitCode("nop", true, afterLabel);
@@ -531,7 +556,7 @@ public class WhileStatementNode : SyntaxTreeNode
         var condLabel = Compiler.GenerateLabel();
         Compiler.EmitCode("nop", true, condLabel);
         Condition.GenCode();
-        Compiler.EmitCode($"brtrue.s {beginLabel}");
+        Compiler.EmitCode($"brtrue {beginLabel}");
 
         return "";
     }
@@ -547,7 +572,7 @@ public class ReturnNode: SyntaxTreeNode
 
     public override string GenCode()
     {
-        Compiler.EmitCode($"br.s {Compiler.GetReturnLabel()}");
+        Compiler.EmitCode($"br {Compiler.GetReturnLabel()}");
 
         return "";
     }
