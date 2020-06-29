@@ -278,18 +278,42 @@ public class BinaryOperationNode : SyntaxTreeNode
 
     public override string GenCode()
     {
-        Left?.GenCode();
-        Right?.GenCode();
+        // Optimize calculations in those cases - done in switch below
+        if(OperatorType != OpType.LogOr && OperatorType != OpType.LogAnd)
+        {
+            Left?.GenCode();
+            Right?.GenCode();
+        }
 
         string text = "";
         var helperNode = new UnaryOperationNode(-1, ValType.Bool, OpType.LogNot, null);
         switch (OperatorType)
         {
             case OpType.LogOr:
-                text = "or";
+                var falseLabel = Compiler.GenerateLabel();
+                var trueLabel = Compiler.GenerateLabel();
+                var endLabel = Compiler.GenerateLabel();
+                Left.GenCode();
+                Compiler.EmitCode($"brtrue {trueLabel}");
+                Right.GenCode();
+                Compiler.EmitCode($"brtrue {trueLabel}");
+                Compiler.EmitCode("ldc.i4.0", true, falseLabel);
+                Compiler.EmitCode($"br {endLabel}");
+                Compiler.EmitCode("ldc.i4.1", true, trueLabel);
+                Compiler.EmitCode("nop", true, endLabel);
                 break;
             case OpType.LogAnd:
-                text = "and";
+                falseLabel = Compiler.GenerateLabel();
+                trueLabel = Compiler.GenerateLabel();
+                endLabel = Compiler.GenerateLabel();
+                Left.GenCode();
+                Compiler.EmitCode($"brfalse {falseLabel}");
+                Right.GenCode();
+                Compiler.EmitCode($"brtrue {trueLabel}");
+                Compiler.EmitCode("ldc.i4.0", true, falseLabel);
+                Compiler.EmitCode($"br {endLabel}");
+                Compiler.EmitCode("ldc.i4.1", true, trueLabel);
+                Compiler.EmitCode("nop", true, endLabel);
                 break;
             case OpType.Equal:
                 text = "ceq";

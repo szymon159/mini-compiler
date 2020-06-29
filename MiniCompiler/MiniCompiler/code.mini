@@ -1,16 +1,15 @@
-//test
+program
+{
+	bool a;
+	int b;
+	
+	a = false;
+	b = 1;
+	
+	if ( a && (b = 5) == 5)
+	{
+		a = false;
+	}
 
-program 
-{ 
-    int a;
-    int b;
-    bool c;
-    double d;
-    d = 5.5 + 1;
-    while(c)
-        c = !c;
-    c = false;
-    d = -1 + 2.5;
-    b = (a+b)*a;
+	write b;
 }
-// test
