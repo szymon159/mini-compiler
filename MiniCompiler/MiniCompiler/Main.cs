@@ -278,6 +278,20 @@ public class BinaryOperationNode : SyntaxTreeNode
 
     public override string GenCode()
     {
+        // Implicit cast int -> double
+        // Generate fake node with explicit cast
+        SyntaxTreeNode tempNode;
+        if (Left.Type == ValType.Int && Right.Type == ValType.Double)
+        {
+            tempNode = new UnaryOperationNode(LineNo, ValType.Double, OpType.DoubleCast, Left);
+            Left = tempNode;
+        }
+        else if (Left.Type == ValType.Double && Right.Type == ValType.Int)
+        {
+            tempNode = new UnaryOperationNode(LineNo, ValType.Double, OpType.DoubleCast, Right);
+            Right = tempNode;
+        }
+
         // Optimize calculations in those cases - done in switch below
         if(OperatorType != OpType.LogOr && OperatorType != OpType.LogAnd)
         {
@@ -423,7 +437,7 @@ public class UnaryOperationNode : SyntaxTreeNode
                 break;
             case OpType.LogNot:
                 // Create fake node with const 1
-                // Add it to stack and call bit and with old stack top
+                // Add it to stack and call bit xor with old stack top
                 var helperNode = new ConstantNode(-1, ValType.Bool, true);
                 helperNode.GenCode();
                 text = "xor";
