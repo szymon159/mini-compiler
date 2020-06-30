@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 30.06.2020 13:26:32
+// DateTime: 30.06.2020 14:01:02
 // UserName: szymo
-// Input file <../../kompilator.y - 30.06.2020 13:24:42>
+// Input file <../../kompilator.y - 30.06.2020 13:38:09>
 
 // options: conflicts no-lines diagnose & report gplex conflicts
 
@@ -286,8 +286,6 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         break;
       case 3: // start -> error, program, Eof
 {
-                        Compiler.Breakpoint();
-
                         Compiler.AddError(new UnexpectedTokenError(1));
                         yyerrok();
                         YYAbort();
@@ -295,8 +293,6 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         break;
       case 4: // start -> program, error, Eof
 {
-                        Compiler.Breakpoint();
-
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
                         yyerrok();
                         YYAbort();
