@@ -1,25 +1,22 @@
-program
-{
-    int a;
-    bool i;
-    double b;
-    b = 3.5;
+program {
+    int n;
+    double k;
+    
+    while (false) {}
+    while (n < 10) { n = n + 1; }
+    
+    // n = 10;
+    while (n * n <= 100) {
+        n = n * n;
+        n = n - 5;
+        // n = 95
+        write n; write "\n";
+    }
+    
 
-    write 3 - 3;
-    write "\n";
-    write 10 - (3 + 5) / 1;
-    write "\n";
-    write 3 - -3;
-    write "\n";
-    write 3 -- 2;
-    write "\n";
-    write 3 --- 2;
-    write "\n";
-    a = 5 - -   5;
-    a = 10 + -5 * 4 / -(int)b * ~a;
-    a = 14 - 2 * -(4 + 2);
-    write !true;
-    write "\n";
-    write ~(int)!!true;
-
+    
+    while (k < 10)
+        k = k + 1;
+   
+    while(false) while(true) k = 0;
 }
