@@ -1,10 +1,10 @@
 program
 {
-    1;
-    wehfbw
-    fwejfbwef
-    if (else)
-    {
-        /* code */
-    }
-}
+    bool a;
+
+    if(true == true)
+    {}
+
+    if(true == true)
+    {}
+	write "dupeczka";
