@@ -33,7 +33,7 @@ start           :   program Eof
                     }
                 |   error program Eof
                     {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        Compiler.AddError(new UnexpectedTokenError(1));
                         yyerrok();
                         YYABORT;
                     }
@@ -45,7 +45,7 @@ start           :   program Eof
                     }
                 |   error Eof
                     {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        Compiler.AddError(new UnexpectedTokenError(1));
                         yyerrok();
                         YYABORT;
                     }
@@ -70,6 +70,12 @@ declaration     :   type Ident Semicolon
                             Compiler.AddError(new VariableAlreadyDeclaredError(Compiler.GetLineNumber(), $2));
                         }
                     }
+                |   error Eof
+                    {
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        yyerrok();
+                        YYABORT;
+                    }
                 ;
 
 type            :   Int             { $$ = ValType.Int; }
@@ -85,9 +91,15 @@ statements      :
                     {
                         var innerNode = Compiler.GetNode();
                         var blockNode = Compiler.GetNode() as StatementsBlockNode;
-                        blockNode.AddInnerNode(innerNode);
-
-                        Compiler.AddNode(blockNode);
+                        if(blockNode != null)
+                        {
+                            blockNode.AddInnerNode(innerNode);
+                            Compiler.AddNode(blockNode);
+                        }
+                        else
+                        {
+                            Compiler.AddNode(innerNode);
+                        }
                     }
                 ;
 
@@ -105,27 +117,53 @@ block           :   OpenBlock statements CloseBlock
 
 ifStatement     :   If OpenPar exp ClosePar statement
                     {
-                        var thenStatement = Compiler.GetNode();
-                        var condition = Compiler.GetNode();
+                        if($3 != ValType.Bool)
+                        {
+                            var error = new InvalidTypeError(Compiler.GetLineNumber()-1, $3, ValType.Bool);
+                            Compiler.AddError(error);
+                        }
+                        else
+                        {
+                            var thenStatement = Compiler.GetNode();
+                            var condition = Compiler.GetNode();
 
-                        Compiler.AddNode(new IfStatementNode(Compiler.GetLineNumber(), condition, thenStatement));
+                            Compiler.AddNode(new IfStatementNode(Compiler.GetLineNumber(), condition, thenStatement));
+                        }
                     }
                 |   If OpenPar exp ClosePar statement Else statement
                     {
-                        var elseStatement = Compiler.GetNode();
-                        var thenStatement = Compiler.GetNode();
-                        var condition = Compiler.GetNode();
+                        if($3 != ValType.Bool)
+                        {
+                            var error = new InvalidTypeError(Compiler.GetLineNumber()-1, $3, ValType.Bool);
+                            Compiler.AddError(error);
+                        }
+                        else
+                        {
+                            var elseStatement = Compiler.GetNode();
+                            var thenStatement = Compiler.GetNode();
+                            var condition = Compiler.GetNode();
 
-                        Compiler.AddNode(new IfStatementNode(Compiler.GetLineNumber(), condition, thenStatement, elseStatement));
+                            Compiler.AddNode(new IfStatementNode(Compiler.GetLineNumber(), condition, thenStatement, elseStatement));
+                        }
                     }
                 ;
 
 whileStatement  :   While OpenPar exp ClosePar statement
                     {
-                        var thenStatement = Compiler.GetNode();
-                        var condition = Compiler.GetNode();
+                        //Compiler.Breakpoint();
 
-                        Compiler.AddNode(new WhileStatementNode(Compiler.GetLineNumber(), condition, thenStatement));
+                        if($3 != ValType.Bool)
+                        {
+                            var error = new InvalidTypeError(Compiler.GetLineNumber()-1, $3, ValType.Bool);
+                            Compiler.AddError(error);
+                        }
+                        else
+                        {
+                            var thenStatement = Compiler.GetNode();
+                            var condition = Compiler.GetNode();
+
+                            Compiler.AddNode(new WhileStatementNode(Compiler.GetLineNumber(), condition, thenStatement));
+                        }
                     }
                 ;
 
@@ -146,6 +184,12 @@ readStatement   :   Read Ident Semicolon
                             Compiler.AddNode(new ReadNode(Compiler.GetLineNumber(), $2));
                         }
                     }
+                |   Read error Eof
+                    {
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        yyerrok();
+                        YYABORT;
+                    }
                 ;
 
 writeStatement  :   Write exp Semicolon
@@ -157,11 +201,23 @@ writeStatement  :   Write exp Semicolon
                     {
                         Compiler.AddNode(new WriteNode(Compiler.GetLineNumber(), $2));
                     }
+                |   Write error Eof
+                    {
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        yyerrok();
+                        YYABORT;
+                    }
                 ;
 
 expStatement    :   exp Semicolon
                     {
                         Compiler.Pop();
+                    }
+                |   error Eof
+                    {
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
+                        yyerrok();
+                        YYABORT;
                     }
                 ;
 

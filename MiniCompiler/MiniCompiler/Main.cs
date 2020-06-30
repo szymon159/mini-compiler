@@ -97,13 +97,21 @@ public class Compiler
                 Console.WriteLine($"Found {errors.Count} errors:");
                 var syntaxErrors = errors.Where(e => e.IsSyntaxError);
                 var otherErrors = errors.Where(e => !e.IsSyntaxError);
-                Console.WriteLine($"Syntax errors ({syntaxErrors.Count()}):");
+                if(syntaxErrors.Count() > 0)
+                    Console.WriteLine($"Syntax errors ({syntaxErrors.Count()}):");
                 foreach (var error in syntaxErrors)
                     Console.WriteLine($"* {error}");
 
-                Console.WriteLine($"Other errors ({otherErrors.Count()}):");
+                if (otherErrors.Count() > 0)
+                    Console.WriteLine($"Other errors ({otherErrors.Count()}):");
                 foreach (var error in otherErrors)
                     Console.WriteLine($"* {error}");
+
+                // TODO: Remove it
+#if DEBUG
+                Console.WriteLine("\nPress any key to continue...");
+                Console.ReadKey();
+#endif
 
                 return 2;
             }
@@ -116,6 +124,11 @@ public class Compiler
 #endif
 
         return 0;
+    }
+
+    public static void Breakpoint()
+    {
+
     }
 
     public static void AddNode(SyntaxTreeNode node)
@@ -754,17 +767,17 @@ public abstract class MiniCompilerError
     }
 }
 
-public class UnexpectedTokenError: MiniCompilerError
+public class UnexpectedTokenError : MiniCompilerError
 {
     public UnexpectedTokenError(int lineNumber)
-        :base(lineNumber, true)
+    : base(lineNumber, true)
     {
 
     }
 
     public override string ToString()
     {
-        return base.ToString() + $"Unexpected symbol.";
+        return base.ToString() + $"Unexpected symbol. Maybe missing bracket/semicolon or code outside program scope";
     }
 }
 
@@ -778,7 +791,7 @@ public class InvalidSymbolError: MiniCompilerError
 
     public override string ToString()
     {
-        return base.ToString() + $"Invalid character.";
+        return base.ToString() + $"Invalid character (not allowed in grammar).";
     }
 }
 
@@ -847,4 +860,5 @@ public class UndefinedError : MiniCompilerError
         return base.ToString() + "Undefined error.";
     }
 }
+ 
 #endregion
