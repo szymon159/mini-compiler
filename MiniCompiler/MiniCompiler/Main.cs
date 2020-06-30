@@ -57,11 +57,6 @@ public class Compiler
 
     public static int Main(string[] args)
     {
-        // TODO: Remove it
-#if DEBUG
-        args = new string[] { "./code.mini" };
-#endif
-
         string inputFile;
         if (args.Length >= 1)
         {
@@ -107,28 +102,11 @@ public class Compiler
                 foreach (var error in otherErrors)
                     Console.WriteLine($"* {error}");
 
-                // TODO: Remove it
-#if DEBUG
-                Console.WriteLine("\nPress any key to continue...");
-                Console.ReadKey();
-#endif
-
                 return 2;
             }
         }
 
-        // TODO: Remove it
-#if DEBUG
-        Console.WriteLine("\nPress any key to continue...");
-        Console.ReadKey();
-#endif
-
         return 0;
-    }
-
-    public static void Breakpoint()
-    {
-
     }
 
     public static void AddNode(SyntaxTreeNode node)
@@ -208,7 +186,7 @@ public class Compiler
         // Get node from the top and add generating "pop" at CIL stack after generating code
         // Necessary to clean value on stack after expression without assignment
         var topNode = code.Peek();
-        topNode.EnablePopGenerator();
+        topNode.GenPop = true;
     }
 
     public static void IncrementLineNumber()
@@ -228,17 +206,12 @@ public abstract class SyntaxTreeNode
 {
     public int LineNo = -1;
     public ValType Type;
-    protected bool GenPop;
+    public bool GenPop;
 
     public SyntaxTreeNode(int lineNo, ValType type = ValType.None)
     {
         LineNo = lineNo;
         Type = type;
-    }
-
-    public void EnablePopGenerator()
-    {
-        GenPop = true;
     }
 
     public abstract string GenCode();

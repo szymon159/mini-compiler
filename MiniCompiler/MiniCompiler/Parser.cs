@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 30.06.2020 18:12:14
+// DateTime: 30.06.2020 18:26:09
 // UserName: szymo
-// Input file <../../kompilator.y - 30.06.2020 16:11:08>
+// Input file <../../kompilator.y - 30.06.2020 18:19:17>
 
 // options: conflicts no-lines diagnose & report gplex conflicts
 

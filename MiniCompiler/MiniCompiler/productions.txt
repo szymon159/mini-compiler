@@ -2,13 +2,17 @@ Based on productions from following grammar
 Symbols in quotation marks are terminal symbols matched to tokens by rules in kompilator.lex file
 
 
-program         = "program", "{", {declaration}, {statement}, "}";
+program         = "program", "{", declarations, statements, "}";
 
+declarations    = 
+                | declarations, declaration;
 declaration     = type, "ident", ";";
 type            = "int" 
                 | "double" 
                 | "bool";
 
+statements      = 
+                | statements statement;
 statement       =  block 
                 | ifStatement 
                 | whileStatement 
@@ -49,11 +53,12 @@ bitOp           = "|" | "&";
 bitExp          = bitExp, bitOp, unaryExp
                 | unaryExp;
 
-unaryExp        = "-", term
-                | "~", term
-                | "!", term
-                | "(int)", term
-                | "(double)", term;
+unaryExp        = term
+                | "-", unaryExp
+                | "~", unaryExp
+                | "!", unaryExp
+                | "(int)", unaryExp
+                | "(double)", unaryExp;
 
 term            = "ident"
                 | const
