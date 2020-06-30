@@ -1,7 +1,7 @@
 <html><head><title>../../kompilator.y</title></head>
 <body bgcolor="white">
 <hr><pre>
-<b>Grammar and Diagnosis ../../kompilator.y - 30.06.2020 15:23:40</b>
+<b>Grammar and Diagnosis ../../kompilator.y - 30.06.2020 15:26:14</b>
 
 <a name="prod1">    1</a> $accept: start EOF
              ;
@@ -122,8 +122,8 @@
 <a name="prod65">   65</a>         | Minus unaryExp
 <a name="prod66">   66</a>         | BitNot unaryExp
 <a name="prod67">   67</a>         | LogNot unaryExp
-<a name="prod68">   68</a>         | IntCast unaryExp
-<a name="prod69">   69</a>         | DoubleCast unaryExp
+<a name="prod68">   68</a>         | OpenPar Int ClosePar unaryExp
+<a name="prod69">   69</a>         | OpenPar Double ClosePar unaryExp
               ;
 
 <a name="prod70">   70</a> term: Ident
@@ -145,7 +145,7 @@
 
   <b>Parser Actions</b>
     Program        shift, and go to state <a href="#state7">7</a>
-    error          shift, and go to state <a href="#state114">114</a>
+    error          shift, and go to state <a href="#state116">116</a>
 
   <b>Transitions</b>
     start          go to state <a href="#state1">1</a>
@@ -280,7 +280,7 @@
 <b><a name="state7">State</a> <a href="#state7">7</a></b>
     Shortest prefix: Program
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>
-    Predecessors: <a href="#state0">0</a>, <a href="#state114">114</a>
+    Predecessors: <a href="#state0">0</a>, <a href="#state116">116</a>
 
   <b>Kernel Items</b>
     6 program: Program . OpenBlock declarations statements CloseBlock
@@ -318,8 +318,6 @@
     Minus          reduce using <a href="#prod7">rule 7</a> (Erasing declarations)
     BitNot         reduce using <a href="#prod7">rule 7</a> (Erasing declarations)
     LogNot         reduce using <a href="#prod7">rule 7</a> (Erasing declarations)
-    IntCast        reduce using <a href="#prod7">rule 7</a> (Erasing declarations)
-    DoubleCast     reduce using <a href="#prod7">rule 7</a> (Erasing declarations)
 
   <b>Transitions</b>
     declarations   go to state <a href="#state9">9</a>
@@ -336,15 +334,15 @@
 
     <b>Conflicts in this state</b>
       Shift/Reduce conflict on symbol "error", parser will shift
-       Shift "error":	State-9 -> State-112
+       Shift "error":	State-9 -> State-114
        Reduce 14:	statements -> /* empty */
       ---------
 
   <b>Parser Actions</b>
-    Int            shift, and go to state <a href="#state109">109</a>
-    Double         shift, and go to state <a href="#state110">110</a>
-    Bool           shift, and go to state <a href="#state111">111</a>
-    error          shift, and go to state <a href="#state112">112</a>
+    Int            shift, and go to state <a href="#state111">111</a>
+    Double         shift, and go to state <a href="#state112">112</a>
+    Bool           shift, and go to state <a href="#state113">113</a>
+    error          shift, and go to state <a href="#state114">114</a>
     CloseBlock     reduce using <a href="#prod14">rule 14</a> (Erasing statements)
     OpenBlock      reduce using <a href="#prod14">rule 14</a> (Erasing statements)
     If             reduce using <a href="#prod14">rule 14</a> (Erasing statements)
@@ -360,13 +358,11 @@
     Minus          reduce using <a href="#prod14">rule 14</a> (Erasing statements)
     BitNot         reduce using <a href="#prod14">rule 14</a> (Erasing statements)
     LogNot         reduce using <a href="#prod14">rule 14</a> (Erasing statements)
-    IntCast        reduce using <a href="#prod14">rule 14</a> (Erasing statements)
-    DoubleCast     reduce using <a href="#prod14">rule 14</a> (Erasing statements)
 
   <b>Transitions</b>
     statements     go to state <a href="#state10">10</a>
-    declaration    go to state <a href="#state105">105</a>
-    type           go to state <a href="#state106">106</a>
+    declaration    go to state <a href="#state107">107</a>
+    type           go to state <a href="#state108">108</a>
 
 
 <b><a name="state10">State</a> <a href="#state10">10</a></b>
@@ -391,12 +387,10 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-    error          shift, and go to state <a href="#state103">103</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
+    error          shift, and go to state <a href="#state105">105</a>
 
   <b>Transitions</b>
     statement      go to state <a href="#state12">12</a>
@@ -406,14 +400,14 @@
     returnStatement go to state <a href="#state31">31</a>
     readStatement  go to state <a href="#state34">34</a>
     writeStatement go to state <a href="#state40">40</a>
-    expStatement   go to state <a href="#state100">100</a>
-    exp            go to state <a href="#state101">101</a>
+    expStatement   go to state <a href="#state102">102</a>
+    exp            go to state <a href="#state103">103</a>
     logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    relExp         go to state <a href="#state83">83</a>
+    addExp         go to state <a href="#state90">90</a>
+    mulExp         go to state <a href="#state93">93</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
@@ -442,7 +436,7 @@
     15 statements: statements statement .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error }
+                LogNot, error }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod15">rule 15</a> (statements)
@@ -460,8 +454,6 @@
     Minus          reduce using <a href="#prod15">rule 15</a> (statements)
     BitNot         reduce using <a href="#prod15">rule 15</a> (statements)
     LogNot         reduce using <a href="#prod15">rule 15</a> (statements)
-    IntCast        reduce using <a href="#prod15">rule 15</a> (statements)
-    DoubleCast     reduce using <a href="#prod15">rule 15</a> (statements)
     error          reduce using <a href="#prod15">rule 15</a> (statements)
 
 
@@ -475,7 +467,7 @@
     16 statement: block .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod16">rule 16</a> (statement)
@@ -493,8 +485,6 @@
     Minus          reduce using <a href="#prod16">rule 16</a> (statement)
     BitNot         reduce using <a href="#prod16">rule 16</a> (statement)
     LogNot         reduce using <a href="#prod16">rule 16</a> (statement)
-    IntCast        reduce using <a href="#prod16">rule 16</a> (statement)
-    DoubleCast     reduce using <a href="#prod16">rule 16</a> (statement)
     error          reduce using <a href="#prod16">rule 16</a> (statement)
     Else           reduce using <a href="#prod16">rule 16</a> (statement)
 
@@ -524,8 +514,6 @@
     Minus          reduce using <a href="#prod14">rule 14</a> (Erasing statements)
     BitNot         reduce using <a href="#prod14">rule 14</a> (Erasing statements)
     LogNot         reduce using <a href="#prod14">rule 14</a> (Erasing statements)
-    IntCast        reduce using <a href="#prod14">rule 14</a> (Erasing statements)
-    DoubleCast     reduce using <a href="#prod14">rule 14</a> (Erasing statements)
     error          reduce using <a href="#prod14">rule 14</a> (Erasing statements)
 
   <b>Transitions</b>
@@ -554,12 +542,10 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-    error          shift, and go to state <a href="#state103">103</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
+    error          shift, and go to state <a href="#state105">105</a>
 
   <b>Transitions</b>
     statement      go to state <a href="#state12">12</a>
@@ -569,14 +555,14 @@
     returnStatement go to state <a href="#state31">31</a>
     readStatement  go to state <a href="#state34">34</a>
     writeStatement go to state <a href="#state40">40</a>
-    expStatement   go to state <a href="#state100">100</a>
-    exp            go to state <a href="#state101">101</a>
+    expStatement   go to state <a href="#state102">102</a>
+    exp            go to state <a href="#state103">103</a>
     logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    relExp         go to state <a href="#state83">83</a>
+    addExp         go to state <a href="#state90">90</a>
+    mulExp         go to state <a href="#state93">93</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
@@ -590,7 +576,7 @@
     23 block: OpenBlock statements CloseBlock .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod23">rule 23</a> (block)
@@ -608,8 +594,6 @@
     Minus          reduce using <a href="#prod23">rule 23</a> (block)
     BitNot         reduce using <a href="#prod23">rule 23</a> (block)
     LogNot         reduce using <a href="#prod23">rule 23</a> (block)
-    IntCast        reduce using <a href="#prod23">rule 23</a> (block)
-    DoubleCast     reduce using <a href="#prod23">rule 23</a> (block)
     error          reduce using <a href="#prod23">rule 23</a> (block)
     Else           reduce using <a href="#prod23">rule 23</a> (block)
 
@@ -624,7 +608,7 @@
     17 statement: ifStatement .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod17">rule 17</a> (statement)
@@ -642,8 +626,6 @@
     Minus          reduce using <a href="#prod17">rule 17</a> (statement)
     BitNot         reduce using <a href="#prod17">rule 17</a> (statement)
     LogNot         reduce using <a href="#prod17">rule 17</a> (statement)
-    IntCast        reduce using <a href="#prod17">rule 17</a> (statement)
-    DoubleCast     reduce using <a href="#prod17">rule 17</a> (statement)
     error          reduce using <a href="#prod17">rule 17</a> (statement)
     Else           reduce using <a href="#prod17">rule 17</a> (statement)
 
@@ -678,20 +660,18 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
 
   <b>Transitions</b>
     exp            go to state <a href="#state20">20</a>
     logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    relExp         go to state <a href="#state83">83</a>
+    addExp         go to state <a href="#state90">90</a>
+    mulExp         go to state <a href="#state93">93</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
@@ -731,12 +711,10 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-    error          shift, and go to state <a href="#state103">103</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
+    error          shift, and go to state <a href="#state105">105</a>
 
   <b>Transitions</b>
     statement      go to state <a href="#state22">22</a>
@@ -746,14 +724,14 @@
     returnStatement go to state <a href="#state31">31</a>
     readStatement  go to state <a href="#state34">34</a>
     writeStatement go to state <a href="#state40">40</a>
-    expStatement   go to state <a href="#state100">100</a>
-    exp            go to state <a href="#state101">101</a>
+    expStatement   go to state <a href="#state102">102</a>
+    exp            go to state <a href="#state103">103</a>
     logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    relExp         go to state <a href="#state83">83</a>
+    addExp         go to state <a href="#state90">90</a>
+    mulExp         go to state <a href="#state93">93</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
@@ -767,7 +745,7 @@
     24 ifStatement: If OpenPar exp ClosePar statement .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
     25 ifStatement: If OpenPar exp ClosePar statement . Else statement
 
     <b>Conflicts in this state</b>
@@ -793,8 +771,6 @@
     Minus          reduce using <a href="#prod24">rule 24</a> (ifStatement)
     BitNot         reduce using <a href="#prod24">rule 24</a> (ifStatement)
     LogNot         reduce using <a href="#prod24">rule 24</a> (ifStatement)
-    IntCast        reduce using <a href="#prod24">rule 24</a> (ifStatement)
-    DoubleCast     reduce using <a href="#prod24">rule 24</a> (ifStatement)
     error          reduce using <a href="#prod24">rule 24</a> (ifStatement)
 
 
@@ -819,12 +795,10 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-    error          shift, and go to state <a href="#state103">103</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
+    error          shift, and go to state <a href="#state105">105</a>
 
   <b>Transitions</b>
     statement      go to state <a href="#state24">24</a>
@@ -834,14 +808,14 @@
     returnStatement go to state <a href="#state31">31</a>
     readStatement  go to state <a href="#state34">34</a>
     writeStatement go to state <a href="#state40">40</a>
-    expStatement   go to state <a href="#state100">100</a>
-    exp            go to state <a href="#state101">101</a>
+    expStatement   go to state <a href="#state102">102</a>
+    exp            go to state <a href="#state103">103</a>
     logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    relExp         go to state <a href="#state83">83</a>
+    addExp         go to state <a href="#state90">90</a>
+    mulExp         go to state <a href="#state93">93</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
@@ -855,7 +829,7 @@
     25 ifStatement: If OpenPar exp ClosePar statement Else statement .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod25">rule 25</a> (ifStatement)
@@ -873,8 +847,6 @@
     Minus          reduce using <a href="#prod25">rule 25</a> (ifStatement)
     BitNot         reduce using <a href="#prod25">rule 25</a> (ifStatement)
     LogNot         reduce using <a href="#prod25">rule 25</a> (ifStatement)
-    IntCast        reduce using <a href="#prod25">rule 25</a> (ifStatement)
-    DoubleCast     reduce using <a href="#prod25">rule 25</a> (ifStatement)
     error          reduce using <a href="#prod25">rule 25</a> (ifStatement)
     Else           reduce using <a href="#prod25">rule 25</a> (ifStatement)
 
@@ -889,7 +861,7 @@
     18 statement: whileStatement .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod18">rule 18</a> (statement)
@@ -907,8 +879,6 @@
     Minus          reduce using <a href="#prod18">rule 18</a> (statement)
     BitNot         reduce using <a href="#prod18">rule 18</a> (statement)
     LogNot         reduce using <a href="#prod18">rule 18</a> (statement)
-    IntCast        reduce using <a href="#prod18">rule 18</a> (statement)
-    DoubleCast     reduce using <a href="#prod18">rule 18</a> (statement)
     error          reduce using <a href="#prod18">rule 18</a> (statement)
     Else           reduce using <a href="#prod18">rule 18</a> (statement)
 
@@ -941,20 +911,18 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
 
   <b>Transitions</b>
     exp            go to state <a href="#state28">28</a>
     logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    relExp         go to state <a href="#state83">83</a>
+    addExp         go to state <a href="#state90">90</a>
+    mulExp         go to state <a href="#state93">93</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
@@ -992,12 +960,10 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-    error          shift, and go to state <a href="#state103">103</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
+    error          shift, and go to state <a href="#state105">105</a>
 
   <b>Transitions</b>
     statement      go to state <a href="#state30">30</a>
@@ -1007,14 +973,14 @@
     returnStatement go to state <a href="#state31">31</a>
     readStatement  go to state <a href="#state34">34</a>
     writeStatement go to state <a href="#state40">40</a>
-    expStatement   go to state <a href="#state100">100</a>
-    exp            go to state <a href="#state101">101</a>
+    expStatement   go to state <a href="#state102">102</a>
+    exp            go to state <a href="#state103">103</a>
     logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    relExp         go to state <a href="#state83">83</a>
+    addExp         go to state <a href="#state90">90</a>
+    mulExp         go to state <a href="#state93">93</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
@@ -1028,7 +994,7 @@
     26 whileStatement: While OpenPar exp ClosePar statement .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod26">rule 26</a> (whileStatement)
@@ -1046,8 +1012,6 @@
     Minus          reduce using <a href="#prod26">rule 26</a> (whileStatement)
     BitNot         reduce using <a href="#prod26">rule 26</a> (whileStatement)
     LogNot         reduce using <a href="#prod26">rule 26</a> (whileStatement)
-    IntCast        reduce using <a href="#prod26">rule 26</a> (whileStatement)
-    DoubleCast     reduce using <a href="#prod26">rule 26</a> (whileStatement)
     error          reduce using <a href="#prod26">rule 26</a> (whileStatement)
     Else           reduce using <a href="#prod26">rule 26</a> (whileStatement)
 
@@ -1062,7 +1026,7 @@
     19 statement: returnStatement .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod19">rule 19</a> (statement)
@@ -1080,8 +1044,6 @@
     Minus          reduce using <a href="#prod19">rule 19</a> (statement)
     BitNot         reduce using <a href="#prod19">rule 19</a> (statement)
     LogNot         reduce using <a href="#prod19">rule 19</a> (statement)
-    IntCast        reduce using <a href="#prod19">rule 19</a> (statement)
-    DoubleCast     reduce using <a href="#prod19">rule 19</a> (statement)
     error          reduce using <a href="#prod19">rule 19</a> (statement)
     Else           reduce using <a href="#prod19">rule 19</a> (statement)
 
@@ -1109,7 +1071,7 @@
     27 returnStatement: Return Semicolon .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod27">rule 27</a> (returnStatement)
@@ -1127,8 +1089,6 @@
     Minus          reduce using <a href="#prod27">rule 27</a> (returnStatement)
     BitNot         reduce using <a href="#prod27">rule 27</a> (returnStatement)
     LogNot         reduce using <a href="#prod27">rule 27</a> (returnStatement)
-    IntCast        reduce using <a href="#prod27">rule 27</a> (returnStatement)
-    DoubleCast     reduce using <a href="#prod27">rule 27</a> (returnStatement)
     error          reduce using <a href="#prod27">rule 27</a> (returnStatement)
     Else           reduce using <a href="#prod27">rule 27</a> (returnStatement)
 
@@ -1143,7 +1103,7 @@
     20 statement: readStatement .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod20">rule 20</a> (statement)
@@ -1161,8 +1121,6 @@
     Minus          reduce using <a href="#prod20">rule 20</a> (statement)
     BitNot         reduce using <a href="#prod20">rule 20</a> (statement)
     LogNot         reduce using <a href="#prod20">rule 20</a> (statement)
-    IntCast        reduce using <a href="#prod20">rule 20</a> (statement)
-    DoubleCast     reduce using <a href="#prod20">rule 20</a> (statement)
     error          reduce using <a href="#prod20">rule 20</a> (statement)
     Else           reduce using <a href="#prod20">rule 20</a> (statement)
 
@@ -1206,7 +1164,7 @@
     28 readStatement: Read Ident Semicolon .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod28">rule 28</a> (readStatement)
@@ -1224,8 +1182,6 @@
     Minus          reduce using <a href="#prod28">rule 28</a> (readStatement)
     BitNot         reduce using <a href="#prod28">rule 28</a> (readStatement)
     LogNot         reduce using <a href="#prod28">rule 28</a> (readStatement)
-    IntCast        reduce using <a href="#prod28">rule 28</a> (readStatement)
-    DoubleCast     reduce using <a href="#prod28">rule 28</a> (readStatement)
     error          reduce using <a href="#prod28">rule 28</a> (readStatement)
     Else           reduce using <a href="#prod28">rule 28</a> (readStatement)
 
@@ -1240,7 +1196,7 @@
     29 readStatement: Read error .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
     30 readStatement: Read error . Eof
 
   <b>Parser Actions</b>
@@ -1260,8 +1216,6 @@
     Minus          reduce using <a href="#prod29">rule 29</a> (readStatement)
     BitNot         reduce using <a href="#prod29">rule 29</a> (readStatement)
     LogNot         reduce using <a href="#prod29">rule 29</a> (readStatement)
-    IntCast        reduce using <a href="#prod29">rule 29</a> (readStatement)
-    DoubleCast     reduce using <a href="#prod29">rule 29</a> (readStatement)
     error          reduce using <a href="#prod29">rule 29</a> (readStatement)
     Else           reduce using <a href="#prod29">rule 29</a> (readStatement)
 
@@ -1276,7 +1230,7 @@
     30 readStatement: Read error Eof .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod30">rule 30</a> (readStatement)
@@ -1294,8 +1248,6 @@
     Minus          reduce using <a href="#prod30">rule 30</a> (readStatement)
     BitNot         reduce using <a href="#prod30">rule 30</a> (readStatement)
     LogNot         reduce using <a href="#prod30">rule 30</a> (readStatement)
-    IntCast        reduce using <a href="#prod30">rule 30</a> (readStatement)
-    DoubleCast     reduce using <a href="#prod30">rule 30</a> (readStatement)
     error          reduce using <a href="#prod30">rule 30</a> (readStatement)
     Else           reduce using <a href="#prod30">rule 30</a> (readStatement)
 
@@ -1310,7 +1262,7 @@
     21 statement: writeStatement .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod21">rule 21</a> (statement)
@@ -1328,8 +1280,6 @@
     Minus          reduce using <a href="#prod21">rule 21</a> (statement)
     BitNot         reduce using <a href="#prod21">rule 21</a> (statement)
     LogNot         reduce using <a href="#prod21">rule 21</a> (statement)
-    IntCast        reduce using <a href="#prod21">rule 21</a> (statement)
-    DoubleCast     reduce using <a href="#prod21">rule 21</a> (statement)
     error          reduce using <a href="#prod21">rule 21</a> (statement)
     Else           reduce using <a href="#prod21">rule 21</a> (statement)
 
@@ -1354,20 +1304,18 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
 
   <b>Transitions</b>
     exp            go to state <a href="#state42">42</a>
     logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    relExp         go to state <a href="#state83">83</a>
+    addExp         go to state <a href="#state90">90</a>
+    mulExp         go to state <a href="#state93">93</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
@@ -1394,7 +1342,7 @@
     31 writeStatement: Write exp Semicolon .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod31">rule 31</a> (writeStatement)
@@ -1412,8 +1360,6 @@
     Minus          reduce using <a href="#prod31">rule 31</a> (writeStatement)
     BitNot         reduce using <a href="#prod31">rule 31</a> (writeStatement)
     LogNot         reduce using <a href="#prod31">rule 31</a> (writeStatement)
-    IntCast        reduce using <a href="#prod31">rule 31</a> (writeStatement)
-    DoubleCast     reduce using <a href="#prod31">rule 31</a> (writeStatement)
     error          reduce using <a href="#prod31">rule 31</a> (writeStatement)
     Else           reduce using <a href="#prod31">rule 31</a> (writeStatement)
 
@@ -1441,7 +1387,7 @@
     32 writeStatement: Write Text Semicolon .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod32">rule 32</a> (writeStatement)
@@ -1459,8 +1405,6 @@
     Minus          reduce using <a href="#prod32">rule 32</a> (writeStatement)
     BitNot         reduce using <a href="#prod32">rule 32</a> (writeStatement)
     LogNot         reduce using <a href="#prod32">rule 32</a> (writeStatement)
-    IntCast        reduce using <a href="#prod32">rule 32</a> (writeStatement)
-    DoubleCast     reduce using <a href="#prod32">rule 32</a> (writeStatement)
     error          reduce using <a href="#prod32">rule 32</a> (writeStatement)
     Else           reduce using <a href="#prod32">rule 32</a> (writeStatement)
 
@@ -1475,7 +1419,7 @@
     33 writeStatement: Write error .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
     34 writeStatement: Write error . Eof
 
   <b>Parser Actions</b>
@@ -1495,8 +1439,6 @@
     Minus          reduce using <a href="#prod33">rule 33</a> (writeStatement)
     BitNot         reduce using <a href="#prod33">rule 33</a> (writeStatement)
     LogNot         reduce using <a href="#prod33">rule 33</a> (writeStatement)
-    IntCast        reduce using <a href="#prod33">rule 33</a> (writeStatement)
-    DoubleCast     reduce using <a href="#prod33">rule 33</a> (writeStatement)
     error          reduce using <a href="#prod33">rule 33</a> (writeStatement)
     Else           reduce using <a href="#prod33">rule 33</a> (writeStatement)
 
@@ -1511,7 +1453,7 @@
     34 writeStatement: Write error Eof .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod34">rule 34</a> (writeStatement)
@@ -1529,8 +1471,6 @@
     Minus          reduce using <a href="#prod34">rule 34</a> (writeStatement)
     BitNot         reduce using <a href="#prod34">rule 34</a> (writeStatement)
     LogNot         reduce using <a href="#prod34">rule 34</a> (writeStatement)
-    IntCast        reduce using <a href="#prod34">rule 34</a> (writeStatement)
-    DoubleCast     reduce using <a href="#prod34">rule 34</a> (writeStatement)
     error          reduce using <a href="#prod34">rule 34</a> (writeStatement)
     Else           reduce using <a href="#prod34">rule 34</a> (writeStatement)
 
@@ -1583,20 +1523,18 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
 
   <b>Transitions</b>
     exp            go to state <a href="#state50">50</a>
     logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    relExp         go to state <a href="#state83">83</a>
+    addExp         go to state <a href="#state90">90</a>
+    mulExp         go to state <a href="#state93">93</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
@@ -1627,8 +1565,8 @@
     42 logExp: logExp . logOp relExp
 
   <b>Parser Actions</b>
-    LogOr          shift, and go to state <a href="#state98">98</a>
-    LogAnd         shift, and go to state <a href="#state99">99</a>
+    LogOr          shift, and go to state <a href="#state100">100</a>
+    LogAnd         shift, and go to state <a href="#state101">101</a>
     Semicolon      reduce using <a href="#prod39">rule 39</a> (exp)
     ClosePar       reduce using <a href="#prod39">rule 39</a> (exp)
 
@@ -1650,18 +1588,16 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
 
   <b>Transitions</b>
     relExp         go to state <a href="#state53">53</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    addExp         go to state <a href="#state90">90</a>
+    mulExp         go to state <a href="#state93">93</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
@@ -1677,12 +1613,12 @@
     50 relExp: relExp . relOp addExp
 
   <b>Parser Actions</b>
-    Equal          shift, and go to state <a href="#state72">72</a>
-    NotEqual       shift, and go to state <a href="#state73">73</a>
-    Greater        shift, and go to state <a href="#state74">74</a>
-    GreaterOrEqual shift, and go to state <a href="#state75">75</a>
-    Less           shift, and go to state <a href="#state76">76</a>
-    LessOrEqual    shift, and go to state <a href="#state77">77</a>
+    Equal          shift, and go to state <a href="#state84">84</a>
+    NotEqual       shift, and go to state <a href="#state85">85</a>
+    Greater        shift, and go to state <a href="#state86">86</a>
+    GreaterOrEqual shift, and go to state <a href="#state87">87</a>
+    Less           shift, and go to state <a href="#state88">88</a>
+    LessOrEqual    shift, and go to state <a href="#state89">89</a>
     LogOr          reduce using <a href="#prod42">rule 42</a> (logExp)
     LogAnd         reduce using <a href="#prod42">rule 42</a> (logExp)
     Semicolon      reduce using <a href="#prod42">rule 42</a> (logExp)
@@ -1694,8 +1630,8 @@
 
 <b><a name="state54">State</a> <a href="#state54">54</a></b>
     Shortest prefix: Program OpenBlock relExp relOp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state54">54</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state83">83</a>-><a href="#state54">54</a>
+    Predecessors: <a href="#state53">53</a>, <a href="#state83">83</a>
 
   <b>Kernel Items</b>
     50 relExp: relExp relOp . addExp
@@ -1706,24 +1642,22 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
 
   <b>Transitions</b>
     addExp         go to state <a href="#state55">55</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    mulExp         go to state <a href="#state93">93</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
 
 <b><a name="state55">State</a> <a href="#state55">55</a></b>
     Shortest prefix: Program OpenBlock relExp relOp addExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state54">54</a>-><a href="#state55">55</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state83">83</a>-><a href="#state54">54</a>-><a href="#state55">55</a>
     Predecessors: <a href="#state54">54</a>
 
   <b>Kernel Items</b>
@@ -1733,8 +1667,8 @@
     54 addExp: addExp . addOp mulExp
 
   <b>Parser Actions</b>
-    Plus           shift, and go to state <a href="#state79">79</a>
-    Minus          shift, and go to state <a href="#state80">80</a>
+    Plus           shift, and go to state <a href="#state91">91</a>
+    Minus          shift, and go to state <a href="#state92">92</a>
     Equal          reduce using <a href="#prod50">rule 50</a> (relExp)
     NotEqual       reduce using <a href="#prod50">rule 50</a> (relExp)
     Greater        reduce using <a href="#prod50">rule 50</a> (relExp)
@@ -1752,8 +1686,8 @@
 
 <b><a name="state56">State</a> <a href="#state56">56</a></b>
     Shortest prefix: Program OpenBlock addExp addOp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state78">78</a>-><a href="#state56">56</a>
-    Predecessors: <a href="#state55">55</a>, <a href="#state78">78</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>-><a href="#state56">56</a>
+    Predecessors: <a href="#state55">55</a>, <a href="#state90">90</a>
 
   <b>Kernel Items</b>
     54 addExp: addExp addOp . mulExp
@@ -1764,23 +1698,21 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
 
   <b>Transitions</b>
     mulExp         go to state <a href="#state57">57</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
 
 <b><a name="state57">State</a> <a href="#state57">57</a></b>
     Shortest prefix: Program OpenBlock addExp addOp mulExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state78">78</a>-><a href="#state56">56</a>-><a href="#state57">57</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>-><a href="#state56">56</a>-><a href="#state57">57</a>
     Predecessors: <a href="#state56">56</a>
 
   <b>Kernel Items</b>
@@ -1790,8 +1722,8 @@
     58 mulExp: mulExp . mulOp bitExp
 
   <b>Parser Actions</b>
-    Multiply       shift, and go to state <a href="#state82">82</a>
-    Divide         shift, and go to state <a href="#state83">83</a>
+    Multiply       shift, and go to state <a href="#state94">94</a>
+    Divide         shift, and go to state <a href="#state95">95</a>
     Plus           reduce using <a href="#prod54">rule 54</a> (addExp)
     Minus          reduce using <a href="#prod54">rule 54</a> (addExp)
     Equal          reduce using <a href="#prod54">rule 54</a> (addExp)
@@ -1811,8 +1743,8 @@
 
 <b><a name="state58">State</a> <a href="#state58">58</a></b>
     Shortest prefix: Program OpenBlock mulExp mulOp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state81">81</a>-><a href="#state58">58</a>
-    Predecessors: <a href="#state57">57</a>, <a href="#state81">81</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state93">93</a>-><a href="#state58">58</a>
+    Predecessors: <a href="#state57">57</a>, <a href="#state93">93</a>
 
   <b>Kernel Items</b>
     58 mulExp: mulExp mulOp . bitExp
@@ -1823,22 +1755,20 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
 
   <b>Transitions</b>
     bitExp         go to state <a href="#state59">59</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
 
 <b><a name="state59">State</a> <a href="#state59">59</a></b>
     Shortest prefix: Program OpenBlock mulExp mulOp bitExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state81">81</a>-><a href="#state58">58</a>-><a href="#state59">59</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state93">93</a>-><a href="#state58">58</a>-><a href="#state59">59</a>
     Predecessors: <a href="#state58">58</a>
 
   <b>Kernel Items</b>
@@ -1849,8 +1779,8 @@
     62 bitExp: bitExp . bitOp unaryExp
 
   <b>Parser Actions</b>
-    BitOr          shift, and go to state <a href="#state85">85</a>
-    BitAnd         shift, and go to state <a href="#state86">86</a>
+    BitOr          shift, and go to state <a href="#state97">97</a>
+    BitAnd         shift, and go to state <a href="#state98">98</a>
     Multiply       reduce using <a href="#prod58">rule 58</a> (mulExp)
     Divide         reduce using <a href="#prod58">rule 58</a> (mulExp)
     Plus           reduce using <a href="#prod58">rule 58</a> (mulExp)
@@ -1872,8 +1802,8 @@
 
 <b><a name="state60">State</a> <a href="#state60">60</a></b>
     Shortest prefix: Program OpenBlock bitExp bitOp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state84">84</a>-><a href="#state60">60</a>
-    Predecessors: <a href="#state59">59</a>, <a href="#state84">84</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state96">96</a>-><a href="#state60">60</a>
+    Predecessors: <a href="#state59">59</a>, <a href="#state96">96</a>
 
   <b>Kernel Items</b>
     62 bitExp: bitExp bitOp . unaryExp
@@ -1884,11 +1814,9 @@
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
 
   <b>Transitions</b>
     unaryExp       go to state <a href="#state61">61</a>
@@ -1898,7 +1826,7 @@
 
 <b><a name="state61">State</a> <a href="#state61">61</a></b>
     Shortest prefix: Program OpenBlock bitExp bitOp unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state84">84</a>-><a href="#state60">60</a>-><a href="#state61">61</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state96">96</a>-><a href="#state60">60</a>-><a href="#state61">61</a>
     Predecessors: <a href="#state60">60</a>
 
   <b>Kernel Items</b>
@@ -1930,8 +1858,8 @@
 <b><a name="state62">State</a> <a href="#state62">62</a></b>
     Shortest prefix: Program OpenBlock term
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state62">62</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state72">72</a>, 
+                  <a href="#state74">74</a>, <a href="#state76">76</a>, <a href="#state78">78</a>, <a href="#state81">81</a>
 
   <b>Kernel Items</b>
     64 unaryExp: term .
@@ -1961,8 +1889,8 @@
 
 <b><a name="state63">State</a> <a href="#state63">63</a></b>
     Shortest prefix: Program OpenBlock Minus Ident
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state88">88</a>-><a href="#state63">63</a>
-    Predecessors: <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state74">74</a>-><a href="#state63">63</a>
+    Predecessors: <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state72">72</a>, <a href="#state74">74</a>, <a href="#state76">76</a>, <a href="#state78">78</a>, <a href="#state81">81</a>
 
   <b>Kernel Items</b>
     70 term: Ident .
@@ -1993,8 +1921,8 @@
 <b><a name="state64">State</a> <a href="#state64">64</a></b>
     Shortest prefix: Program OpenBlock const
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state64">64</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state72">72</a>, 
+                  <a href="#state74">74</a>, <a href="#state76">76</a>, <a href="#state78">78</a>, <a href="#state81">81</a>
 
   <b>Kernel Items</b>
     71 term: const .
@@ -2025,8 +1953,8 @@
 <b><a name="state65">State</a> <a href="#state65">65</a></b>
     Shortest prefix: Program OpenBlock IntValue
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state65">65</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state72">72</a>, 
+                  <a href="#state74">74</a>, <a href="#state76">76</a>, <a href="#state78">78</a>, <a href="#state81">81</a>
 
   <b>Kernel Items</b>
     73 const: IntValue .
@@ -2057,8 +1985,8 @@
 <b><a name="state66">State</a> <a href="#state66">66</a></b>
     Shortest prefix: Program OpenBlock DoubleValue
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state66">66</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state72">72</a>, 
+                  <a href="#state74">74</a>, <a href="#state76">76</a>, <a href="#state78">78</a>, <a href="#state81">81</a>
 
   <b>Kernel Items</b>
     74 const: DoubleValue .
@@ -2089,8 +2017,8 @@
 <b><a name="state67">State</a> <a href="#state67">67</a></b>
     Shortest prefix: Program OpenBlock BoolValue
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state67">67</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state72">72</a>, 
+                  <a href="#state74">74</a>, <a href="#state76">76</a>, <a href="#state78">78</a>, <a href="#state81">81</a>
 
   <b>Kernel Items</b>
     75 const: BoolValue .
@@ -2121,32 +2049,34 @@
 <b><a name="state68">State</a> <a href="#state68">68</a></b>
     Shortest prefix: Program OpenBlock OpenPar
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state68">68</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state72">72</a>, 
+                  <a href="#state74">74</a>, <a href="#state76">76</a>, <a href="#state78">78</a>, <a href="#state81">81</a>
 
   <b>Kernel Items</b>
     72 term: OpenPar . exp ClosePar
+    68 unaryExp: OpenPar . Int ClosePar unaryExp
+    69 unaryExp: OpenPar . Double ClosePar unaryExp
 
   <b>Parser Actions</b>
+    Int            shift, and go to state <a href="#state71">71</a>
+    Double         shift, and go to state <a href="#state80">80</a>
     Ident          shift, and go to state <a href="#state48">48</a>
     IntValue       shift, and go to state <a href="#state65">65</a>
     DoubleValue    shift, and go to state <a href="#state66">66</a>
     BoolValue      shift, and go to state <a href="#state67">67</a>
     OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
 
   <b>Transitions</b>
     exp            go to state <a href="#state69">69</a>
     logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
+    relExp         go to state <a href="#state83">83</a>
+    addExp         go to state <a href="#state90">90</a>
+    mulExp         go to state <a href="#state93">93</a>
+    bitExp         go to state <a href="#state96">96</a>
+    unaryExp       go to state <a href="#state99">99</a>
     term           go to state <a href="#state62">62</a>
     const          go to state <a href="#state64">64</a>
 
@@ -2196,8 +2126,312 @@
 
 
 <b><a name="state71">State</a> <a href="#state71">71</a></b>
+    Shortest prefix: Program OpenBlock OpenPar Int
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state68">68</a>-><a href="#state71">71</a>
+    Predecessors: <a href="#state68">68</a>
+
+  <b>Kernel Items</b>
+    68 unaryExp: OpenPar Int . ClosePar unaryExp
+
+  <b>Parser Actions</b>
+    ClosePar       shift, and go to state <a href="#state72">72</a>
+
+
+
+<b><a name="state72">State</a> <a href="#state72">72</a></b>
+    Shortest prefix: Program OpenBlock OpenPar Int ClosePar
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state68">68</a>-><a href="#state71">71</a>-><a href="#state72">72</a>
+    Predecessors: <a href="#state71">71</a>
+
+  <b>Kernel Items</b>
+    68 unaryExp: OpenPar Int ClosePar . unaryExp
+
+  <b>Parser Actions</b>
+    Ident          shift, and go to state <a href="#state63">63</a>
+    IntValue       shift, and go to state <a href="#state65">65</a>
+    DoubleValue    shift, and go to state <a href="#state66">66</a>
+    BoolValue      shift, and go to state <a href="#state67">67</a>
+    OpenPar        shift, and go to state <a href="#state68">68</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
+
+  <b>Transitions</b>
+    unaryExp       go to state <a href="#state73">73</a>
+    term           go to state <a href="#state62">62</a>
+    const          go to state <a href="#state64">64</a>
+
+
+<b><a name="state73">State</a> <a href="#state73">73</a></b>
+    Shortest prefix: Program OpenBlock OpenPar Int ClosePar unaryExp
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state68">68</a>-><a href="#state71">71</a>-><a href="#state72">72</a>-><a href="#state73">73</a>
+    Predecessors: <a href="#state72">72</a>
+
+  <b>Kernel Items</b>
+    68 unaryExp: OpenPar Int ClosePar unaryExp .
+	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
+                Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
+                Semicolon, ClosePar }
+
+  <b>Parser Actions</b>
+    BitOr          reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    BitAnd         reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    Multiply       reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    Divide         reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    Plus           reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    Minus          reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    Equal          reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    NotEqual       reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    Greater        reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    GreaterOrEqual reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    Less           reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    LessOrEqual    reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    LogOr          reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    LogAnd         reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    Semicolon      reduce using <a href="#prod68">rule 68</a> (unaryExp)
+    ClosePar       reduce using <a href="#prod68">rule 68</a> (unaryExp)
+
+
+
+<b><a name="state74">State</a> <a href="#state74">74</a></b>
+    Shortest prefix: Program OpenBlock Minus
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state74">74</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state72">72</a>, 
+                  <a href="#state74">74</a>, <a href="#state76">76</a>, <a href="#state78">78</a>, <a href="#state81">81</a>
+
+  <b>Kernel Items</b>
+    65 unaryExp: Minus . unaryExp
+
+  <b>Parser Actions</b>
+    Ident          shift, and go to state <a href="#state63">63</a>
+    IntValue       shift, and go to state <a href="#state65">65</a>
+    DoubleValue    shift, and go to state <a href="#state66">66</a>
+    BoolValue      shift, and go to state <a href="#state67">67</a>
+    OpenPar        shift, and go to state <a href="#state68">68</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
+
+  <b>Transitions</b>
+    unaryExp       go to state <a href="#state75">75</a>
+    term           go to state <a href="#state62">62</a>
+    const          go to state <a href="#state64">64</a>
+
+
+<b><a name="state75">State</a> <a href="#state75">75</a></b>
+    Shortest prefix: Program OpenBlock Minus unaryExp
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state74">74</a>-><a href="#state75">75</a>
+    Predecessors: <a href="#state74">74</a>
+
+  <b>Kernel Items</b>
+    65 unaryExp: Minus unaryExp .
+	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
+                Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
+                Semicolon, ClosePar }
+
+  <b>Parser Actions</b>
+    BitOr          reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    BitAnd         reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    Multiply       reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    Divide         reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    Plus           reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    Minus          reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    Equal          reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    NotEqual       reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    Greater        reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    GreaterOrEqual reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    Less           reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    LessOrEqual    reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    LogOr          reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    LogAnd         reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    Semicolon      reduce using <a href="#prod65">rule 65</a> (unaryExp)
+    ClosePar       reduce using <a href="#prod65">rule 65</a> (unaryExp)
+
+
+
+<b><a name="state76">State</a> <a href="#state76">76</a></b>
+    Shortest prefix: Program OpenBlock BitNot
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state76">76</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state72">72</a>, 
+                  <a href="#state74">74</a>, <a href="#state76">76</a>, <a href="#state78">78</a>, <a href="#state81">81</a>
+
+  <b>Kernel Items</b>
+    66 unaryExp: BitNot . unaryExp
+
+  <b>Parser Actions</b>
+    Ident          shift, and go to state <a href="#state63">63</a>
+    IntValue       shift, and go to state <a href="#state65">65</a>
+    DoubleValue    shift, and go to state <a href="#state66">66</a>
+    BoolValue      shift, and go to state <a href="#state67">67</a>
+    OpenPar        shift, and go to state <a href="#state68">68</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
+
+  <b>Transitions</b>
+    unaryExp       go to state <a href="#state77">77</a>
+    term           go to state <a href="#state62">62</a>
+    const          go to state <a href="#state64">64</a>
+
+
+<b><a name="state77">State</a> <a href="#state77">77</a></b>
+    Shortest prefix: Program OpenBlock BitNot unaryExp
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state76">76</a>-><a href="#state77">77</a>
+    Predecessors: <a href="#state76">76</a>
+
+  <b>Kernel Items</b>
+    66 unaryExp: BitNot unaryExp .
+	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
+                Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
+                Semicolon, ClosePar }
+
+  <b>Parser Actions</b>
+    BitOr          reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    BitAnd         reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    Multiply       reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    Divide         reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    Plus           reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    Minus          reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    Equal          reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    NotEqual       reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    Greater        reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    GreaterOrEqual reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    Less           reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    LessOrEqual    reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    LogOr          reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    LogAnd         reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    Semicolon      reduce using <a href="#prod66">rule 66</a> (unaryExp)
+    ClosePar       reduce using <a href="#prod66">rule 66</a> (unaryExp)
+
+
+
+<b><a name="state78">State</a> <a href="#state78">78</a></b>
+    Shortest prefix: Program OpenBlock LogNot
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state78">78</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state72">72</a>, 
+                  <a href="#state74">74</a>, <a href="#state76">76</a>, <a href="#state78">78</a>, <a href="#state81">81</a>
+
+  <b>Kernel Items</b>
+    67 unaryExp: LogNot . unaryExp
+
+  <b>Parser Actions</b>
+    Ident          shift, and go to state <a href="#state63">63</a>
+    IntValue       shift, and go to state <a href="#state65">65</a>
+    DoubleValue    shift, and go to state <a href="#state66">66</a>
+    BoolValue      shift, and go to state <a href="#state67">67</a>
+    OpenPar        shift, and go to state <a href="#state68">68</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
+
+  <b>Transitions</b>
+    unaryExp       go to state <a href="#state79">79</a>
+    term           go to state <a href="#state62">62</a>
+    const          go to state <a href="#state64">64</a>
+
+
+<b><a name="state79">State</a> <a href="#state79">79</a></b>
+    Shortest prefix: Program OpenBlock LogNot unaryExp
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state78">78</a>-><a href="#state79">79</a>
+    Predecessors: <a href="#state78">78</a>
+
+  <b>Kernel Items</b>
+    67 unaryExp: LogNot unaryExp .
+	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
+                Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
+                Semicolon, ClosePar }
+
+  <b>Parser Actions</b>
+    BitOr          reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    BitAnd         reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    Multiply       reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    Divide         reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    Plus           reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    Minus          reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    Equal          reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    NotEqual       reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    Greater        reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    GreaterOrEqual reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    Less           reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    LessOrEqual    reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    LogOr          reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    LogAnd         reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    Semicolon      reduce using <a href="#prod67">rule 67</a> (unaryExp)
+    ClosePar       reduce using <a href="#prod67">rule 67</a> (unaryExp)
+
+
+
+<b><a name="state80">State</a> <a href="#state80">80</a></b>
+    Shortest prefix: Program OpenBlock OpenPar Double
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state68">68</a>-><a href="#state80">80</a>
+    Predecessors: <a href="#state68">68</a>
+
+  <b>Kernel Items</b>
+    69 unaryExp: OpenPar Double . ClosePar unaryExp
+
+  <b>Parser Actions</b>
+    ClosePar       shift, and go to state <a href="#state81">81</a>
+
+
+
+<b><a name="state81">State</a> <a href="#state81">81</a></b>
+    Shortest prefix: Program OpenBlock OpenPar Double ClosePar
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state68">68</a>-><a href="#state80">80</a>-><a href="#state81">81</a>
+    Predecessors: <a href="#state80">80</a>
+
+  <b>Kernel Items</b>
+    69 unaryExp: OpenPar Double ClosePar . unaryExp
+
+  <b>Parser Actions</b>
+    Ident          shift, and go to state <a href="#state63">63</a>
+    IntValue       shift, and go to state <a href="#state65">65</a>
+    DoubleValue    shift, and go to state <a href="#state66">66</a>
+    BoolValue      shift, and go to state <a href="#state67">67</a>
+    OpenPar        shift, and go to state <a href="#state68">68</a>
+    Minus          shift, and go to state <a href="#state74">74</a>
+    BitNot         shift, and go to state <a href="#state76">76</a>
+    LogNot         shift, and go to state <a href="#state78">78</a>
+
+  <b>Transitions</b>
+    unaryExp       go to state <a href="#state82">82</a>
+    term           go to state <a href="#state62">62</a>
+    const          go to state <a href="#state64">64</a>
+
+
+<b><a name="state82">State</a> <a href="#state82">82</a></b>
+    Shortest prefix: Program OpenBlock OpenPar Double ClosePar unaryExp
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state68">68</a>-><a href="#state80">80</a>-><a href="#state81">81</a>-><a href="#state82">82</a>
+    Predecessors: <a href="#state81">81</a>
+
+  <b>Kernel Items</b>
+    69 unaryExp: OpenPar Double ClosePar unaryExp .
+	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
+                Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
+                Semicolon, ClosePar }
+
+  <b>Parser Actions</b>
+    BitOr          reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    BitAnd         reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    Multiply       reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    Divide         reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    Plus           reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    Minus          reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    Equal          reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    NotEqual       reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    Greater        reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    GreaterOrEqual reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    Less           reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    LessOrEqual    reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    LogOr          reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    LogAnd         reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    Semicolon      reduce using <a href="#prod69">rule 69</a> (unaryExp)
+    ClosePar       reduce using <a href="#prod69">rule 69</a> (unaryExp)
+
+
+
+<b><a name="state83">State</a> <a href="#state83">83</a></b>
     Shortest prefix: Program OpenBlock relExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state83">83</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state68">68</a>
 
   <b>Kernel Items</b>
@@ -2206,12 +2440,12 @@
     50 relExp: relExp . relOp addExp
 
   <b>Parser Actions</b>
-    Equal          shift, and go to state <a href="#state72">72</a>
-    NotEqual       shift, and go to state <a href="#state73">73</a>
-    Greater        shift, and go to state <a href="#state74">74</a>
-    GreaterOrEqual shift, and go to state <a href="#state75">75</a>
-    Less           shift, and go to state <a href="#state76">76</a>
-    LessOrEqual    shift, and go to state <a href="#state77">77</a>
+    Equal          shift, and go to state <a href="#state84">84</a>
+    NotEqual       shift, and go to state <a href="#state85">85</a>
+    Greater        shift, and go to state <a href="#state86">86</a>
+    GreaterOrEqual shift, and go to state <a href="#state87">87</a>
+    Less           shift, and go to state <a href="#state88">88</a>
+    LessOrEqual    shift, and go to state <a href="#state89">89</a>
     LogOr          reduce using <a href="#prod43">rule 43</a> (logExp)
     LogAnd         reduce using <a href="#prod43">rule 43</a> (logExp)
     Semicolon      reduce using <a href="#prod43">rule 43</a> (logExp)
@@ -2221,15 +2455,15 @@
     relOp          go to state <a href="#state54">54</a>
 
 
-<b><a name="state72">State</a> <a href="#state72">72</a></b>
+<b><a name="state84">State</a> <a href="#state84">84</a></b>
     Shortest prefix: Program OpenBlock relExp Equal
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state72">72</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state83">83</a>-><a href="#state84">84</a>
+    Predecessors: <a href="#state53">53</a>, <a href="#state83">83</a>
 
   <b>Kernel Items</b>
     44 relOp: Equal .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod44">rule 44</a> (relOp)
@@ -2240,20 +2474,18 @@
     Minus          reduce using <a href="#prod44">rule 44</a> (relOp)
     BitNot         reduce using <a href="#prod44">rule 44</a> (relOp)
     LogNot         reduce using <a href="#prod44">rule 44</a> (relOp)
-    IntCast        reduce using <a href="#prod44">rule 44</a> (relOp)
-    DoubleCast     reduce using <a href="#prod44">rule 44</a> (relOp)
 
 
 
-<b><a name="state73">State</a> <a href="#state73">73</a></b>
+<b><a name="state85">State</a> <a href="#state85">85</a></b>
     Shortest prefix: Program OpenBlock relExp NotEqual
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state73">73</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state83">83</a>-><a href="#state85">85</a>
+    Predecessors: <a href="#state53">53</a>, <a href="#state83">83</a>
 
   <b>Kernel Items</b>
     45 relOp: NotEqual .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod45">rule 45</a> (relOp)
@@ -2264,20 +2496,18 @@
     Minus          reduce using <a href="#prod45">rule 45</a> (relOp)
     BitNot         reduce using <a href="#prod45">rule 45</a> (relOp)
     LogNot         reduce using <a href="#prod45">rule 45</a> (relOp)
-    IntCast        reduce using <a href="#prod45">rule 45</a> (relOp)
-    DoubleCast     reduce using <a href="#prod45">rule 45</a> (relOp)
 
 
 
-<b><a name="state74">State</a> <a href="#state74">74</a></b>
+<b><a name="state86">State</a> <a href="#state86">86</a></b>
     Shortest prefix: Program OpenBlock relExp Greater
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state74">74</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state83">83</a>-><a href="#state86">86</a>
+    Predecessors: <a href="#state53">53</a>, <a href="#state83">83</a>
 
   <b>Kernel Items</b>
     46 relOp: Greater .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod46">rule 46</a> (relOp)
@@ -2288,20 +2518,18 @@
     Minus          reduce using <a href="#prod46">rule 46</a> (relOp)
     BitNot         reduce using <a href="#prod46">rule 46</a> (relOp)
     LogNot         reduce using <a href="#prod46">rule 46</a> (relOp)
-    IntCast        reduce using <a href="#prod46">rule 46</a> (relOp)
-    DoubleCast     reduce using <a href="#prod46">rule 46</a> (relOp)
 
 
 
-<b><a name="state75">State</a> <a href="#state75">75</a></b>
+<b><a name="state87">State</a> <a href="#state87">87</a></b>
     Shortest prefix: Program OpenBlock relExp GreaterOrEqual
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state75">75</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state83">83</a>-><a href="#state87">87</a>
+    Predecessors: <a href="#state53">53</a>, <a href="#state83">83</a>
 
   <b>Kernel Items</b>
     47 relOp: GreaterOrEqual .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod47">rule 47</a> (relOp)
@@ -2312,20 +2540,18 @@
     Minus          reduce using <a href="#prod47">rule 47</a> (relOp)
     BitNot         reduce using <a href="#prod47">rule 47</a> (relOp)
     LogNot         reduce using <a href="#prod47">rule 47</a> (relOp)
-    IntCast        reduce using <a href="#prod47">rule 47</a> (relOp)
-    DoubleCast     reduce using <a href="#prod47">rule 47</a> (relOp)
 
 
 
-<b><a name="state76">State</a> <a href="#state76">76</a></b>
+<b><a name="state88">State</a> <a href="#state88">88</a></b>
     Shortest prefix: Program OpenBlock relExp Less
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state76">76</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state83">83</a>-><a href="#state88">88</a>
+    Predecessors: <a href="#state53">53</a>, <a href="#state83">83</a>
 
   <b>Kernel Items</b>
     48 relOp: Less .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod48">rule 48</a> (relOp)
@@ -2336,20 +2562,18 @@
     Minus          reduce using <a href="#prod48">rule 48</a> (relOp)
     BitNot         reduce using <a href="#prod48">rule 48</a> (relOp)
     LogNot         reduce using <a href="#prod48">rule 48</a> (relOp)
-    IntCast        reduce using <a href="#prod48">rule 48</a> (relOp)
-    DoubleCast     reduce using <a href="#prod48">rule 48</a> (relOp)
 
 
 
-<b><a name="state77">State</a> <a href="#state77">77</a></b>
+<b><a name="state89">State</a> <a href="#state89">89</a></b>
     Shortest prefix: Program OpenBlock relExp LessOrEqual
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state77">77</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state83">83</a>-><a href="#state89">89</a>
+    Predecessors: <a href="#state53">53</a>, <a href="#state83">83</a>
 
   <b>Kernel Items</b>
     49 relOp: LessOrEqual .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod49">rule 49</a> (relOp)
@@ -2360,14 +2584,12 @@
     Minus          reduce using <a href="#prod49">rule 49</a> (relOp)
     BitNot         reduce using <a href="#prod49">rule 49</a> (relOp)
     LogNot         reduce using <a href="#prod49">rule 49</a> (relOp)
-    IntCast        reduce using <a href="#prod49">rule 49</a> (relOp)
-    DoubleCast     reduce using <a href="#prod49">rule 49</a> (relOp)
 
 
 
-<b><a name="state78">State</a> <a href="#state78">78</a></b>
+<b><a name="state90">State</a> <a href="#state90">90</a></b>
     Shortest prefix: Program OpenBlock addExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state78">78</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state68">68</a>
 
   <b>Kernel Items</b>
@@ -2377,8 +2599,8 @@
     54 addExp: addExp . addOp mulExp
 
   <b>Parser Actions</b>
-    Plus           shift, and go to state <a href="#state79">79</a>
-    Minus          shift, and go to state <a href="#state80">80</a>
+    Plus           shift, and go to state <a href="#state91">91</a>
+    Minus          shift, and go to state <a href="#state92">92</a>
     Equal          reduce using <a href="#prod51">rule 51</a> (relExp)
     NotEqual       reduce using <a href="#prod51">rule 51</a> (relExp)
     Greater        reduce using <a href="#prod51">rule 51</a> (relExp)
@@ -2394,15 +2616,15 @@
     addOp          go to state <a href="#state56">56</a>
 
 
-<b><a name="state79">State</a> <a href="#state79">79</a></b>
+<b><a name="state91">State</a> <a href="#state91">91</a></b>
     Shortest prefix: Program OpenBlock addExp Plus
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state78">78</a>-><a href="#state79">79</a>
-    Predecessors: <a href="#state55">55</a>, <a href="#state78">78</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>-><a href="#state91">91</a>
+    Predecessors: <a href="#state55">55</a>, <a href="#state90">90</a>
 
   <b>Kernel Items</b>
     52 addOp: Plus .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod52">rule 52</a> (addOp)
@@ -2413,20 +2635,18 @@
     Minus          reduce using <a href="#prod52">rule 52</a> (addOp)
     BitNot         reduce using <a href="#prod52">rule 52</a> (addOp)
     LogNot         reduce using <a href="#prod52">rule 52</a> (addOp)
-    IntCast        reduce using <a href="#prod52">rule 52</a> (addOp)
-    DoubleCast     reduce using <a href="#prod52">rule 52</a> (addOp)
 
 
 
-<b><a name="state80">State</a> <a href="#state80">80</a></b>
+<b><a name="state92">State</a> <a href="#state92">92</a></b>
     Shortest prefix: Program OpenBlock addExp Minus
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state78">78</a>-><a href="#state80">80</a>
-    Predecessors: <a href="#state55">55</a>, <a href="#state78">78</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>-><a href="#state92">92</a>
+    Predecessors: <a href="#state55">55</a>, <a href="#state90">90</a>
 
   <b>Kernel Items</b>
     53 addOp: Minus .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod53">rule 53</a> (addOp)
@@ -2437,14 +2657,12 @@
     Minus          reduce using <a href="#prod53">rule 53</a> (addOp)
     BitNot         reduce using <a href="#prod53">rule 53</a> (addOp)
     LogNot         reduce using <a href="#prod53">rule 53</a> (addOp)
-    IntCast        reduce using <a href="#prod53">rule 53</a> (addOp)
-    DoubleCast     reduce using <a href="#prod53">rule 53</a> (addOp)
 
 
 
-<b><a name="state81">State</a> <a href="#state81">81</a></b>
+<b><a name="state93">State</a> <a href="#state93">93</a></b>
     Shortest prefix: Program OpenBlock mulExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state81">81</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state93">93</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state68">68</a>
 
   <b>Kernel Items</b>
@@ -2454,8 +2672,8 @@
     58 mulExp: mulExp . mulOp bitExp
 
   <b>Parser Actions</b>
-    Multiply       shift, and go to state <a href="#state82">82</a>
-    Divide         shift, and go to state <a href="#state83">83</a>
+    Multiply       shift, and go to state <a href="#state94">94</a>
+    Divide         shift, and go to state <a href="#state95">95</a>
     Plus           reduce using <a href="#prod55">rule 55</a> (addExp)
     Minus          reduce using <a href="#prod55">rule 55</a> (addExp)
     Equal          reduce using <a href="#prod55">rule 55</a> (addExp)
@@ -2473,15 +2691,15 @@
     mulOp          go to state <a href="#state58">58</a>
 
 
-<b><a name="state82">State</a> <a href="#state82">82</a></b>
+<b><a name="state94">State</a> <a href="#state94">94</a></b>
     Shortest prefix: Program OpenBlock mulExp Multiply
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state81">81</a>-><a href="#state82">82</a>
-    Predecessors: <a href="#state57">57</a>, <a href="#state81">81</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state93">93</a>-><a href="#state94">94</a>
+    Predecessors: <a href="#state57">57</a>, <a href="#state93">93</a>
 
   <b>Kernel Items</b>
     56 mulOp: Multiply .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod56">rule 56</a> (mulOp)
@@ -2492,20 +2710,18 @@
     Minus          reduce using <a href="#prod56">rule 56</a> (mulOp)
     BitNot         reduce using <a href="#prod56">rule 56</a> (mulOp)
     LogNot         reduce using <a href="#prod56">rule 56</a> (mulOp)
-    IntCast        reduce using <a href="#prod56">rule 56</a> (mulOp)
-    DoubleCast     reduce using <a href="#prod56">rule 56</a> (mulOp)
 
 
 
-<b><a name="state83">State</a> <a href="#state83">83</a></b>
+<b><a name="state95">State</a> <a href="#state95">95</a></b>
     Shortest prefix: Program OpenBlock mulExp Divide
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state81">81</a>-><a href="#state83">83</a>
-    Predecessors: <a href="#state57">57</a>, <a href="#state81">81</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state93">93</a>-><a href="#state95">95</a>
+    Predecessors: <a href="#state57">57</a>, <a href="#state93">93</a>
 
   <b>Kernel Items</b>
     57 mulOp: Divide .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod57">rule 57</a> (mulOp)
@@ -2516,14 +2732,12 @@
     Minus          reduce using <a href="#prod57">rule 57</a> (mulOp)
     BitNot         reduce using <a href="#prod57">rule 57</a> (mulOp)
     LogNot         reduce using <a href="#prod57">rule 57</a> (mulOp)
-    IntCast        reduce using <a href="#prod57">rule 57</a> (mulOp)
-    DoubleCast     reduce using <a href="#prod57">rule 57</a> (mulOp)
 
 
 
-<b><a name="state84">State</a> <a href="#state84">84</a></b>
+<b><a name="state96">State</a> <a href="#state96">96</a></b>
     Shortest prefix: Program OpenBlock bitExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state84">84</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state96">96</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state68">68</a>
 
   <b>Kernel Items</b>
@@ -2534,8 +2748,8 @@
     62 bitExp: bitExp . bitOp unaryExp
 
   <b>Parser Actions</b>
-    BitOr          shift, and go to state <a href="#state85">85</a>
-    BitAnd         shift, and go to state <a href="#state86">86</a>
+    BitOr          shift, and go to state <a href="#state97">97</a>
+    BitAnd         shift, and go to state <a href="#state98">98</a>
     Multiply       reduce using <a href="#prod59">rule 59</a> (mulExp)
     Divide         reduce using <a href="#prod59">rule 59</a> (mulExp)
     Plus           reduce using <a href="#prod59">rule 59</a> (mulExp)
@@ -2555,15 +2769,15 @@
     bitOp          go to state <a href="#state60">60</a>
 
 
-<b><a name="state85">State</a> <a href="#state85">85</a></b>
+<b><a name="state97">State</a> <a href="#state97">97</a></b>
     Shortest prefix: Program OpenBlock bitExp BitOr
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state84">84</a>-><a href="#state85">85</a>
-    Predecessors: <a href="#state59">59</a>, <a href="#state84">84</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state96">96</a>-><a href="#state97">97</a>
+    Predecessors: <a href="#state59">59</a>, <a href="#state96">96</a>
 
   <b>Kernel Items</b>
     60 bitOp: BitOr .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod60">rule 60</a> (bitOp)
@@ -2574,20 +2788,18 @@
     Minus          reduce using <a href="#prod60">rule 60</a> (bitOp)
     BitNot         reduce using <a href="#prod60">rule 60</a> (bitOp)
     LogNot         reduce using <a href="#prod60">rule 60</a> (bitOp)
-    IntCast        reduce using <a href="#prod60">rule 60</a> (bitOp)
-    DoubleCast     reduce using <a href="#prod60">rule 60</a> (bitOp)
 
 
 
-<b><a name="state86">State</a> <a href="#state86">86</a></b>
+<b><a name="state98">State</a> <a href="#state98">98</a></b>
     Shortest prefix: Program OpenBlock bitExp BitAnd
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state84">84</a>-><a href="#state86">86</a>
-    Predecessors: <a href="#state59">59</a>, <a href="#state84">84</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state96">96</a>-><a href="#state98">98</a>
+    Predecessors: <a href="#state59">59</a>, <a href="#state96">96</a>
 
   <b>Kernel Items</b>
     61 bitOp: BitAnd .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod61">rule 61</a> (bitOp)
@@ -2598,14 +2810,12 @@
     Minus          reduce using <a href="#prod61">rule 61</a> (bitOp)
     BitNot         reduce using <a href="#prod61">rule 61</a> (bitOp)
     LogNot         reduce using <a href="#prod61">rule 61</a> (bitOp)
-    IntCast        reduce using <a href="#prod61">rule 61</a> (bitOp)
-    DoubleCast     reduce using <a href="#prod61">rule 61</a> (bitOp)
 
 
 
-<b><a name="state87">State</a> <a href="#state87">87</a></b>
+<b><a name="state99">State</a> <a href="#state99">99</a></b>
     Shortest prefix: Program OpenBlock unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state87">87</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state99">99</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state68">68</a>
 
   <b>Kernel Items</b>
@@ -2634,305 +2844,15 @@
 
 
 
-<b><a name="state88">State</a> <a href="#state88">88</a></b>
-    Shortest prefix: Program OpenBlock Minus
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state88">88</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
-
-  <b>Kernel Items</b>
-    65 unaryExp: Minus . unaryExp
-
-  <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-
-  <b>Transitions</b>
-    unaryExp       go to state <a href="#state89">89</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
-
-
-<b><a name="state89">State</a> <a href="#state89">89</a></b>
-    Shortest prefix: Program OpenBlock Minus unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state88">88</a>-><a href="#state89">89</a>
-    Predecessors: <a href="#state88">88</a>
-
-  <b>Kernel Items</b>
-    65 unaryExp: Minus unaryExp .
-	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
-                Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
-                Semicolon, ClosePar }
-
-  <b>Parser Actions</b>
-    BitOr          reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    BitAnd         reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    Multiply       reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    Divide         reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    Plus           reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    Minus          reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    Equal          reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    NotEqual       reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    Greater        reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    GreaterOrEqual reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    Less           reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    LessOrEqual    reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    LogOr          reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    LogAnd         reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    Semicolon      reduce using <a href="#prod65">rule 65</a> (unaryExp)
-    ClosePar       reduce using <a href="#prod65">rule 65</a> (unaryExp)
-
-
-
-<b><a name="state90">State</a> <a href="#state90">90</a></b>
-    Shortest prefix: Program OpenBlock BitNot
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
-
-  <b>Kernel Items</b>
-    66 unaryExp: BitNot . unaryExp
-
-  <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-
-  <b>Transitions</b>
-    unaryExp       go to state <a href="#state91">91</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
-
-
-<b><a name="state91">State</a> <a href="#state91">91</a></b>
-    Shortest prefix: Program OpenBlock BitNot unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>-><a href="#state91">91</a>
-    Predecessors: <a href="#state90">90</a>
-
-  <b>Kernel Items</b>
-    66 unaryExp: BitNot unaryExp .
-	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
-                Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
-                Semicolon, ClosePar }
-
-  <b>Parser Actions</b>
-    BitOr          reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    BitAnd         reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    Multiply       reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    Divide         reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    Plus           reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    Minus          reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    Equal          reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    NotEqual       reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    Greater        reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    GreaterOrEqual reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    Less           reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    LessOrEqual    reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    LogOr          reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    LogAnd         reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    Semicolon      reduce using <a href="#prod66">rule 66</a> (unaryExp)
-    ClosePar       reduce using <a href="#prod66">rule 66</a> (unaryExp)
-
-
-
-<b><a name="state92">State</a> <a href="#state92">92</a></b>
-    Shortest prefix: Program OpenBlock LogNot
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state92">92</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
-
-  <b>Kernel Items</b>
-    67 unaryExp: LogNot . unaryExp
-
-  <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-
-  <b>Transitions</b>
-    unaryExp       go to state <a href="#state93">93</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
-
-
-<b><a name="state93">State</a> <a href="#state93">93</a></b>
-    Shortest prefix: Program OpenBlock LogNot unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state92">92</a>-><a href="#state93">93</a>
-    Predecessors: <a href="#state92">92</a>
-
-  <b>Kernel Items</b>
-    67 unaryExp: LogNot unaryExp .
-	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
-                Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
-                Semicolon, ClosePar }
-
-  <b>Parser Actions</b>
-    BitOr          reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    BitAnd         reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    Multiply       reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    Divide         reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    Plus           reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    Minus          reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    Equal          reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    NotEqual       reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    Greater        reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    GreaterOrEqual reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    Less           reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    LessOrEqual    reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    LogOr          reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    LogAnd         reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    Semicolon      reduce using <a href="#prod67">rule 67</a> (unaryExp)
-    ClosePar       reduce using <a href="#prod67">rule 67</a> (unaryExp)
-
-
-
-<b><a name="state94">State</a> <a href="#state94">94</a></b>
-    Shortest prefix: Program OpenBlock IntCast
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state94">94</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
-
-  <b>Kernel Items</b>
-    68 unaryExp: IntCast . unaryExp
-
-  <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-
-  <b>Transitions</b>
-    unaryExp       go to state <a href="#state95">95</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
-
-
-<b><a name="state95">State</a> <a href="#state95">95</a></b>
-    Shortest prefix: Program OpenBlock IntCast unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state94">94</a>-><a href="#state95">95</a>
-    Predecessors: <a href="#state94">94</a>
-
-  <b>Kernel Items</b>
-    68 unaryExp: IntCast unaryExp .
-	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
-                Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
-                Semicolon, ClosePar }
-
-  <b>Parser Actions</b>
-    BitOr          reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    BitAnd         reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    Multiply       reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    Divide         reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    Plus           reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    Minus          reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    Equal          reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    NotEqual       reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    Greater        reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    GreaterOrEqual reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    Less           reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    LessOrEqual    reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    LogOr          reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    LogAnd         reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    Semicolon      reduce using <a href="#prod68">rule 68</a> (unaryExp)
-    ClosePar       reduce using <a href="#prod68">rule 68</a> (unaryExp)
-
-
-
-<b><a name="state96">State</a> <a href="#state96">96</a></b>
-    Shortest prefix: Program OpenBlock DoubleCast
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state96">96</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
-
-  <b>Kernel Items</b>
-    69 unaryExp: DoubleCast . unaryExp
-
-  <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-
-  <b>Transitions</b>
-    unaryExp       go to state <a href="#state97">97</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
-
-
-<b><a name="state97">State</a> <a href="#state97">97</a></b>
-    Shortest prefix: Program OpenBlock DoubleCast unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state96">96</a>-><a href="#state97">97</a>
-    Predecessors: <a href="#state96">96</a>
-
-  <b>Kernel Items</b>
-    69 unaryExp: DoubleCast unaryExp .
-	-lookahead: { BitOr, BitAnd, Multiply, Divide, Plus, Minus, Equal, NotEqual, 
-                Greater, GreaterOrEqual, Less, LessOrEqual, LogOr, LogAnd, 
-                Semicolon, ClosePar }
-
-  <b>Parser Actions</b>
-    BitOr          reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    BitAnd         reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    Multiply       reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    Divide         reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    Plus           reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    Minus          reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    Equal          reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    NotEqual       reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    Greater        reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    GreaterOrEqual reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    Less           reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    LessOrEqual    reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    LogOr          reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    LogAnd         reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    Semicolon      reduce using <a href="#prod69">rule 69</a> (unaryExp)
-    ClosePar       reduce using <a href="#prod69">rule 69</a> (unaryExp)
-
-
-
-<b><a name="state98">State</a> <a href="#state98">98</a></b>
+<b><a name="state100">State</a> <a href="#state100">100</a></b>
     Shortest prefix: Program OpenBlock logExp LogOr
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state51">51</a>-><a href="#state98">98</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state51">51</a>-><a href="#state100">100</a>
     Predecessors: <a href="#state51">51</a>
 
   <b>Kernel Items</b>
     40 logOp: LogOr .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod40">rule 40</a> (logOp)
@@ -2943,20 +2863,18 @@
     Minus          reduce using <a href="#prod40">rule 40</a> (logOp)
     BitNot         reduce using <a href="#prod40">rule 40</a> (logOp)
     LogNot         reduce using <a href="#prod40">rule 40</a> (logOp)
-    IntCast        reduce using <a href="#prod40">rule 40</a> (logOp)
-    DoubleCast     reduce using <a href="#prod40">rule 40</a> (logOp)
 
 
 
-<b><a name="state99">State</a> <a href="#state99">99</a></b>
+<b><a name="state101">State</a> <a href="#state101">101</a></b>
     Shortest prefix: Program OpenBlock logExp LogAnd
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state51">51</a>-><a href="#state99">99</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state51">51</a>-><a href="#state101">101</a>
     Predecessors: <a href="#state51">51</a>
 
   <b>Kernel Items</b>
     41 logOp: LogAnd .
 	-lookahead: { Ident, IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast }
+                LogNot }
 
   <b>Parser Actions</b>
     Ident          reduce using <a href="#prod41">rule 41</a> (logOp)
@@ -2967,21 +2885,19 @@
     Minus          reduce using <a href="#prod41">rule 41</a> (logOp)
     BitNot         reduce using <a href="#prod41">rule 41</a> (logOp)
     LogNot         reduce using <a href="#prod41">rule 41</a> (logOp)
-    IntCast        reduce using <a href="#prod41">rule 41</a> (logOp)
-    DoubleCast     reduce using <a href="#prod41">rule 41</a> (logOp)
 
 
 
-<b><a name="state100">State</a> <a href="#state100">100</a></b>
+<b><a name="state102">State</a> <a href="#state102">102</a></b>
     Shortest prefix: Program OpenBlock expStatement
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state100">100</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state102">102</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state29">29</a>
 
   <b>Kernel Items</b>
     22 statement: expStatement .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod22">rule 22</a> (statement)
@@ -2999,36 +2915,34 @@
     Minus          reduce using <a href="#prod22">rule 22</a> (statement)
     BitNot         reduce using <a href="#prod22">rule 22</a> (statement)
     LogNot         reduce using <a href="#prod22">rule 22</a> (statement)
-    IntCast        reduce using <a href="#prod22">rule 22</a> (statement)
-    DoubleCast     reduce using <a href="#prod22">rule 22</a> (statement)
     error          reduce using <a href="#prod22">rule 22</a> (statement)
     Else           reduce using <a href="#prod22">rule 22</a> (statement)
 
 
 
-<b><a name="state101">State</a> <a href="#state101">101</a></b>
+<b><a name="state103">State</a> <a href="#state103">103</a></b>
     Shortest prefix: Program OpenBlock exp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state101">101</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state103">103</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state29">29</a>
 
   <b>Kernel Items</b>
     35 expStatement: exp . Semicolon
 
   <b>Parser Actions</b>
-    Semicolon      shift, and go to state <a href="#state102">102</a>
+    Semicolon      shift, and go to state <a href="#state104">104</a>
 
 
 
-<b><a name="state102">State</a> <a href="#state102">102</a></b>
+<b><a name="state104">State</a> <a href="#state104">104</a></b>
     Shortest prefix: Program OpenBlock exp Semicolon
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state101">101</a>-><a href="#state102">102</a>
-    Predecessors: <a href="#state101">101</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state103">103</a>-><a href="#state104">104</a>
+    Predecessors: <a href="#state103">103</a>
 
   <b>Kernel Items</b>
     35 expStatement: exp Semicolon .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod35">rule 35</a> (expStatement)
@@ -3046,27 +2960,25 @@
     Minus          reduce using <a href="#prod35">rule 35</a> (expStatement)
     BitNot         reduce using <a href="#prod35">rule 35</a> (expStatement)
     LogNot         reduce using <a href="#prod35">rule 35</a> (expStatement)
-    IntCast        reduce using <a href="#prod35">rule 35</a> (expStatement)
-    DoubleCast     reduce using <a href="#prod35">rule 35</a> (expStatement)
     error          reduce using <a href="#prod35">rule 35</a> (expStatement)
     Else           reduce using <a href="#prod35">rule 35</a> (expStatement)
 
 
 
-<b><a name="state103">State</a> <a href="#state103">103</a></b>
+<b><a name="state105">State</a> <a href="#state105">105</a></b>
     Shortest prefix: Program OpenBlock error
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state103">103</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state105">105</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state29">29</a>
 
   <b>Kernel Items</b>
     36 expStatement: error .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
     37 expStatement: error . Eof
 
   <b>Parser Actions</b>
-    Eof            shift, and go to state <a href="#state104">104</a>
+    Eof            shift, and go to state <a href="#state106">106</a>
     CloseBlock     reduce using <a href="#prod36">rule 36</a> (expStatement)
     OpenBlock      reduce using <a href="#prod36">rule 36</a> (expStatement)
     If             reduce using <a href="#prod36">rule 36</a> (expStatement)
@@ -3082,23 +2994,21 @@
     Minus          reduce using <a href="#prod36">rule 36</a> (expStatement)
     BitNot         reduce using <a href="#prod36">rule 36</a> (expStatement)
     LogNot         reduce using <a href="#prod36">rule 36</a> (expStatement)
-    IntCast        reduce using <a href="#prod36">rule 36</a> (expStatement)
-    DoubleCast     reduce using <a href="#prod36">rule 36</a> (expStatement)
     error          reduce using <a href="#prod36">rule 36</a> (expStatement)
     Else           reduce using <a href="#prod36">rule 36</a> (expStatement)
 
 
 
-<b><a name="state104">State</a> <a href="#state104">104</a></b>
+<b><a name="state106">State</a> <a href="#state106">106</a></b>
     Shortest prefix: Program OpenBlock error Eof
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state103">103</a>-><a href="#state104">104</a>
-    Predecessors: <a href="#state103">103</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state105">105</a>-><a href="#state106">106</a>
+    Predecessors: <a href="#state105">105</a>
 
   <b>Kernel Items</b>
     37 expStatement: error Eof .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
-                LogNot, IntCast, DoubleCast, error, Else }
+                LogNot, error, Else }
 
   <b>Parser Actions</b>
     CloseBlock     reduce using <a href="#prod37">rule 37</a> (expStatement)
@@ -3116,23 +3026,21 @@
     Minus          reduce using <a href="#prod37">rule 37</a> (expStatement)
     BitNot         reduce using <a href="#prod37">rule 37</a> (expStatement)
     LogNot         reduce using <a href="#prod37">rule 37</a> (expStatement)
-    IntCast        reduce using <a href="#prod37">rule 37</a> (expStatement)
-    DoubleCast     reduce using <a href="#prod37">rule 37</a> (expStatement)
     error          reduce using <a href="#prod37">rule 37</a> (expStatement)
     Else           reduce using <a href="#prod37">rule 37</a> (expStatement)
 
 
 
-<b><a name="state105">State</a> <a href="#state105">105</a></b>
+<b><a name="state107">State</a> <a href="#state107">107</a></b>
     Shortest prefix: Program OpenBlock declaration
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state105">105</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state107">107</a>
     Predecessors: <a href="#state9">9</a>
 
   <b>Kernel Items</b>
     8 declarations: declarations declaration .
 	-lookahead: { Int, Double, Bool, error, CloseBlock, OpenBlock, If, While, 
                 Return, Read, Write, Ident, IntValue, DoubleValue, BoolValue, 
-                OpenPar, Minus, BitNot, LogNot, IntCast, DoubleCast }
+                OpenPar, Minus, BitNot, LogNot }
 
   <b>Parser Actions</b>
     Int            reduce using <a href="#prod8">rule 8</a> (declarations)
@@ -3154,47 +3062,45 @@
     Minus          reduce using <a href="#prod8">rule 8</a> (declarations)
     BitNot         reduce using <a href="#prod8">rule 8</a> (declarations)
     LogNot         reduce using <a href="#prod8">rule 8</a> (declarations)
-    IntCast        reduce using <a href="#prod8">rule 8</a> (declarations)
-    DoubleCast     reduce using <a href="#prod8">rule 8</a> (declarations)
 
 
 
-<b><a name="state106">State</a> <a href="#state106">106</a></b>
+<b><a name="state108">State</a> <a href="#state108">108</a></b>
     Shortest prefix: Program OpenBlock type
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state106">106</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state108">108</a>
     Predecessors: <a href="#state9">9</a>
 
   <b>Kernel Items</b>
     9 declaration: type . Ident Semicolon
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state107">107</a>
+    Ident          shift, and go to state <a href="#state109">109</a>
 
 
 
-<b><a name="state107">State</a> <a href="#state107">107</a></b>
+<b><a name="state109">State</a> <a href="#state109">109</a></b>
     Shortest prefix: Program OpenBlock type Ident
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state106">106</a>-><a href="#state107">107</a>
-    Predecessors: <a href="#state106">106</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state108">108</a>-><a href="#state109">109</a>
+    Predecessors: <a href="#state108">108</a>
 
   <b>Kernel Items</b>
     9 declaration: type Ident . Semicolon
 
   <b>Parser Actions</b>
-    Semicolon      shift, and go to state <a href="#state108">108</a>
+    Semicolon      shift, and go to state <a href="#state110">110</a>
 
 
 
-<b><a name="state108">State</a> <a href="#state108">108</a></b>
+<b><a name="state110">State</a> <a href="#state110">110</a></b>
     Shortest prefix: Program OpenBlock type Ident Semicolon
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state106">106</a>-><a href="#state107">107</a>-><a href="#state108">108</a>
-    Predecessors: <a href="#state107">107</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state108">108</a>-><a href="#state109">109</a>-><a href="#state110">110</a>
+    Predecessors: <a href="#state109">109</a>
 
   <b>Kernel Items</b>
     9 declaration: type Ident Semicolon .
 	-lookahead: { Int, Double, Bool, error, CloseBlock, OpenBlock, If, While, 
                 Return, Read, Write, Ident, IntValue, DoubleValue, BoolValue, 
-                OpenPar, Minus, BitNot, LogNot, IntCast, DoubleCast }
+                OpenPar, Minus, BitNot, LogNot }
 
   <b>Parser Actions</b>
     Int            reduce using <a href="#prod9">rule 9</a> (declaration)
@@ -3216,14 +3122,12 @@
     Minus          reduce using <a href="#prod9">rule 9</a> (declaration)
     BitNot         reduce using <a href="#prod9">rule 9</a> (declaration)
     LogNot         reduce using <a href="#prod9">rule 9</a> (declaration)
-    IntCast        reduce using <a href="#prod9">rule 9</a> (declaration)
-    DoubleCast     reduce using <a href="#prod9">rule 9</a> (declaration)
 
 
 
-<b><a name="state109">State</a> <a href="#state109">109</a></b>
+<b><a name="state111">State</a> <a href="#state111">111</a></b>
     Shortest prefix: Program OpenBlock Int
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state109">109</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state111">111</a>
     Predecessors: <a href="#state9">9</a>
 
   <b>Kernel Items</b>
@@ -3235,9 +3139,9 @@
 
 
 
-<b><a name="state110">State</a> <a href="#state110">110</a></b>
+<b><a name="state112">State</a> <a href="#state112">112</a></b>
     Shortest prefix: Program OpenBlock Double
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state110">110</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state112">112</a>
     Predecessors: <a href="#state9">9</a>
 
   <b>Kernel Items</b>
@@ -3249,9 +3153,9 @@
 
 
 
-<b><a name="state111">State</a> <a href="#state111">111</a></b>
+<b><a name="state113">State</a> <a href="#state113">113</a></b>
     Shortest prefix: Program OpenBlock Bool
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state111">111</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state113">113</a>
     Predecessors: <a href="#state9">9</a>
 
   <b>Kernel Items</b>
@@ -3263,29 +3167,29 @@
 
 
 
-<b><a name="state112">State</a> <a href="#state112">112</a></b>
+<b><a name="state114">State</a> <a href="#state114">114</a></b>
     Shortest prefix: Program OpenBlock error
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state112">112</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state114">114</a>
     Predecessors: <a href="#state9">9</a>
 
   <b>Kernel Items</b>
     10 declaration: error . Eof
 
   <b>Parser Actions</b>
-    Eof            shift, and go to state <a href="#state113">113</a>
+    Eof            shift, and go to state <a href="#state115">115</a>
 
 
 
-<b><a name="state113">State</a> <a href="#state113">113</a></b>
+<b><a name="state115">State</a> <a href="#state115">115</a></b>
     Shortest prefix: Program OpenBlock error Eof
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state112">112</a>-><a href="#state113">113</a>
-    Predecessors: <a href="#state112">112</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state114">114</a>-><a href="#state115">115</a>
+    Predecessors: <a href="#state114">114</a>
 
   <b>Kernel Items</b>
     10 declaration: error Eof .
 	-lookahead: { Int, Double, Bool, error, CloseBlock, OpenBlock, If, While, 
                 Return, Read, Write, Ident, IntValue, DoubleValue, BoolValue, 
-                OpenPar, Minus, BitNot, LogNot, IntCast, DoubleCast }
+                OpenPar, Minus, BitNot, LogNot }
 
   <b>Parser Actions</b>
     Int            reduce using <a href="#prod10">rule 10</a> (declaration)
@@ -3307,14 +3211,12 @@
     Minus          reduce using <a href="#prod10">rule 10</a> (declaration)
     BitNot         reduce using <a href="#prod10">rule 10</a> (declaration)
     LogNot         reduce using <a href="#prod10">rule 10</a> (declaration)
-    IntCast        reduce using <a href="#prod10">rule 10</a> (declaration)
-    DoubleCast     reduce using <a href="#prod10">rule 10</a> (declaration)
 
 
 
-<b><a name="state114">State</a> <a href="#state114">114</a></b>
+<b><a name="state116">State</a> <a href="#state116">116</a></b>
     Shortest prefix: error
-    Shortest path: <a href="#state0">0</a>-><a href="#state114">114</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state116">116</a>
     Predecessors: <a href="#state0">0</a>
 
   <b>Kernel Items</b>
@@ -3322,30 +3224,30 @@
     5 start: error . Eof
 
   <b>Parser Actions</b>
-    Eof            shift, and go to state <a href="#state117">117</a>
+    Eof            shift, and go to state <a href="#state119">119</a>
     Program        shift, and go to state <a href="#state7">7</a>
 
   <b>Transitions</b>
-    program        go to state <a href="#state115">115</a>
+    program        go to state <a href="#state117">117</a>
 
 
-<b><a name="state115">State</a> <a href="#state115">115</a></b>
+<b><a name="state117">State</a> <a href="#state117">117</a></b>
     Shortest prefix: error program
-    Shortest path: <a href="#state0">0</a>-><a href="#state114">114</a>-><a href="#state115">115</a>
-    Predecessors: <a href="#state114">114</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state116">116</a>-><a href="#state117">117</a>
+    Predecessors: <a href="#state116">116</a>
 
   <b>Kernel Items</b>
     3 start: error program . Eof
 
   <b>Parser Actions</b>
-    Eof            shift, and go to state <a href="#state116">116</a>
+    Eof            shift, and go to state <a href="#state118">118</a>
 
 
 
-<b><a name="state116">State</a> <a href="#state116">116</a></b>
+<b><a name="state118">State</a> <a href="#state118">118</a></b>
     Shortest prefix: error program Eof
-    Shortest path: <a href="#state0">0</a>-><a href="#state114">114</a>-><a href="#state115">115</a>-><a href="#state116">116</a>
-    Predecessors: <a href="#state115">115</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state116">116</a>-><a href="#state117">117</a>-><a href="#state118">118</a>
+    Predecessors: <a href="#state117">117</a>
 
   <b>Kernel Items</b>
     3 start: error program Eof .
@@ -3356,10 +3258,10 @@
 
 
 
-<b><a name="state117">State</a> <a href="#state117">117</a></b>
+<b><a name="state119">State</a> <a href="#state119">119</a></b>
     Shortest prefix: error Eof
-    Shortest path: <a href="#state0">0</a>-><a href="#state114">114</a>-><a href="#state117">117</a>
-    Predecessors: <a href="#state114">114</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state116">116</a>-><a href="#state119">119</a>
+    Predecessors: <a href="#state116">116</a>
 
   <b>Kernel Items</b>
     5 start: error Eof .

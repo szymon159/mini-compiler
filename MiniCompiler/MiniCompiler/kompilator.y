@@ -486,14 +486,14 @@ unaryExp        :   term
                         var child = Compiler.GetNode();
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), $$, OpType.LogNot, child)); 
                     }
-                |   IntCast unaryExp
+                |   OpenPar Int ClosePar unaryExp
                     {
                         $$ = ValType.Int;
 
                         var child = Compiler.GetNode();
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), $$, OpType.IntCast, child)); 
                     }
-                |   DoubleCast unaryExp
+                |   OpenPar Double ClosePar unaryExp
                     {
                         $$ = ValType.Double;
 
