@@ -70,12 +70,6 @@ declaration     :   type Ident Semicolon
                             Compiler.AddError(new VariableAlreadyDeclaredError(Compiler.GetLineNumber(), $2));
                         }
                     }
-                |   error Eof
-                    {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
-                        yyerrok();
-                        YYABORT;
-                    }
                 ;
 
 type            :   Int             { $$ = ValType.Int; }
