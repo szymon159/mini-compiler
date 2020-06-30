@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 30.06.2020 19:58:42
+// DateTime: 30.06.2020 20:49:23
 // UserName: szymo
-// Input file <../../kompilator.y - 30.06.2020 19:16:01>
+// Input file <../../kompilator.y - 30.06.2020 20:49:21>
 
 // options: lines gplex
 
@@ -302,7 +302,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
       case 4: // start -> program, error, Eof
 #line 41 "../../kompilator.y"
                     {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
                         yyerrok();
                         YYAbort();
                     }
@@ -311,7 +311,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
       case 5: // start -> error, Eof
 #line 47 "../../kompilator.y"
                     {
-                        Compiler.AddError(new UnexpectedTokenError(1));
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
                         yyerrok();
                         YYAbort();
                     }
@@ -394,7 +394,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                     {
                         if(ValueStack[ValueStack.Depth-5].val_type != ValType.Bool)
                         {
-                            var error = new InvalidTypeError(Compiler.GetLineNumber()-1, ValueStack[ValueStack.Depth-5].val_type, ValType.Bool);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-5].val_type, ValType.Bool);
                             Compiler.AddError(error);
                         }
                         else
@@ -413,7 +413,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                     {
                         if(ValueStack[ValueStack.Depth-3].val_type != ValType.Bool)
                         {
-                            var error = new InvalidTypeError(Compiler.GetLineNumber()-1, ValueStack[ValueStack.Depth-3].val_type, ValType.Bool);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-3].val_type, ValType.Bool);
                             Compiler.AddError(error);
                         }
                         else
@@ -450,7 +450,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
       case 28: // readStatement -> Read, error
 #line 180 "../../kompilator.y"
                     {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
                         yyerrok();
                         yyclearin();
                     }
@@ -459,7 +459,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
       case 29: // readStatement -> Read, error, Eof
 #line 186 "../../kompilator.y"
                     {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
                         yyerrok();
                         YYAbort();
                     }
@@ -483,7 +483,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
       case 32: // writeStatement -> Write, error
 #line 203 "../../kompilator.y"
                     {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
                         yyerrok();
                         yyclearin();
                     }

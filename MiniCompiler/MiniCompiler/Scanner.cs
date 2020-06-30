@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.2.2
 //  Machine:  DESKTOP-LRNG15B
-//  DateTime: 30.06.2020 19:58:42
+//  DateTime: 30.06.2020 20:49:23
 //  UserName: szymo
-//  GPLEX input file <../../kompilator.lex - 30.06.2020 18:45:37>
+//  GPLEX input file <../../kompilator.lex - 30.06.2020 20:44:17>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: parser, minimize
@@ -964,7 +964,7 @@ Compiler.AddError(new InvalidSymbolError(yyline)); return (int)Tokens.Error;
 { }
             break;
         case 3:
-Compiler.IncrementLineNumber();
+Compiler.SetLineNumber(yyline);
             break;
         case 4:
 { }

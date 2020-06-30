@@ -59,7 +59,7 @@ Comment			"//".*
 "\t"			{ }
 {Comment}		{ }
 "\r"			{ }
-"\n"			{ Compiler.IncrementLineNumber(); }
+"\n"			{ Compiler.SetLineNumber(yyline); }
 
 <<EOF>>			{ return (int)Tokens.Eof; }
 

@@ -183,9 +183,9 @@ public class Compiler
         topNode.GenPop = true;
     }
 
-    public static void IncrementLineNumber()
+    public static void SetLineNumber(int lineNumber)
     {
-        ++currentLineNo;
+        currentLineNo = lineNumber;
     }
 
     public static int GetLineNumber()

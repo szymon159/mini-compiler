@@ -39,13 +39,13 @@ start           :   program Eof
                     }
                 |   program error Eof
                     {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
                         yyerrok();
                         YYABORT;
                     }
                 |   error Eof
                     {
-                        Compiler.AddError(new UnexpectedTokenError(1));
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
                         yyerrok();
                         YYABORT;
                     }
@@ -128,7 +128,7 @@ ifStatement     :   If OpenPar exp ClosePar statement
                     {
                         if($3 != ValType.Bool)
                         {
-                            var error = new InvalidTypeError(Compiler.GetLineNumber()-1, $3, ValType.Bool);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $3, ValType.Bool);
                             Compiler.AddError(error);
                         }
                         else
@@ -146,7 +146,7 @@ whileStatement  :   While OpenPar exp ClosePar statement
                     {
                         if($3 != ValType.Bool)
                         {
-                            var error = new InvalidTypeError(Compiler.GetLineNumber()-1, $3, ValType.Bool);
+                            var error = new InvalidTypeError(Compiler.GetLineNumber(), $3, ValType.Bool);
                             Compiler.AddError(error);
                         }
                         else
@@ -178,13 +178,13 @@ readStatement   :   Read Ident Semicolon
                     }
                 |   Read error
                     {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
                         yyerrok();
                         yyclearin();
                     }
                 |   Read error Eof
                     {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
                         yyerrok();
                         YYABORT;
                     }
@@ -201,7 +201,7 @@ writeStatement  :   Write exp Semicolon
                     }
                 |   Write error
                     {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
                         yyerrok();
                         yyclearin();
                     }
