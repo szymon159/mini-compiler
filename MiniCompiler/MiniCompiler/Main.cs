@@ -84,8 +84,8 @@ public class Compiler
             {
                 Console.WriteLine("FAILURE");
                 Console.WriteLine($"Found {errors.Count} errors:");
-                var syntaxErrors = errors.Where(e => e.IsSyntaxError);
-                var otherErrors = errors.Where(e => !e.IsSyntaxError);
+                var syntaxErrors = errors.Where(e => e.IsSyntaxError).OrderBy(e => e.LineNumber);
+                var otherErrors = errors.Where(e => !e.IsSyntaxError).OrderBy(e => e.LineNumber);
                 if(syntaxErrors.Count() > 0)
                     Console.WriteLine($"Syntax errors ({syntaxErrors.Count()}):");
                 foreach (var error in syntaxErrors)

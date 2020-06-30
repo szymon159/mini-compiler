@@ -4,7 +4,7 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 30.06.2020 19:16:02
+// DateTime: 30.06.2020 19:36:18
 // UserName: szymo
 // Input file <../../kompilator.y - 30.06.2020 19:16:01>
 
