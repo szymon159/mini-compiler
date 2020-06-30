@@ -150,8 +150,6 @@ ifStatement     :   If OpenPar exp ClosePar statement
 
 whileStatement  :   While OpenPar exp ClosePar statement
                     {
-                        //Compiler.Breakpoint();
-
                         if($3 != ValType.Bool)
                         {
                             var error = new InvalidTypeError(Compiler.GetLineNumber()-1, $3, ValType.Bool);
@@ -187,7 +185,14 @@ readStatement   :   Read Ident Semicolon
                 |   Read error
                     {
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        yyerrok();
                         yyclearin();
+                    }
+                |   Read error Eof
+                    {
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        yyerrok();
+                        YYABORT;
                     }
                 ;
 
@@ -203,7 +208,14 @@ writeStatement  :   Write exp Semicolon
                 |   Write error
                     {
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
+                        yyerrok();
                         yyclearin();
+                    }
+                |   Write error Eof
+                    {
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));  
+                        yyerrok();                        
+                        YYABORT;
                     }
                 ;
 
@@ -213,8 +225,15 @@ expStatement    :   exp Semicolon
                     }
                 |   error
                     {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));  
+                        yyerrok();
                         yyclearin();
+                    }
+                |   error Eof
+                    {
+                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));  
+                        yyerrok();
+                        YYABORT;
                     }
                 ;
 
