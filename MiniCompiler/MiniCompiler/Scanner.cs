@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.2.2
 //  Machine:  DESKTOP-LRNG15B
-//  DateTime: 30.06.2020 18:12:14
+//  DateTime: 30.06.2020 18:26:09
 //  UserName: szymo
-//  GPLEX input file <../../kompilator.lex - 30.06.2020 15:26:14>
+//  GPLEX input file <../../kompilator.lex - 30.06.2020 18:19:16>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: verbose, parser, minimize
