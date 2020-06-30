@@ -1,12 +1,25 @@
-program
-{
-    int num;
-    double real;
+program {
+	if ( true ) 
+		if ( true ) 
+			write "poo\n";
+		else
+			write "boo\n";
 
-    // (int)(true == !(num == 1 & 1 == num != 1 | 0 | 1 | ~2));
-    // (int)(true == !(num == 1 & 1 == num != 1 | 0 | 1 |  x));
-    // (int)(true == !(num == 1 == (num != x)));
-    // (int)(true == !(false == num != x)
-    // BAM : false == num, should be (false == (num != x))
-    real = real = num = (int)(true == !(num == 1 & 1 == num != 1 | 0 | 1 | ~2));
+	if ( true ) 
+		if ( false ) 
+			write "too\n";
+		else 
+			write "doo\n";
+
+	if ( false ) 
+		if ( true ) 
+			write "goo\n";
+		else
+			write "koo\n";
+
+	if ( false ) 
+		if ( false ) 
+			write "woo\n";
+		else
+			write "foo\n";
 }
