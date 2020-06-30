@@ -4,11 +4,11 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 30.06.2020 19:41:07
+// DateTime: 30.06.2020 19:58:42
 // UserName: szymo
 // Input file <../../kompilator.y - 30.06.2020 19:16:01>
 
-// options: conflicts no-lines diagnose & report gplex conflicts
+// options: lines gplex
 
 using System;
 using System.Collections.Generic;
@@ -29,6 +29,7 @@ public enum Tokens {error=2,EOF=3,Program=4,If=5,Else=6,
     Double=43,Bool=44};
 
 public struct ValueType
+#line 4 "../../kompilator.y"
 {
 public int      i_val;
 public double   d_val;
@@ -37,6 +38,7 @@ public string   s_val;
 public ValType  val_type;
 public OpType   op_type;
 }
+#line default
 // Abstract base class for GPLEX scanners
 [GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.5.2")]
 public abstract class ScanBase : AbstractScanner<ValueType,LexLocation> {
@@ -282,33 +284,42 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
     switch (action)
     {
       case 2: // start -> program, Eof
-{
+#line 31 "../../kompilator.y"
+                    {
                         YYAccept();
                     }
+#line default
         break;
       case 3: // start -> error, program, Eof
-{
+#line 35 "../../kompilator.y"
+                    {
                         Compiler.AddError(new UnexpectedTokenError(1));
                         yyerrok();
                         YYAbort();
                     }
+#line default
         break;
       case 4: // start -> program, error, Eof
-{
+#line 41 "../../kompilator.y"
+                    {
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
                         yyerrok();
                         YYAbort();
                     }
+#line default
         break;
       case 5: // start -> error, Eof
-{
+#line 47 "../../kompilator.y"
+                    {
                         Compiler.AddError(new UnexpectedTokenError(1));
                         yyerrok();
                         YYAbort();
                     }
+#line default
         break;
       case 9: // declaration -> type, Ident, Semicolon
-{
+#line 62 "../../kompilator.y"
+                    {
                         if(Compiler.GetVariable(ValueStack[ValueStack.Depth-2].s_val) == null)
                         {
                             Compiler.DeclareVariable(ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-2].s_val);
@@ -319,23 +330,33 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             Compiler.AddError(new VariableAlreadyDeclaredError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-2].s_val));
                         }
                     }
+#line default
         break;
       case 10: // type -> Int
-{ CurrentSemanticValue.val_type = ValType.Int; }
+#line 75 "../../kompilator.y"
+                                    { CurrentSemanticValue.val_type = ValType.Int; }
+#line default
         break;
       case 11: // type -> Double
-{ CurrentSemanticValue.val_type = ValType.Double; }
+#line 76 "../../kompilator.y"
+                                    { CurrentSemanticValue.val_type = ValType.Double; }
+#line default
         break;
       case 12: // type -> Bool
-{ CurrentSemanticValue.val_type = ValType.Bool; }
+#line 77 "../../kompilator.y"
+                                    { CurrentSemanticValue.val_type = ValType.Bool; }
+#line default
         break;
       case 13: // statements -> /* empty */
-{
+#line 81 "../../kompilator.y"
+                {
                     Compiler.AddNode(new StatementsBlockNode(Compiler.GetLineNumber()));
                 }
+#line default
         break;
       case 14: // statements -> statements, statement
-{
+#line 85 "../../kompilator.y"
+                    {
                         var innerNode = Compiler.GetNode();
                         var blockNode = Compiler.GetNode() as StatementsBlockNode;
                         if(blockNode != null)
@@ -348,9 +369,11 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             Compiler.AddNode(innerNode);
                         }
                     }
+#line default
         break;
       case 23: // ifStatement -> If, OpenPar, exp, ClosePar, statement
-{
+#line 113 "../../kompilator.y"
+                    {
                         if(ValueStack[ValueStack.Depth-3].val_type != ValType.Bool)
                         {
                             var error = new InvalidTypeError(Compiler.GetLineNumber()-1, ValueStack[ValueStack.Depth-3].val_type, ValType.Bool);
@@ -364,9 +387,11 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             Compiler.AddNode(new IfStatementNode(Compiler.GetLineNumber(), condition, thenStatement));
                         }
                     }
+#line default
         break;
       case 24: // ifStatement -> If, OpenPar, exp, ClosePar, statement, Else, statement
-{
+#line 128 "../../kompilator.y"
+                    {
                         if(ValueStack[ValueStack.Depth-5].val_type != ValType.Bool)
                         {
                             var error = new InvalidTypeError(Compiler.GetLineNumber()-1, ValueStack[ValueStack.Depth-5].val_type, ValType.Bool);
@@ -381,9 +406,11 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             Compiler.AddNode(new IfStatementNode(Compiler.GetLineNumber(), condition, thenStatement, elseStatement));
                         }
                     }
+#line default
         break;
       case 25: // whileStatement -> While, OpenPar, exp, ClosePar, statement
-{
+#line 146 "../../kompilator.y"
+                    {
                         if(ValueStack[ValueStack.Depth-3].val_type != ValType.Bool)
                         {
                             var error = new InvalidTypeError(Compiler.GetLineNumber()-1, ValueStack[ValueStack.Depth-3].val_type, ValType.Bool);
@@ -397,14 +424,18 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             Compiler.AddNode(new WhileStatementNode(Compiler.GetLineNumber(), condition, thenStatement));
                         }
                     }
+#line default
         break;
       case 26: // returnStatement -> Return, Semicolon
-{
+#line 163 "../../kompilator.y"
+                    {
                         Compiler.AddNode(new ReturnNode(Compiler.GetLineNumber()));
                     }
+#line default
         break;
       case 27: // readStatement -> Read, Ident, Semicolon
-{
+#line 169 "../../kompilator.y"
+                    {
                         if(Compiler.GetVariable(ValueStack[ValueStack.Depth-2].s_val) == null)
                         {
                             Compiler.AddError(new VariableNotDeclaredError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-2].s_val));
@@ -414,67 +445,87 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             Compiler.AddNode(new ReadNode(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-2].s_val));
                         }
                     }
+#line default
         break;
       case 28: // readStatement -> Read, error
-{
+#line 180 "../../kompilator.y"
+                    {
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
                         yyerrok();
                         yyclearin();
                     }
+#line default
         break;
       case 29: // readStatement -> Read, error, Eof
-{
+#line 186 "../../kompilator.y"
+                    {
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
                         yyerrok();
                         YYAbort();
                     }
+#line default
         break;
       case 30: // writeStatement -> Write, exp, Semicolon
-{
+#line 194 "../../kompilator.y"
+                    {
                         var expNode = Compiler.GetNode();
                         Compiler.AddNode(new WriteNode(Compiler.GetLineNumber(), expNode));
                     }
+#line default
         break;
       case 31: // writeStatement -> Write, Text, Semicolon
-{
+#line 199 "../../kompilator.y"
+                    {
                         Compiler.AddNode(new WriteNode(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-2].s_val));
                     }
+#line default
         break;
       case 32: // writeStatement -> Write, error
-{
+#line 203 "../../kompilator.y"
+                    {
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
                         yyerrok();
                         yyclearin();
                     }
+#line default
         break;
       case 33: // writeStatement -> Write, error, Eof
-{
+#line 209 "../../kompilator.y"
+                    {
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));  
                         yyerrok();                        
                         YYAbort();
                     }
+#line default
         break;
       case 34: // expStatement -> exp, Semicolon
-{
+#line 217 "../../kompilator.y"
+                    {
                         Compiler.Pop();
                     }
+#line default
         break;
       case 35: // expStatement -> error
-{
+#line 221 "../../kompilator.y"
+                    {
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));  
                         yyerrok();
                         yyclearin();
                     }
+#line default
         break;
       case 36: // expStatement -> error, Eof
-{
+#line 227 "../../kompilator.y"
+                    {
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));  
                         yyerrok();
                         YYAbort();
                     }
+#line default
         break;
       case 37: // exp -> Ident, Assign, exp
-{
+#line 235 "../../kompilator.y"
+                    {
                         var varType = Compiler.GetVariable(ValueStack[ValueStack.Depth-3].s_val);
                         SyntaxTreeNode right;
                         if(varType == null)
@@ -509,20 +560,28 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         
                         Compiler.AddNode(new AssignmentNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-3].s_val, right)); 
                     }
+#line default
         break;
       case 38: // exp -> logExp
-{
+#line 271 "../../kompilator.y"
+                    {
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
                     }
+#line default
         break;
       case 39: // logOp -> LogOr
-{ CurrentSemanticValue.op_type = OpType.LogOr; }
+#line 276 "../../kompilator.y"
+                                    { CurrentSemanticValue.op_type = OpType.LogOr; }
+#line default
         break;
       case 40: // logOp -> LogAnd
-{ CurrentSemanticValue.op_type = OpType.LogAnd; }
+#line 277 "../../kompilator.y"
+                                    { CurrentSemanticValue.op_type = OpType.LogAnd; }
+#line default
         break;
       case 41: // logExp -> logExp, logOp, relExp
-{
+#line 281 "../../kompilator.y"
+                    {
                         if(ValueStack[ValueStack.Depth-3].val_type != ValType.Bool && ValueStack[ValueStack.Depth-3].val_type != ValType.Dynamic)
                         {
                             var error = new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-3].val_type, ValType.Bool);
@@ -540,32 +599,48 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         var left = Compiler.GetNode();
                         Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
+#line default
         break;
       case 42: // logExp -> relExp
-{
+#line 300 "../../kompilator.y"
+                    {
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
                     }
+#line default
         break;
       case 43: // relOp -> Equal
-{ CurrentSemanticValue.op_type = OpType.Equal; }
+#line 305 "../../kompilator.y"
+                                    { CurrentSemanticValue.op_type = OpType.Equal; }
+#line default
         break;
       case 44: // relOp -> NotEqual
-{ CurrentSemanticValue.op_type = OpType.NotEqual; }
+#line 306 "../../kompilator.y"
+                                    { CurrentSemanticValue.op_type = OpType.NotEqual; }
+#line default
         break;
       case 45: // relOp -> Greater
-{ CurrentSemanticValue.op_type = OpType.Greater; }
+#line 307 "../../kompilator.y"
+                                    { CurrentSemanticValue.op_type = OpType.Greater; }
+#line default
         break;
       case 46: // relOp -> GreaterOrEqual
-{ CurrentSemanticValue.op_type = OpType.GreaterOrEqual; }
+#line 308 "../../kompilator.y"
+                                    { CurrentSemanticValue.op_type = OpType.GreaterOrEqual; }
+#line default
         break;
       case 47: // relOp -> Less
-{ CurrentSemanticValue.op_type = OpType.Less; }
+#line 309 "../../kompilator.y"
+                                    { CurrentSemanticValue.op_type = OpType.Less; }
+#line default
         break;
       case 48: // relOp -> LessOrEqual
-{ CurrentSemanticValue.op_type = OpType.LessOrEqual; }
+#line 310 "../../kompilator.y"
+                                    { CurrentSemanticValue.op_type = OpType.LessOrEqual; }
+#line default
         break;
       case 49: // relExp -> relExp, relOp, addExp
-{
+#line 314 "../../kompilator.y"
+                    {
                         SyntaxTreeNode left;
                         SyntaxTreeNode right;
                         var invalidType = false;
@@ -608,20 +683,28 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                             Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                         }
                      }
+#line default
         break;
       case 50: // relExp -> addExp
-{
+#line 358 "../../kompilator.y"
+                    {
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
                     }
+#line default
         break;
       case 51: // addOp -> Plus
-{ CurrentSemanticValue.op_type = OpType.Plus; }
+#line 363 "../../kompilator.y"
+                                      { CurrentSemanticValue.op_type = OpType.Plus; }
+#line default
         break;
       case 52: // addOp -> Minus
-{ CurrentSemanticValue.op_type = OpType.Minus; }
+#line 364 "../../kompilator.y"
+                                      { CurrentSemanticValue.op_type = OpType.Minus; }
+#line default
         break;
       case 53: // addExp -> addExp, addOp, mulExp
-{
+#line 368 "../../kompilator.y"
+                    {
                         var invalidType = false;
                         if(ValueStack[ValueStack.Depth-3].val_type == ValType.Bool)
                         {
@@ -645,20 +728,28 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         var left = Compiler.GetNode();
                         Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
+#line default
         break;
       case 54: // addExp -> mulExp
-{
+#line 393 "../../kompilator.y"
+                    {
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
                     }
+#line default
         break;
       case 55: // mulOp -> Multiply
-{ CurrentSemanticValue.op_type = OpType.Multiply; }
+#line 398 "../../kompilator.y"
+                                        { CurrentSemanticValue.op_type = OpType.Multiply; }
+#line default
         break;
       case 56: // mulOp -> Divide
-{ CurrentSemanticValue.op_type = OpType.Divide; }
+#line 399 "../../kompilator.y"
+                                        { CurrentSemanticValue.op_type = OpType.Divide; }
+#line default
         break;
       case 57: // mulExp -> mulExp, mulOp, bitExp
-{
+#line 403 "../../kompilator.y"
+                    {
                         var invalidType = false;
                         if(ValueStack[ValueStack.Depth-3].val_type == ValType.Bool)
                         {
@@ -682,20 +773,28 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         var left = Compiler.GetNode();
                         Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
+#line default
         break;
       case 58: // mulExp -> bitExp
-{
+#line 428 "../../kompilator.y"
+                    {
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
                     }
+#line default
         break;
       case 59: // bitOp -> BitOr
-{ CurrentSemanticValue.op_type = OpType.BitOr; }
+#line 433 "../../kompilator.y"
+                                        { CurrentSemanticValue.op_type = OpType.BitOr; }
+#line default
         break;
       case 60: // bitOp -> BitAnd
-{ CurrentSemanticValue.op_type = OpType.BitAnd; }
+#line 434 "../../kompilator.y"
+                                        { CurrentSemanticValue.op_type = OpType.BitAnd; }
+#line default
         break;
       case 61: // bitExp -> bitExp, bitOp, unaryExp
-{
+#line 438 "../../kompilator.y"
+                    {
                         if(ValueStack[ValueStack.Depth-3].val_type != ValType.Int && ValueStack[ValueStack.Depth-3].val_type != ValType.Dynamic)
                         {
                             var error = new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-3].val_type, ValType.Int);
@@ -713,19 +812,25 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         var left = Compiler.GetNode();
                         Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
                     }
+#line default
         break;
       case 62: // bitExp -> unaryExp
-{
+#line 457 "../../kompilator.y"
+                    {
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
                     }
+#line default
         break;
       case 63: // unaryExp -> term
-{ 
+#line 463 "../../kompilator.y"
+                    { 
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type; 
                     }
+#line default
         break;
       case 64: // unaryExp -> Minus, unaryExp
-{ 
+#line 467 "../../kompilator.y"
+                    { 
                         if(ValueStack[ValueStack.Depth-1].val_type == ValType.Bool)
                         {
                             var error = new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-1].val_type, ValType.Int, ValType.Double);
@@ -737,9 +842,11 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         var child = Compiler.GetNode();
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.Minus, child)); 
                     }
+#line default
         break;
       case 65: // unaryExp -> BitNot, unaryExp
-{ 
+#line 480 "../../kompilator.y"
+                    { 
                         if(ValueStack[ValueStack.Depth-1].val_type == ValType.Double || ValueStack[ValueStack.Depth-1].val_type == ValType.Bool)
                         {
                             var error = new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-1].val_type, ValType.Int);
@@ -751,9 +858,11 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         var child = Compiler.GetNode();
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.BitNot, child)); 
                     }
+#line default
         break;
       case 66: // unaryExp -> LogNot, unaryExp
-{
+#line 493 "../../kompilator.y"
+                    {
                         if(ValueStack[ValueStack.Depth-1].val_type == ValType.Int || ValueStack[ValueStack.Depth-1].val_type == ValType.Double)
                         {
                             var error = new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-1].val_type, ValType.Bool);
@@ -765,25 +874,31 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         var child = Compiler.GetNode();
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.LogNot, child)); 
                     }
+#line default
         break;
       case 67: // unaryExp -> OpenPar, Int, ClosePar, unaryExp
-{
+#line 506 "../../kompilator.y"
+                    {
                         CurrentSemanticValue.val_type = ValType.Int;
 
                         var child = Compiler.GetNode();
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.IntCast, child)); 
                     }
+#line default
         break;
       case 68: // unaryExp -> OpenPar, Double, ClosePar, unaryExp
-{
+#line 513 "../../kompilator.y"
+                    {
                         CurrentSemanticValue.val_type = ValType.Double;
 
                         var child = Compiler.GetNode();
                         Compiler.AddNode(new UnaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, OpType.DoubleCast, child)); 
                     }
+#line default
         break;
       case 69: // term -> Ident
-{
+#line 522 "../../kompilator.y"
+                    {
                         // Throw if variable not declared, else get ValueType
                         var varType =  Compiler.GetVariable(ValueStack[ValueStack.Depth-1].s_val);
                         if(varType == null)
@@ -797,34 +912,45 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                         CurrentSemanticValue.val_type = varType.Value;
                         Compiler.AddNode(new VariableNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-1].s_val)); 
                     }
+#line default
         break;
       case 70: // term -> const
-{ 
+#line 537 "../../kompilator.y"
+                    { 
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-1].val_type;
                     }
+#line default
         break;
       case 71: // term -> OpenPar, exp, ClosePar
-{
+#line 541 "../../kompilator.y"
+                    {
                         CurrentSemanticValue.val_type = ValueStack[ValueStack.Depth-2].val_type;
                     }
+#line default
         break;
       case 72: // const -> IntValue
-{
+#line 547 "../../kompilator.y"
+                    {
                         CurrentSemanticValue.val_type = ValType.Int;
                         Compiler.AddNode(new ConstantNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-1].i_val)); 
                     }
+#line default
         break;
       case 73: // const -> DoubleValue
-{ 
+#line 552 "../../kompilator.y"
+                    { 
                         CurrentSemanticValue.val_type = ValType.Double;
                         Compiler.AddNode(new ConstantNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-1].d_val)); 
                     }
+#line default
         break;
       case 74: // const -> BoolValue
-{ 
+#line 557 "../../kompilator.y"
+                    { 
                         CurrentSemanticValue.val_type = ValType.Bool;
                         Compiler.AddNode(new ConstantNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-1].b_val)); 
                     }
+#line default
         break;
     }
 #pragma warning restore 162, 1522
@@ -840,6 +966,8 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         return CharToString((char)terminal);
   }
 
+#line 564 "../../kompilator.y"
 public Parser(Scanner scanner) : base(scanner) { }
+#line default
 }
 }
