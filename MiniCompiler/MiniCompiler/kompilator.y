@@ -184,11 +184,10 @@ readStatement   :   Read Ident Semicolon
                             Compiler.AddNode(new ReadNode(Compiler.GetLineNumber(), $2));
                         }
                     }
-                |   Read error Eof
+                |   Read error
                     {
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
-                        yyerrok();
-                        YYABORT;
+                        yyclearin();
                     }
                 ;
 
@@ -201,11 +200,10 @@ writeStatement  :   Write exp Semicolon
                     {
                         Compiler.AddNode(new WriteNode(Compiler.GetLineNumber(), $2));
                     }
-                |   Write error Eof
+                |   Write error
                     {
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
-                        yyerrok();
-                        YYABORT;
+                        yyclearin();
                     }
                 ;
 
@@ -213,11 +211,10 @@ expStatement    :   exp Semicolon
                     {
                         Compiler.Pop();
                     }
-                |   error Eof
+                |   error
                     {
                         Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()));
-                        yyerrok();
-                        YYABORT;
+                        yyclearin();
                     }
                 ;
 
