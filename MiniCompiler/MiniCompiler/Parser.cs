@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 30.06.2020 15:26:26
+// DateTime: 30.06.2020 15:58:50
 // UserName: szymo
-// Input file <../../kompilator.y - 30.06.2020 15:26:14>
+// Input file <../../kompilator.y - 30.06.2020 15:58:38>
 
 // options: conflicts no-lines diagnose & report gplex conflicts
 
@@ -576,26 +576,43 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         break;
       case 50: // relExp -> relExp, relOp, addExp
 {
-                        if(ValueStack[ValueStack.Depth-2].op_type != OpType.Equal && ValueStack[ValueStack.Depth-2].op_type != OpType.NotEqual)
-                        {
-                            if(ValueStack[ValueStack.Depth-3].val_type == ValType.Bool)
+                        SyntaxTreeNode left;
+                        SyntaxTreeNode right;
+                        var invalidType = false;
+
+                        // Allow bools
+                        if(ValueStack[ValueStack.Depth-3].val_type == ValType.Bool || ValueStack[ValueStack.Depth-1].val_type == ValType.Bool)
+                        {                          
+                            // But only if comparing equality
+                            if(ValueStack[ValueStack.Depth-2].op_type != OpType.Equal && ValueStack[ValueStack.Depth-2].op_type != OpType.NotEqual)
                             {
-                                var error = new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-3].val_type, ValType.Int, ValType.Double);
-                                Compiler.AddError(error);
+                                if(ValueStack[ValueStack.Depth-3].val_type == ValType.Bool && ValueStack[ValueStack.Depth-1].val_type != ValType.Bool)
+                                {
+                                    Compiler.AddError(new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-1].val_type));
+                                    invalidType = true;
+                                }
+                                else if(ValueStack[ValueStack.Depth-3].val_type != ValType.Bool && ValueStack[ValueStack.Depth-1].val_type == ValType.Bool)
+                                {
+                                    Compiler.AddError(new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-1].val_type, ValueStack[ValueStack.Depth-3].val_type));
+                                    invalidType = true;
+                                }
                             }
-                            if(ValueStack[ValueStack.Depth-1].val_type == ValType.Bool)
+                            // And both are bool
+                            else if(ValueStack[ValueStack.Depth-3].val_type != ValueStack[ValueStack.Depth-1].val_type)
                             {
-                                var error = new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-1].val_type, ValType.Int, ValType.Double);
-                                Compiler.AddError(error);
+                                Compiler.AddError(new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-3].val_type, ValueStack[ValueStack.Depth-1].val_type));
+                                invalidType = true;
                             }
                         }
 
-                        CurrentSemanticValue.val_type = ValType.Bool;
-
-                        var right = Compiler.GetNode();
-                        var left = Compiler.GetNode();
-                        Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
-                    }
+                        if(!invalidType)
+                        {
+                            CurrentSemanticValue.val_type = ValType.Bool;
+                            right = Compiler.GetNode();
+                            left = Compiler.GetNode();
+                            Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), CurrentSemanticValue.val_type, ValueStack[ValueStack.Depth-2].op_type, left, right)); 
+                        }
+                     }
         break;
       case 51: // relExp -> addExp
 {

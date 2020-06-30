@@ -318,26 +318,43 @@ relOp           :   Equal           { $$ = OpType.Equal; }
 
 relExp          :   relExp relOp addExp
                     {
-                        if($2 != OpType.Equal && $2 != OpType.NotEqual)
-                        {
-                            if($1 == ValType.Bool)
+                        SyntaxTreeNode left;
+                        SyntaxTreeNode right;
+                        var invalidType = false;
+
+                        // Allow bools
+                        if($1 == ValType.Bool || $3 == ValType.Bool)
+                        {                          
+                            // But only if comparing equality
+                            if($2 != OpType.Equal && $2 != OpType.NotEqual)
                             {
-                                var error = new InvalidTypeError(Compiler.GetLineNumber(), $1, ValType.Int, ValType.Double);
-                                Compiler.AddError(error);
+                                if($1 == ValType.Bool && $3 != ValType.Bool)
+                                {
+                                    Compiler.AddError(new InvalidTypeError(Compiler.GetLineNumber(), $1, $3));
+                                    invalidType = true;
+                                }
+                                else if($1 != ValType.Bool && $3 == ValType.Bool)
+                                {
+                                    Compiler.AddError(new InvalidTypeError(Compiler.GetLineNumber(), $3, $1));
+                                    invalidType = true;
+                                }
                             }
-                            if($3 == ValType.Bool)
+                            // And both are bool
+                            else if($1 != $3)
                             {
-                                var error = new InvalidTypeError(Compiler.GetLineNumber(), $3, ValType.Int, ValType.Double);
-                                Compiler.AddError(error);
+                                Compiler.AddError(new InvalidTypeError(Compiler.GetLineNumber(), $1, $3));
+                                invalidType = true;
                             }
                         }
 
-                        $$ = ValType.Bool;
-
-                        var right = Compiler.GetNode();
-                        var left = Compiler.GetNode();
-                        Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), $$, $2, left, right)); 
-                    }
+                        if(!invalidType)
+                        {
+                            $$ = ValType.Bool;
+                            right = Compiler.GetNode();
+                            left = Compiler.GetNode();
+                            Compiler.AddNode(new BinaryOperationNode(Compiler.GetLineNumber(), $$, $2, left, right)); 
+                        }
+                     }
                 |   addExp
                     {
                         $$ = $1;
