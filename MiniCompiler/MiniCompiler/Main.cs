@@ -171,7 +171,7 @@ public class Compiler
         EmitCode(".method static void main()", false);
         EmitCode("{", false);
         EmitCode(".entrypoint", false);
-        EmitCode(".maxstack 8", false);
+        EmitCode(".maxstack 16", false);
         EmitCode(".try", false);
         EmitCode("{", false);
     }
@@ -654,7 +654,7 @@ public class ReturnNode: SyntaxTreeNode
 
     public override string GenCode()
     {
-        Compiler.EmitCode($"br {Compiler.GetReturnLabel()}");
+        Compiler.EmitCode($"leave {Compiler.GetReturnLabel()}");
 
         return "";
     }
