@@ -590,22 +590,26 @@ public class IfStatementNode : SyntaxTreeNode
     {
         Condition.GenCode();
         string elseLabel = "";
+        var afterLabel = Compiler.GenerateLabel();
 
         if (ElseStatement != null)
         {
             elseLabel = Compiler.GenerateLabel();
             Compiler.EmitCode($"brfalse {elseLabel}");
         }
+        else
+        {
+            Compiler.EmitCode($"brfalse {afterLabel}");
+        }
         ThenStatement.GenCode();
 
         if (ElseStatement != null)
         {
-            var afterLabel = Compiler.GenerateLabel();
             Compiler.EmitCode($"br {afterLabel}");
             Compiler.EmitCode("nop", true, elseLabel);
             ElseStatement.GenCode();
-            Compiler.EmitCode("nop", true, afterLabel);
         }
+        Compiler.EmitCode("nop", true, afterLabel);
 
         return "";
     }
