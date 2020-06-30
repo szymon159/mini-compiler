@@ -1,7 +1,7 @@
 <html><head><title>../../kompilator.y</title></head>
 <body bgcolor="white">
 <hr><pre>
-<b>Grammar and Diagnosis ../../kompilator.y - 30.06.2020 13:38:09</b>
+<b>Grammar and Diagnosis ../../kompilator.y - 30.06.2020 14:18:09</b>
 
 <a name="prod1">    1</a> $accept: start EOF
              ;
@@ -55,16 +55,16 @@
                      ;
 
 <a name="prod28">   28</a> readStatement: Read Ident Semicolon
-<a name="prod29">   29</a>              | Read error Eof
+<a name="prod29">   29</a>              | Read error
                    ;
 
 <a name="prod30">   30</a> writeStatement: Write exp Semicolon
 <a name="prod31">   31</a>               | Write Text Semicolon
-<a name="prod32">   32</a>               | Write error Eof
+<a name="prod32">   32</a>               | Write error
                     ;
 
 <a name="prod33">   33</a> expStatement: exp Semicolon
-<a name="prod34">   34</a>             | error Eof
+<a name="prod34">   34</a>             | error
                   ;
 
 <a name="prod35">   35</a> exp: Ident Assign exp
@@ -142,7 +142,7 @@
 
   <b>Parser Actions</b>
     Program        shift, and go to state <a href="#state7">7</a>
-    error          shift, and go to state <a href="#state114">114</a>
+    error          shift, and go to state <a href="#state111">111</a>
 
   <b>Transitions</b>
     start          go to state <a href="#state1">1</a>
@@ -277,7 +277,7 @@
 <b><a name="state7">State</a> <a href="#state7">7</a></b>
     Shortest prefix: Program
     Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>
-    Predecessors: <a href="#state0">0</a>, <a href="#state114">114</a>
+    Predecessors: <a href="#state0">0</a>, <a href="#state111">111</a>
 
   <b>Kernel Items</b>
     6 program: Program . OpenBlock declarations statements CloseBlock
@@ -333,15 +333,15 @@
 
     <b>Conflicts in this state</b>
       Shift/Reduce conflict on symbol "error", parser will shift
-       Shift "error":	State-9 -> State-112
+       Shift "error":	State-9 -> State-109
        Reduce 14:	statements -> /* empty */
       ---------
 
   <b>Parser Actions</b>
-    Int            shift, and go to state <a href="#state109">109</a>
-    Double         shift, and go to state <a href="#state110">110</a>
-    Bool           shift, and go to state <a href="#state111">111</a>
-    error          shift, and go to state <a href="#state112">112</a>
+    Int            shift, and go to state <a href="#state106">106</a>
+    Double         shift, and go to state <a href="#state107">107</a>
+    Bool           shift, and go to state <a href="#state108">108</a>
+    error          shift, and go to state <a href="#state109">109</a>
     CloseBlock     reduce using <a href="#prod14">rule 14</a> (Erasing statements)
     OpenBlock      reduce using <a href="#prod14">rule 14</a> (Erasing statements)
     If             reduce using <a href="#prod14">rule 14</a> (Erasing statements)
@@ -362,8 +362,8 @@
 
   <b>Transitions</b>
     statements     go to state <a href="#state10">10</a>
-    declaration    go to state <a href="#state105">105</a>
-    type           go to state <a href="#state106">106</a>
+    declaration    go to state <a href="#state102">102</a>
+    type           go to state <a href="#state103">103</a>
 
 
 <b><a name="state10">State</a> <a href="#state10">10</a></b>
@@ -382,18 +382,18 @@
     While          shift, and go to state <a href="#state26">26</a>
     Return         shift, and go to state <a href="#state32">32</a>
     Read           shift, and go to state <a href="#state35">35</a>
-    Write          shift, and go to state <a href="#state41">41</a>
-    Ident          shift, and go to state <a href="#state48">48</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-    error          shift, and go to state <a href="#state103">103</a>
+    Write          shift, and go to state <a href="#state40">40</a>
+    Ident          shift, and go to state <a href="#state46">46</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
+    error          shift, and go to state <a href="#state101">101</a>
 
   <b>Transitions</b>
     statement      go to state <a href="#state12">12</a>
@@ -402,17 +402,17 @@
     whileStatement go to state <a href="#state25">25</a>
     returnStatement go to state <a href="#state31">31</a>
     readStatement  go to state <a href="#state34">34</a>
-    writeStatement go to state <a href="#state40">40</a>
-    expStatement   go to state <a href="#state100">100</a>
-    exp            go to state <a href="#state101">101</a>
-    logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    writeStatement go to state <a href="#state39">39</a>
+    expStatement   go to state <a href="#state98">98</a>
+    exp            go to state <a href="#state99">99</a>
+    logExp         go to state <a href="#state49">49</a>
+    relExp         go to state <a href="#state69">69</a>
+    addExp         go to state <a href="#state76">76</a>
+    mulExp         go to state <a href="#state79">79</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
 <b><a name="state11">State</a> <a href="#state11">11</a></b>
@@ -545,18 +545,18 @@
     While          shift, and go to state <a href="#state26">26</a>
     Return         shift, and go to state <a href="#state32">32</a>
     Read           shift, and go to state <a href="#state35">35</a>
-    Write          shift, and go to state <a href="#state41">41</a>
-    Ident          shift, and go to state <a href="#state48">48</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-    error          shift, and go to state <a href="#state103">103</a>
+    Write          shift, and go to state <a href="#state40">40</a>
+    Ident          shift, and go to state <a href="#state46">46</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
+    error          shift, and go to state <a href="#state101">101</a>
 
   <b>Transitions</b>
     statement      go to state <a href="#state12">12</a>
@@ -565,17 +565,17 @@
     whileStatement go to state <a href="#state25">25</a>
     returnStatement go to state <a href="#state31">31</a>
     readStatement  go to state <a href="#state34">34</a>
-    writeStatement go to state <a href="#state40">40</a>
-    expStatement   go to state <a href="#state100">100</a>
-    exp            go to state <a href="#state101">101</a>
-    logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    writeStatement go to state <a href="#state39">39</a>
+    expStatement   go to state <a href="#state98">98</a>
+    exp            go to state <a href="#state99">99</a>
+    logExp         go to state <a href="#state49">49</a>
+    relExp         go to state <a href="#state69">69</a>
+    addExp         go to state <a href="#state76">76</a>
+    mulExp         go to state <a href="#state79">79</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
 <b><a name="state16">State</a> <a href="#state16">16</a></b>
@@ -670,27 +670,27 @@
     25 ifStatement: If OpenPar . exp ClosePar statement Else statement
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state48">48</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state46">46</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
     exp            go to state <a href="#state20">20</a>
-    logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    logExp         go to state <a href="#state49">49</a>
+    relExp         go to state <a href="#state69">69</a>
+    addExp         go to state <a href="#state76">76</a>
+    mulExp         go to state <a href="#state79">79</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
 <b><a name="state20">State</a> <a href="#state20">20</a></b>
@@ -722,18 +722,18 @@
     While          shift, and go to state <a href="#state26">26</a>
     Return         shift, and go to state <a href="#state32">32</a>
     Read           shift, and go to state <a href="#state35">35</a>
-    Write          shift, and go to state <a href="#state41">41</a>
-    Ident          shift, and go to state <a href="#state48">48</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-    error          shift, and go to state <a href="#state103">103</a>
+    Write          shift, and go to state <a href="#state40">40</a>
+    Ident          shift, and go to state <a href="#state46">46</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
+    error          shift, and go to state <a href="#state101">101</a>
 
   <b>Transitions</b>
     statement      go to state <a href="#state22">22</a>
@@ -742,17 +742,17 @@
     whileStatement go to state <a href="#state25">25</a>
     returnStatement go to state <a href="#state31">31</a>
     readStatement  go to state <a href="#state34">34</a>
-    writeStatement go to state <a href="#state40">40</a>
-    expStatement   go to state <a href="#state100">100</a>
-    exp            go to state <a href="#state101">101</a>
-    logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    writeStatement go to state <a href="#state39">39</a>
+    expStatement   go to state <a href="#state98">98</a>
+    exp            go to state <a href="#state99">99</a>
+    logExp         go to state <a href="#state49">49</a>
+    relExp         go to state <a href="#state69">69</a>
+    addExp         go to state <a href="#state76">76</a>
+    mulExp         go to state <a href="#state79">79</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
 <b><a name="state22">State</a> <a href="#state22">22</a></b>
@@ -810,18 +810,18 @@
     While          shift, and go to state <a href="#state26">26</a>
     Return         shift, and go to state <a href="#state32">32</a>
     Read           shift, and go to state <a href="#state35">35</a>
-    Write          shift, and go to state <a href="#state41">41</a>
-    Ident          shift, and go to state <a href="#state48">48</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-    error          shift, and go to state <a href="#state103">103</a>
+    Write          shift, and go to state <a href="#state40">40</a>
+    Ident          shift, and go to state <a href="#state46">46</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
+    error          shift, and go to state <a href="#state101">101</a>
 
   <b>Transitions</b>
     statement      go to state <a href="#state24">24</a>
@@ -830,17 +830,17 @@
     whileStatement go to state <a href="#state25">25</a>
     returnStatement go to state <a href="#state31">31</a>
     readStatement  go to state <a href="#state34">34</a>
-    writeStatement go to state <a href="#state40">40</a>
-    expStatement   go to state <a href="#state100">100</a>
-    exp            go to state <a href="#state101">101</a>
-    logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    writeStatement go to state <a href="#state39">39</a>
+    expStatement   go to state <a href="#state98">98</a>
+    exp            go to state <a href="#state99">99</a>
+    logExp         go to state <a href="#state49">49</a>
+    relExp         go to state <a href="#state69">69</a>
+    addExp         go to state <a href="#state76">76</a>
+    mulExp         go to state <a href="#state79">79</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
 <b><a name="state24">State</a> <a href="#state24">24</a></b>
@@ -933,27 +933,27 @@
     26 whileStatement: While OpenPar . exp ClosePar statement
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state48">48</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state46">46</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
     exp            go to state <a href="#state28">28</a>
-    logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    logExp         go to state <a href="#state49">49</a>
+    relExp         go to state <a href="#state69">69</a>
+    addExp         go to state <a href="#state76">76</a>
+    mulExp         go to state <a href="#state79">79</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
 <b><a name="state28">State</a> <a href="#state28">28</a></b>
@@ -983,18 +983,18 @@
     While          shift, and go to state <a href="#state26">26</a>
     Return         shift, and go to state <a href="#state32">32</a>
     Read           shift, and go to state <a href="#state35">35</a>
-    Write          shift, and go to state <a href="#state41">41</a>
-    Ident          shift, and go to state <a href="#state48">48</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
-    error          shift, and go to state <a href="#state103">103</a>
+    Write          shift, and go to state <a href="#state40">40</a>
+    Ident          shift, and go to state <a href="#state46">46</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
+    error          shift, and go to state <a href="#state101">101</a>
 
   <b>Transitions</b>
     statement      go to state <a href="#state30">30</a>
@@ -1003,17 +1003,17 @@
     whileStatement go to state <a href="#state25">25</a>
     returnStatement go to state <a href="#state31">31</a>
     readStatement  go to state <a href="#state34">34</a>
-    writeStatement go to state <a href="#state40">40</a>
-    expStatement   go to state <a href="#state100">100</a>
-    exp            go to state <a href="#state101">101</a>
-    logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    writeStatement go to state <a href="#state39">39</a>
+    expStatement   go to state <a href="#state98">98</a>
+    exp            go to state <a href="#state99">99</a>
+    logExp         go to state <a href="#state49">49</a>
+    relExp         go to state <a href="#state69">69</a>
+    addExp         go to state <a href="#state76">76</a>
+    mulExp         go to state <a href="#state79">79</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
 <b><a name="state30">State</a> <a href="#state30">30</a></b>
@@ -1172,7 +1172,7 @@
 
   <b>Kernel Items</b>
     28 readStatement: Read . Ident Semicolon
-    29 readStatement: Read . error Eof
+    29 readStatement: Read . error
 
   <b>Parser Actions</b>
     Ident          shift, and go to state <a href="#state36">36</a>
@@ -1233,20 +1233,7 @@
     Predecessors: <a href="#state35">35</a>
 
   <b>Kernel Items</b>
-    29 readStatement: Read error . Eof
-
-  <b>Parser Actions</b>
-    Eof            shift, and go to state <a href="#state39">39</a>
-
-
-
-<b><a name="state39">State</a> <a href="#state39">39</a></b>
-    Shortest prefix: Program OpenBlock Read error Eof
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state35">35</a>-><a href="#state38">38</a>-><a href="#state39">39</a>
-    Predecessors: <a href="#state38">38</a>
-
-  <b>Kernel Items</b>
-    29 readStatement: Read error Eof .
+    29 readStatement: Read error .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
                 LogNot, IntCast, DoubleCast, error, Else }
@@ -1274,9 +1261,9 @@
 
 
 
-<b><a name="state40">State</a> <a href="#state40">40</a></b>
+<b><a name="state39">State</a> <a href="#state39">39</a></b>
     Shortest prefix: Program OpenBlock writeStatement
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state40">40</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state39">39</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state29">29</a>
 
   <b>Kernel Items</b>
@@ -1308,59 +1295,59 @@
 
 
 
-<b><a name="state41">State</a> <a href="#state41">41</a></b>
+<b><a name="state40">State</a> <a href="#state40">40</a></b>
     Shortest prefix: Program OpenBlock Write
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state41">41</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state40">40</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state29">29</a>
 
   <b>Kernel Items</b>
     30 writeStatement: Write . exp Semicolon
     31 writeStatement: Write . Text Semicolon
-    32 writeStatement: Write . error Eof
+    32 writeStatement: Write . error
 
   <b>Parser Actions</b>
-    Text           shift, and go to state <a href="#state44">44</a>
-    error          shift, and go to state <a href="#state46">46</a>
-    Ident          shift, and go to state <a href="#state48">48</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Text           shift, and go to state <a href="#state43">43</a>
+    error          shift, and go to state <a href="#state45">45</a>
+    Ident          shift, and go to state <a href="#state46">46</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    exp            go to state <a href="#state42">42</a>
-    logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    exp            go to state <a href="#state41">41</a>
+    logExp         go to state <a href="#state49">49</a>
+    relExp         go to state <a href="#state69">69</a>
+    addExp         go to state <a href="#state76">76</a>
+    mulExp         go to state <a href="#state79">79</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state42">State</a> <a href="#state42">42</a></b>
+<b><a name="state41">State</a> <a href="#state41">41</a></b>
     Shortest prefix: Program OpenBlock Write exp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state41">41</a>-><a href="#state42">42</a>
-    Predecessors: <a href="#state41">41</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state40">40</a>-><a href="#state41">41</a>
+    Predecessors: <a href="#state40">40</a>
 
   <b>Kernel Items</b>
     30 writeStatement: Write exp . Semicolon
 
   <b>Parser Actions</b>
-    Semicolon      shift, and go to state <a href="#state43">43</a>
+    Semicolon      shift, and go to state <a href="#state42">42</a>
 
 
 
-<b><a name="state43">State</a> <a href="#state43">43</a></b>
+<b><a name="state42">State</a> <a href="#state42">42</a></b>
     Shortest prefix: Program OpenBlock Write exp Semicolon
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state41">41</a>-><a href="#state42">42</a>-><a href="#state43">43</a>
-    Predecessors: <a href="#state42">42</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state40">40</a>-><a href="#state41">41</a>-><a href="#state42">42</a>
+    Predecessors: <a href="#state41">41</a>
 
   <b>Kernel Items</b>
     30 writeStatement: Write exp Semicolon .
@@ -1391,23 +1378,23 @@
 
 
 
-<b><a name="state44">State</a> <a href="#state44">44</a></b>
+<b><a name="state43">State</a> <a href="#state43">43</a></b>
     Shortest prefix: Program OpenBlock Write Text
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state41">41</a>-><a href="#state44">44</a>
-    Predecessors: <a href="#state41">41</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state40">40</a>-><a href="#state43">43</a>
+    Predecessors: <a href="#state40">40</a>
 
   <b>Kernel Items</b>
     31 writeStatement: Write Text . Semicolon
 
   <b>Parser Actions</b>
-    Semicolon      shift, and go to state <a href="#state45">45</a>
+    Semicolon      shift, and go to state <a href="#state44">44</a>
 
 
 
-<b><a name="state45">State</a> <a href="#state45">45</a></b>
+<b><a name="state44">State</a> <a href="#state44">44</a></b>
     Shortest prefix: Program OpenBlock Write Text Semicolon
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state41">41</a>-><a href="#state44">44</a>-><a href="#state45">45</a>
-    Predecessors: <a href="#state44">44</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state40">40</a>-><a href="#state43">43</a>-><a href="#state44">44</a>
+    Predecessors: <a href="#state43">43</a>
 
   <b>Kernel Items</b>
     31 writeStatement: Write Text Semicolon .
@@ -1438,26 +1425,13 @@
 
 
 
-<b><a name="state46">State</a> <a href="#state46">46</a></b>
+<b><a name="state45">State</a> <a href="#state45">45</a></b>
     Shortest prefix: Program OpenBlock Write error
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state41">41</a>-><a href="#state46">46</a>
-    Predecessors: <a href="#state41">41</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state40">40</a>-><a href="#state45">45</a>
+    Predecessors: <a href="#state40">40</a>
 
   <b>Kernel Items</b>
-    32 writeStatement: Write error . Eof
-
-  <b>Parser Actions</b>
-    Eof            shift, and go to state <a href="#state47">47</a>
-
-
-
-<b><a name="state47">State</a> <a href="#state47">47</a></b>
-    Shortest prefix: Program OpenBlock Write error Eof
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state41">41</a>-><a href="#state46">46</a>-><a href="#state47">47</a>
-    Predecessors: <a href="#state46">46</a>
-
-  <b>Kernel Items</b>
-    32 writeStatement: Write error Eof .
+    32 writeStatement: Write error .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
                 LogNot, IntCast, DoubleCast, error, Else }
@@ -1485,10 +1459,10 @@
 
 
 
-<b><a name="state48">State</a> <a href="#state48">48</a></b>
+<b><a name="state46">State</a> <a href="#state46">46</a></b>
     Shortest prefix: Program OpenBlock Ident
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state48">48</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state68">68</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state46">46</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state66">66</a>
 
   <b>Kernel Items</b>
     35 exp: Ident . Assign exp
@@ -1498,7 +1472,7 @@
                 Semicolon, ClosePar }
 
   <b>Parser Actions</b>
-    Assign         shift, and go to state <a href="#state49">49</a>
+    Assign         shift, and go to state <a href="#state47">47</a>
     BitOr          reduce using <a href="#prod67">rule 67</a> (term)
     BitAnd         reduce using <a href="#prod67">rule 67</a> (term)
     Multiply       reduce using <a href="#prod67">rule 67</a> (term)
@@ -1518,42 +1492,42 @@
 
 
 
-<b><a name="state49">State</a> <a href="#state49">49</a></b>
+<b><a name="state47">State</a> <a href="#state47">47</a></b>
     Shortest prefix: Program OpenBlock Ident Assign
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state48">48</a>-><a href="#state49">49</a>
-    Predecessors: <a href="#state48">48</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state46">46</a>-><a href="#state47">47</a>
+    Predecessors: <a href="#state46">46</a>
 
   <b>Kernel Items</b>
     35 exp: Ident Assign . exp
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state48">48</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state46">46</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    exp            go to state <a href="#state50">50</a>
-    logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    exp            go to state <a href="#state48">48</a>
+    logExp         go to state <a href="#state49">49</a>
+    relExp         go to state <a href="#state69">69</a>
+    addExp         go to state <a href="#state76">76</a>
+    mulExp         go to state <a href="#state79">79</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state50">State</a> <a href="#state50">50</a></b>
+<b><a name="state48">State</a> <a href="#state48">48</a></b>
     Shortest prefix: Program OpenBlock Ident Assign exp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state48">48</a>-><a href="#state49">49</a>-><a href="#state50">50</a>
-    Predecessors: <a href="#state49">49</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state46">46</a>-><a href="#state47">47</a>-><a href="#state48">48</a>
+    Predecessors: <a href="#state47">47</a>
 
   <b>Kernel Items</b>
     35 exp: Ident Assign exp .
@@ -1565,10 +1539,10 @@
 
 
 
-<b><a name="state51">State</a> <a href="#state51">51</a></b>
+<b><a name="state49">State</a> <a href="#state49">49</a></b>
     Shortest prefix: Program OpenBlock logExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state51">51</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state68">68</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state49">49</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state66">66</a>
 
   <b>Kernel Items</b>
     36 exp: logExp .
@@ -1576,49 +1550,49 @@
     39 logExp: logExp . logOp relExp
 
   <b>Parser Actions</b>
-    LogOr          shift, and go to state <a href="#state98">98</a>
-    LogAnd         shift, and go to state <a href="#state99">99</a>
+    LogOr          shift, and go to state <a href="#state96">96</a>
+    LogAnd         shift, and go to state <a href="#state97">97</a>
     Semicolon      reduce using <a href="#prod36">rule 36</a> (exp)
     ClosePar       reduce using <a href="#prod36">rule 36</a> (exp)
 
   <b>Transitions</b>
-    logOp          go to state <a href="#state52">52</a>
+    logOp          go to state <a href="#state50">50</a>
 
 
-<b><a name="state52">State</a> <a href="#state52">52</a></b>
+<b><a name="state50">State</a> <a href="#state50">50</a></b>
     Shortest prefix: Program OpenBlock logExp logOp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state51">51</a>-><a href="#state52">52</a>
-    Predecessors: <a href="#state51">51</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state49">49</a>-><a href="#state50">50</a>
+    Predecessors: <a href="#state49">49</a>
 
   <b>Kernel Items</b>
     39 logExp: logExp logOp . relExp
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state61">61</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    relExp         go to state <a href="#state53">53</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    relExp         go to state <a href="#state51">51</a>
+    addExp         go to state <a href="#state76">76</a>
+    mulExp         go to state <a href="#state79">79</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state53">State</a> <a href="#state53">53</a></b>
+<b><a name="state51">State</a> <a href="#state51">51</a></b>
     Shortest prefix: Program OpenBlock logExp logOp relExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state51">51</a>-><a href="#state52">52</a>-><a href="#state53">53</a>
-    Predecessors: <a href="#state52">52</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state49">49</a>-><a href="#state50">50</a>-><a href="#state51">51</a>
+    Predecessors: <a href="#state50">50</a>
 
   <b>Kernel Items</b>
     39 logExp: logExp logOp relExp .
@@ -1626,54 +1600,54 @@
     47 relExp: relExp . relOp addExp
 
   <b>Parser Actions</b>
-    Equal          shift, and go to state <a href="#state72">72</a>
-    NotEqual       shift, and go to state <a href="#state73">73</a>
-    Greater        shift, and go to state <a href="#state74">74</a>
-    GreaterOrEqual shift, and go to state <a href="#state75">75</a>
-    Less           shift, and go to state <a href="#state76">76</a>
-    LessOrEqual    shift, and go to state <a href="#state77">77</a>
+    Equal          shift, and go to state <a href="#state70">70</a>
+    NotEqual       shift, and go to state <a href="#state71">71</a>
+    Greater        shift, and go to state <a href="#state72">72</a>
+    GreaterOrEqual shift, and go to state <a href="#state73">73</a>
+    Less           shift, and go to state <a href="#state74">74</a>
+    LessOrEqual    shift, and go to state <a href="#state75">75</a>
     LogOr          reduce using <a href="#prod39">rule 39</a> (logExp)
     LogAnd         reduce using <a href="#prod39">rule 39</a> (logExp)
     Semicolon      reduce using <a href="#prod39">rule 39</a> (logExp)
     ClosePar       reduce using <a href="#prod39">rule 39</a> (logExp)
 
   <b>Transitions</b>
-    relOp          go to state <a href="#state54">54</a>
+    relOp          go to state <a href="#state52">52</a>
 
 
-<b><a name="state54">State</a> <a href="#state54">54</a></b>
+<b><a name="state52">State</a> <a href="#state52">52</a></b>
     Shortest prefix: Program OpenBlock relExp relOp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state54">54</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state69">69</a>-><a href="#state52">52</a>
+    Predecessors: <a href="#state51">51</a>, <a href="#state69">69</a>
 
   <b>Kernel Items</b>
     47 relExp: relExp relOp . addExp
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state61">61</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    addExp         go to state <a href="#state55">55</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    addExp         go to state <a href="#state53">53</a>
+    mulExp         go to state <a href="#state79">79</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state55">State</a> <a href="#state55">55</a></b>
+<b><a name="state53">State</a> <a href="#state53">53</a></b>
     Shortest prefix: Program OpenBlock relExp relOp addExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state54">54</a>-><a href="#state55">55</a>
-    Predecessors: <a href="#state54">54</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state69">69</a>-><a href="#state52">52</a>-><a href="#state53">53</a>
+    Predecessors: <a href="#state52">52</a>
 
   <b>Kernel Items</b>
     47 relExp: relExp relOp addExp .
@@ -1682,8 +1656,8 @@
     51 addExp: addExp . addOp mulExp
 
   <b>Parser Actions</b>
-    Plus           shift, and go to state <a href="#state79">79</a>
-    Minus          shift, and go to state <a href="#state80">80</a>
+    Plus           shift, and go to state <a href="#state77">77</a>
+    Minus          shift, and go to state <a href="#state78">78</a>
     Equal          reduce using <a href="#prod47">rule 47</a> (relExp)
     NotEqual       reduce using <a href="#prod47">rule 47</a> (relExp)
     Greater        reduce using <a href="#prod47">rule 47</a> (relExp)
@@ -1696,41 +1670,41 @@
     ClosePar       reduce using <a href="#prod47">rule 47</a> (relExp)
 
   <b>Transitions</b>
-    addOp          go to state <a href="#state56">56</a>
+    addOp          go to state <a href="#state54">54</a>
 
 
-<b><a name="state56">State</a> <a href="#state56">56</a></b>
+<b><a name="state54">State</a> <a href="#state54">54</a></b>
     Shortest prefix: Program OpenBlock addExp addOp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state78">78</a>-><a href="#state56">56</a>
-    Predecessors: <a href="#state55">55</a>, <a href="#state78">78</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state76">76</a>-><a href="#state54">54</a>
+    Predecessors: <a href="#state53">53</a>, <a href="#state76">76</a>
 
   <b>Kernel Items</b>
     51 addExp: addExp addOp . mulExp
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state61">61</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    mulExp         go to state <a href="#state57">57</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    mulExp         go to state <a href="#state55">55</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state57">State</a> <a href="#state57">57</a></b>
+<b><a name="state55">State</a> <a href="#state55">55</a></b>
     Shortest prefix: Program OpenBlock addExp addOp mulExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state78">78</a>-><a href="#state56">56</a>-><a href="#state57">57</a>
-    Predecessors: <a href="#state56">56</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state76">76</a>-><a href="#state54">54</a>-><a href="#state55">55</a>
+    Predecessors: <a href="#state54">54</a>
 
   <b>Kernel Items</b>
     51 addExp: addExp addOp mulExp .
@@ -1739,8 +1713,8 @@
     55 mulExp: mulExp . mulOp bitExp
 
   <b>Parser Actions</b>
-    Multiply       shift, and go to state <a href="#state82">82</a>
-    Divide         shift, and go to state <a href="#state83">83</a>
+    Multiply       shift, and go to state <a href="#state80">80</a>
+    Divide         shift, and go to state <a href="#state81">81</a>
     Plus           reduce using <a href="#prod51">rule 51</a> (addExp)
     Minus          reduce using <a href="#prod51">rule 51</a> (addExp)
     Equal          reduce using <a href="#prod51">rule 51</a> (addExp)
@@ -1755,40 +1729,40 @@
     ClosePar       reduce using <a href="#prod51">rule 51</a> (addExp)
 
   <b>Transitions</b>
-    mulOp          go to state <a href="#state58">58</a>
+    mulOp          go to state <a href="#state56">56</a>
 
 
-<b><a name="state58">State</a> <a href="#state58">58</a></b>
+<b><a name="state56">State</a> <a href="#state56">56</a></b>
     Shortest prefix: Program OpenBlock mulExp mulOp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state81">81</a>-><a href="#state58">58</a>
-    Predecessors: <a href="#state57">57</a>, <a href="#state81">81</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state79">79</a>-><a href="#state56">56</a>
+    Predecessors: <a href="#state55">55</a>, <a href="#state79">79</a>
 
   <b>Kernel Items</b>
     55 mulExp: mulExp mulOp . bitExp
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state61">61</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    bitExp         go to state <a href="#state59">59</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    bitExp         go to state <a href="#state57">57</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state59">State</a> <a href="#state59">59</a></b>
+<b><a name="state57">State</a> <a href="#state57">57</a></b>
     Shortest prefix: Program OpenBlock mulExp mulOp bitExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state81">81</a>-><a href="#state58">58</a>-><a href="#state59">59</a>
-    Predecessors: <a href="#state58">58</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state79">79</a>-><a href="#state56">56</a>-><a href="#state57">57</a>
+    Predecessors: <a href="#state56">56</a>
 
   <b>Kernel Items</b>
     55 mulExp: mulExp mulOp bitExp .
@@ -1798,8 +1772,8 @@
     59 bitExp: bitExp . bitOp unaryExp
 
   <b>Parser Actions</b>
-    BitOr          shift, and go to state <a href="#state85">85</a>
-    BitAnd         shift, and go to state <a href="#state86">86</a>
+    BitOr          shift, and go to state <a href="#state83">83</a>
+    BitAnd         shift, and go to state <a href="#state84">84</a>
     Multiply       reduce using <a href="#prod55">rule 55</a> (mulExp)
     Divide         reduce using <a href="#prod55">rule 55</a> (mulExp)
     Plus           reduce using <a href="#prod55">rule 55</a> (mulExp)
@@ -1816,39 +1790,39 @@
     ClosePar       reduce using <a href="#prod55">rule 55</a> (mulExp)
 
   <b>Transitions</b>
-    bitOp          go to state <a href="#state60">60</a>
+    bitOp          go to state <a href="#state58">58</a>
 
 
-<b><a name="state60">State</a> <a href="#state60">60</a></b>
+<b><a name="state58">State</a> <a href="#state58">58</a></b>
     Shortest prefix: Program OpenBlock bitExp bitOp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state84">84</a>-><a href="#state60">60</a>
-    Predecessors: <a href="#state59">59</a>, <a href="#state84">84</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state82">82</a>-><a href="#state58">58</a>
+    Predecessors: <a href="#state57">57</a>, <a href="#state82">82</a>
 
   <b>Kernel Items</b>
     59 bitExp: bitExp bitOp . unaryExp
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state61">61</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    unaryExp       go to state <a href="#state61">61</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    unaryExp       go to state <a href="#state59">59</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state61">State</a> <a href="#state61">61</a></b>
+<b><a name="state59">State</a> <a href="#state59">59</a></b>
     Shortest prefix: Program OpenBlock bitExp bitOp unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state84">84</a>-><a href="#state60">60</a>-><a href="#state61">61</a>
-    Predecessors: <a href="#state60">60</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state82">82</a>-><a href="#state58">58</a>-><a href="#state59">59</a>
+    Predecessors: <a href="#state58">58</a>
 
   <b>Kernel Items</b>
     59 bitExp: bitExp bitOp unaryExp .
@@ -1876,11 +1850,11 @@
 
 
 
-<b><a name="state62">State</a> <a href="#state62">62</a></b>
+<b><a name="state60">State</a> <a href="#state60">60</a></b>
     Shortest prefix: Program OpenBlock term
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state62">62</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state60">60</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state66">66</a>, <a href="#state86">86</a>, 
+                  <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     61 unaryExp: term .
@@ -1908,10 +1882,10 @@
 
 
 
-<b><a name="state63">State</a> <a href="#state63">63</a></b>
+<b><a name="state61">State</a> <a href="#state61">61</a></b>
     Shortest prefix: Program OpenBlock Minus Ident
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state88">88</a>-><a href="#state63">63</a>
-    Predecessors: <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state86">86</a>-><a href="#state61">61</a>
+    Predecessors: <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state86">86</a>, <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     67 term: Ident .
@@ -1939,11 +1913,11 @@
 
 
 
-<b><a name="state64">State</a> <a href="#state64">64</a></b>
+<b><a name="state62">State</a> <a href="#state62">62</a></b>
     Shortest prefix: Program OpenBlock const
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state64">64</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state62">62</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state66">66</a>, <a href="#state86">86</a>, 
+                  <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     68 term: const .
@@ -1971,11 +1945,11 @@
 
 
 
-<b><a name="state65">State</a> <a href="#state65">65</a></b>
+<b><a name="state63">State</a> <a href="#state63">63</a></b>
     Shortest prefix: Program OpenBlock IntValue
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state65">65</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state63">63</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state66">66</a>, <a href="#state86">86</a>, 
+                  <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     70 const: IntValue .
@@ -2003,11 +1977,11 @@
 
 
 
-<b><a name="state66">State</a> <a href="#state66">66</a></b>
+<b><a name="state64">State</a> <a href="#state64">64</a></b>
     Shortest prefix: Program OpenBlock DoubleValue
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state66">66</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state64">64</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state66">66</a>, <a href="#state86">86</a>, 
+                  <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     71 const: DoubleValue .
@@ -2035,11 +2009,11 @@
 
 
 
-<b><a name="state67">State</a> <a href="#state67">67</a></b>
+<b><a name="state65">State</a> <a href="#state65">65</a></b>
     Shortest prefix: Program OpenBlock BoolValue
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state67">67</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state65">65</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state66">66</a>, <a href="#state86">86</a>, 
+                  <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     72 const: BoolValue .
@@ -2067,56 +2041,56 @@
 
 
 
-<b><a name="state68">State</a> <a href="#state68">68</a></b>
+<b><a name="state66">State</a> <a href="#state66">66</a></b>
     Shortest prefix: Program OpenBlock OpenPar
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state68">68</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state66">66</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state66">66</a>, <a href="#state86">86</a>, 
+                  <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     69 term: OpenPar . exp ClosePar
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state48">48</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state46">46</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    exp            go to state <a href="#state69">69</a>
-    logExp         go to state <a href="#state51">51</a>
-    relExp         go to state <a href="#state71">71</a>
-    addExp         go to state <a href="#state78">78</a>
-    mulExp         go to state <a href="#state81">81</a>
-    bitExp         go to state <a href="#state84">84</a>
-    unaryExp       go to state <a href="#state87">87</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    exp            go to state <a href="#state67">67</a>
+    logExp         go to state <a href="#state49">49</a>
+    relExp         go to state <a href="#state69">69</a>
+    addExp         go to state <a href="#state76">76</a>
+    mulExp         go to state <a href="#state79">79</a>
+    bitExp         go to state <a href="#state82">82</a>
+    unaryExp       go to state <a href="#state85">85</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state69">State</a> <a href="#state69">69</a></b>
+<b><a name="state67">State</a> <a href="#state67">67</a></b>
     Shortest prefix: Program OpenBlock OpenPar exp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state68">68</a>-><a href="#state69">69</a>
-    Predecessors: <a href="#state68">68</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state66">66</a>-><a href="#state67">67</a>
+    Predecessors: <a href="#state66">66</a>
 
   <b>Kernel Items</b>
     69 term: OpenPar exp . ClosePar
 
   <b>Parser Actions</b>
-    ClosePar       shift, and go to state <a href="#state70">70</a>
+    ClosePar       shift, and go to state <a href="#state68">68</a>
 
 
 
-<b><a name="state70">State</a> <a href="#state70">70</a></b>
+<b><a name="state68">State</a> <a href="#state68">68</a></b>
     Shortest prefix: Program OpenBlock OpenPar exp ClosePar
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state68">68</a>-><a href="#state69">69</a>-><a href="#state70">70</a>
-    Predecessors: <a href="#state69">69</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state66">66</a>-><a href="#state67">67</a>-><a href="#state68">68</a>
+    Predecessors: <a href="#state67">67</a>
 
   <b>Kernel Items</b>
     69 term: OpenPar exp ClosePar .
@@ -2144,10 +2118,10 @@
 
 
 
-<b><a name="state71">State</a> <a href="#state71">71</a></b>
+<b><a name="state69">State</a> <a href="#state69">69</a></b>
     Shortest prefix: Program OpenBlock relExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state68">68</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state69">69</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state66">66</a>
 
   <b>Kernel Items</b>
     40 logExp: relExp .
@@ -2155,25 +2129,25 @@
     47 relExp: relExp . relOp addExp
 
   <b>Parser Actions</b>
-    Equal          shift, and go to state <a href="#state72">72</a>
-    NotEqual       shift, and go to state <a href="#state73">73</a>
-    Greater        shift, and go to state <a href="#state74">74</a>
-    GreaterOrEqual shift, and go to state <a href="#state75">75</a>
-    Less           shift, and go to state <a href="#state76">76</a>
-    LessOrEqual    shift, and go to state <a href="#state77">77</a>
+    Equal          shift, and go to state <a href="#state70">70</a>
+    NotEqual       shift, and go to state <a href="#state71">71</a>
+    Greater        shift, and go to state <a href="#state72">72</a>
+    GreaterOrEqual shift, and go to state <a href="#state73">73</a>
+    Less           shift, and go to state <a href="#state74">74</a>
+    LessOrEqual    shift, and go to state <a href="#state75">75</a>
     LogOr          reduce using <a href="#prod40">rule 40</a> (logExp)
     LogAnd         reduce using <a href="#prod40">rule 40</a> (logExp)
     Semicolon      reduce using <a href="#prod40">rule 40</a> (logExp)
     ClosePar       reduce using <a href="#prod40">rule 40</a> (logExp)
 
   <b>Transitions</b>
-    relOp          go to state <a href="#state54">54</a>
+    relOp          go to state <a href="#state52">52</a>
 
 
-<b><a name="state72">State</a> <a href="#state72">72</a></b>
+<b><a name="state70">State</a> <a href="#state70">70</a></b>
     Shortest prefix: Program OpenBlock relExp Equal
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state72">72</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state69">69</a>-><a href="#state70">70</a>
+    Predecessors: <a href="#state51">51</a>, <a href="#state69">69</a>
 
   <b>Kernel Items</b>
     41 relOp: Equal .
@@ -2194,10 +2168,10 @@
 
 
 
-<b><a name="state73">State</a> <a href="#state73">73</a></b>
+<b><a name="state71">State</a> <a href="#state71">71</a></b>
     Shortest prefix: Program OpenBlock relExp NotEqual
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state73">73</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state69">69</a>-><a href="#state71">71</a>
+    Predecessors: <a href="#state51">51</a>, <a href="#state69">69</a>
 
   <b>Kernel Items</b>
     42 relOp: NotEqual .
@@ -2218,10 +2192,10 @@
 
 
 
-<b><a name="state74">State</a> <a href="#state74">74</a></b>
+<b><a name="state72">State</a> <a href="#state72">72</a></b>
     Shortest prefix: Program OpenBlock relExp Greater
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state74">74</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state69">69</a>-><a href="#state72">72</a>
+    Predecessors: <a href="#state51">51</a>, <a href="#state69">69</a>
 
   <b>Kernel Items</b>
     43 relOp: Greater .
@@ -2242,10 +2216,10 @@
 
 
 
-<b><a name="state75">State</a> <a href="#state75">75</a></b>
+<b><a name="state73">State</a> <a href="#state73">73</a></b>
     Shortest prefix: Program OpenBlock relExp GreaterOrEqual
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state75">75</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state69">69</a>-><a href="#state73">73</a>
+    Predecessors: <a href="#state51">51</a>, <a href="#state69">69</a>
 
   <b>Kernel Items</b>
     44 relOp: GreaterOrEqual .
@@ -2266,10 +2240,10 @@
 
 
 
-<b><a name="state76">State</a> <a href="#state76">76</a></b>
+<b><a name="state74">State</a> <a href="#state74">74</a></b>
     Shortest prefix: Program OpenBlock relExp Less
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state76">76</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state69">69</a>-><a href="#state74">74</a>
+    Predecessors: <a href="#state51">51</a>, <a href="#state69">69</a>
 
   <b>Kernel Items</b>
     45 relOp: Less .
@@ -2290,10 +2264,10 @@
 
 
 
-<b><a name="state77">State</a> <a href="#state77">77</a></b>
+<b><a name="state75">State</a> <a href="#state75">75</a></b>
     Shortest prefix: Program OpenBlock relExp LessOrEqual
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state71">71</a>-><a href="#state77">77</a>
-    Predecessors: <a href="#state53">53</a>, <a href="#state71">71</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state69">69</a>-><a href="#state75">75</a>
+    Predecessors: <a href="#state51">51</a>, <a href="#state69">69</a>
 
   <b>Kernel Items</b>
     46 relOp: LessOrEqual .
@@ -2314,10 +2288,10 @@
 
 
 
-<b><a name="state78">State</a> <a href="#state78">78</a></b>
+<b><a name="state76">State</a> <a href="#state76">76</a></b>
     Shortest prefix: Program OpenBlock addExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state78">78</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state68">68</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state76">76</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state66">66</a>
 
   <b>Kernel Items</b>
     48 relExp: addExp .
@@ -2326,8 +2300,8 @@
     51 addExp: addExp . addOp mulExp
 
   <b>Parser Actions</b>
-    Plus           shift, and go to state <a href="#state79">79</a>
-    Minus          shift, and go to state <a href="#state80">80</a>
+    Plus           shift, and go to state <a href="#state77">77</a>
+    Minus          shift, and go to state <a href="#state78">78</a>
     Equal          reduce using <a href="#prod48">rule 48</a> (relExp)
     NotEqual       reduce using <a href="#prod48">rule 48</a> (relExp)
     Greater        reduce using <a href="#prod48">rule 48</a> (relExp)
@@ -2340,13 +2314,13 @@
     ClosePar       reduce using <a href="#prod48">rule 48</a> (relExp)
 
   <b>Transitions</b>
-    addOp          go to state <a href="#state56">56</a>
+    addOp          go to state <a href="#state54">54</a>
 
 
-<b><a name="state79">State</a> <a href="#state79">79</a></b>
+<b><a name="state77">State</a> <a href="#state77">77</a></b>
     Shortest prefix: Program OpenBlock addExp Plus
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state78">78</a>-><a href="#state79">79</a>
-    Predecessors: <a href="#state55">55</a>, <a href="#state78">78</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state76">76</a>-><a href="#state77">77</a>
+    Predecessors: <a href="#state53">53</a>, <a href="#state76">76</a>
 
   <b>Kernel Items</b>
     49 addOp: Plus .
@@ -2367,10 +2341,10 @@
 
 
 
-<b><a name="state80">State</a> <a href="#state80">80</a></b>
+<b><a name="state78">State</a> <a href="#state78">78</a></b>
     Shortest prefix: Program OpenBlock addExp Minus
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state78">78</a>-><a href="#state80">80</a>
-    Predecessors: <a href="#state55">55</a>, <a href="#state78">78</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state76">76</a>-><a href="#state78">78</a>
+    Predecessors: <a href="#state53">53</a>, <a href="#state76">76</a>
 
   <b>Kernel Items</b>
     50 addOp: Minus .
@@ -2391,10 +2365,10 @@
 
 
 
-<b><a name="state81">State</a> <a href="#state81">81</a></b>
+<b><a name="state79">State</a> <a href="#state79">79</a></b>
     Shortest prefix: Program OpenBlock mulExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state81">81</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state68">68</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state79">79</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state66">66</a>
 
   <b>Kernel Items</b>
     52 addExp: mulExp .
@@ -2403,8 +2377,8 @@
     55 mulExp: mulExp . mulOp bitExp
 
   <b>Parser Actions</b>
-    Multiply       shift, and go to state <a href="#state82">82</a>
-    Divide         shift, and go to state <a href="#state83">83</a>
+    Multiply       shift, and go to state <a href="#state80">80</a>
+    Divide         shift, and go to state <a href="#state81">81</a>
     Plus           reduce using <a href="#prod52">rule 52</a> (addExp)
     Minus          reduce using <a href="#prod52">rule 52</a> (addExp)
     Equal          reduce using <a href="#prod52">rule 52</a> (addExp)
@@ -2419,13 +2393,13 @@
     ClosePar       reduce using <a href="#prod52">rule 52</a> (addExp)
 
   <b>Transitions</b>
-    mulOp          go to state <a href="#state58">58</a>
+    mulOp          go to state <a href="#state56">56</a>
 
 
-<b><a name="state82">State</a> <a href="#state82">82</a></b>
+<b><a name="state80">State</a> <a href="#state80">80</a></b>
     Shortest prefix: Program OpenBlock mulExp Multiply
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state81">81</a>-><a href="#state82">82</a>
-    Predecessors: <a href="#state57">57</a>, <a href="#state81">81</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state79">79</a>-><a href="#state80">80</a>
+    Predecessors: <a href="#state55">55</a>, <a href="#state79">79</a>
 
   <b>Kernel Items</b>
     53 mulOp: Multiply .
@@ -2446,10 +2420,10 @@
 
 
 
-<b><a name="state83">State</a> <a href="#state83">83</a></b>
+<b><a name="state81">State</a> <a href="#state81">81</a></b>
     Shortest prefix: Program OpenBlock mulExp Divide
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state81">81</a>-><a href="#state83">83</a>
-    Predecessors: <a href="#state57">57</a>, <a href="#state81">81</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state79">79</a>-><a href="#state81">81</a>
+    Predecessors: <a href="#state55">55</a>, <a href="#state79">79</a>
 
   <b>Kernel Items</b>
     54 mulOp: Divide .
@@ -2470,10 +2444,10 @@
 
 
 
-<b><a name="state84">State</a> <a href="#state84">84</a></b>
+<b><a name="state82">State</a> <a href="#state82">82</a></b>
     Shortest prefix: Program OpenBlock bitExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state84">84</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state68">68</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state82">82</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state66">66</a>
 
   <b>Kernel Items</b>
     56 mulExp: bitExp .
@@ -2483,8 +2457,8 @@
     59 bitExp: bitExp . bitOp unaryExp
 
   <b>Parser Actions</b>
-    BitOr          shift, and go to state <a href="#state85">85</a>
-    BitAnd         shift, and go to state <a href="#state86">86</a>
+    BitOr          shift, and go to state <a href="#state83">83</a>
+    BitAnd         shift, and go to state <a href="#state84">84</a>
     Multiply       reduce using <a href="#prod56">rule 56</a> (mulExp)
     Divide         reduce using <a href="#prod56">rule 56</a> (mulExp)
     Plus           reduce using <a href="#prod56">rule 56</a> (mulExp)
@@ -2501,13 +2475,13 @@
     ClosePar       reduce using <a href="#prod56">rule 56</a> (mulExp)
 
   <b>Transitions</b>
-    bitOp          go to state <a href="#state60">60</a>
+    bitOp          go to state <a href="#state58">58</a>
 
 
-<b><a name="state85">State</a> <a href="#state85">85</a></b>
+<b><a name="state83">State</a> <a href="#state83">83</a></b>
     Shortest prefix: Program OpenBlock bitExp BitOr
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state84">84</a>-><a href="#state85">85</a>
-    Predecessors: <a href="#state59">59</a>, <a href="#state84">84</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state82">82</a>-><a href="#state83">83</a>
+    Predecessors: <a href="#state57">57</a>, <a href="#state82">82</a>
 
   <b>Kernel Items</b>
     57 bitOp: BitOr .
@@ -2528,10 +2502,10 @@
 
 
 
-<b><a name="state86">State</a> <a href="#state86">86</a></b>
+<b><a name="state84">State</a> <a href="#state84">84</a></b>
     Shortest prefix: Program OpenBlock bitExp BitAnd
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state84">84</a>-><a href="#state86">86</a>
-    Predecessors: <a href="#state59">59</a>, <a href="#state84">84</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state82">82</a>-><a href="#state84">84</a>
+    Predecessors: <a href="#state57">57</a>, <a href="#state82">82</a>
 
   <b>Kernel Items</b>
     58 bitOp: BitAnd .
@@ -2552,10 +2526,10 @@
 
 
 
-<b><a name="state87">State</a> <a href="#state87">87</a></b>
+<b><a name="state85">State</a> <a href="#state85">85</a></b>
     Shortest prefix: Program OpenBlock unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state87">87</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state68">68</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state85">85</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state66">66</a>
 
   <b>Kernel Items</b>
     60 bitExp: unaryExp .
@@ -2583,37 +2557,37 @@
 
 
 
-<b><a name="state88">State</a> <a href="#state88">88</a></b>
+<b><a name="state86">State</a> <a href="#state86">86</a></b>
     Shortest prefix: Program OpenBlock Minus
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state88">88</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state86">86</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state66">66</a>, <a href="#state86">86</a>, 
+                  <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     62 unaryExp: Minus . unaryExp
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state61">61</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    unaryExp       go to state <a href="#state89">89</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    unaryExp       go to state <a href="#state87">87</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state89">State</a> <a href="#state89">89</a></b>
+<b><a name="state87">State</a> <a href="#state87">87</a></b>
     Shortest prefix: Program OpenBlock Minus unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state88">88</a>-><a href="#state89">89</a>
-    Predecessors: <a href="#state88">88</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state86">86</a>-><a href="#state87">87</a>
+    Predecessors: <a href="#state86">86</a>
 
   <b>Kernel Items</b>
     62 unaryExp: Minus unaryExp .
@@ -2641,37 +2615,37 @@
 
 
 
-<b><a name="state90">State</a> <a href="#state90">90</a></b>
+<b><a name="state88">State</a> <a href="#state88">88</a></b>
     Shortest prefix: Program OpenBlock BitNot
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state88">88</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state66">66</a>, <a href="#state86">86</a>, 
+                  <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     63 unaryExp: BitNot . unaryExp
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state61">61</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    unaryExp       go to state <a href="#state91">91</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    unaryExp       go to state <a href="#state89">89</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state91">State</a> <a href="#state91">91</a></b>
+<b><a name="state89">State</a> <a href="#state89">89</a></b>
     Shortest prefix: Program OpenBlock BitNot unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>-><a href="#state91">91</a>
-    Predecessors: <a href="#state90">90</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state88">88</a>-><a href="#state89">89</a>
+    Predecessors: <a href="#state88">88</a>
 
   <b>Kernel Items</b>
     63 unaryExp: BitNot unaryExp .
@@ -2699,37 +2673,37 @@
 
 
 
-<b><a name="state92">State</a> <a href="#state92">92</a></b>
+<b><a name="state90">State</a> <a href="#state90">90</a></b>
     Shortest prefix: Program OpenBlock LogNot
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state92">92</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state66">66</a>, <a href="#state86">86</a>, 
+                  <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     64 unaryExp: LogNot . unaryExp
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state61">61</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    unaryExp       go to state <a href="#state93">93</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    unaryExp       go to state <a href="#state91">91</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state93">State</a> <a href="#state93">93</a></b>
+<b><a name="state91">State</a> <a href="#state91">91</a></b>
     Shortest prefix: Program OpenBlock LogNot unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state92">92</a>-><a href="#state93">93</a>
-    Predecessors: <a href="#state92">92</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state90">90</a>-><a href="#state91">91</a>
+    Predecessors: <a href="#state90">90</a>
 
   <b>Kernel Items</b>
     64 unaryExp: LogNot unaryExp .
@@ -2757,37 +2731,37 @@
 
 
 
-<b><a name="state94">State</a> <a href="#state94">94</a></b>
+<b><a name="state92">State</a> <a href="#state92">92</a></b>
     Shortest prefix: Program OpenBlock IntCast
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state94">94</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state92">92</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state66">66</a>, <a href="#state86">86</a>, 
+                  <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     65 unaryExp: IntCast . unaryExp
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state61">61</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    unaryExp       go to state <a href="#state95">95</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    unaryExp       go to state <a href="#state93">93</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state95">State</a> <a href="#state95">95</a></b>
+<b><a name="state93">State</a> <a href="#state93">93</a></b>
     Shortest prefix: Program OpenBlock IntCast unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state94">94</a>-><a href="#state95">95</a>
-    Predecessors: <a href="#state94">94</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state92">92</a>-><a href="#state93">93</a>
+    Predecessors: <a href="#state92">92</a>
 
   <b>Kernel Items</b>
     65 unaryExp: IntCast unaryExp .
@@ -2815,37 +2789,37 @@
 
 
 
-<b><a name="state96">State</a> <a href="#state96">96</a></b>
+<b><a name="state94">State</a> <a href="#state94">94</a></b>
     Shortest prefix: Program OpenBlock DoubleCast
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state96">96</a>
-    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state41">41</a>, <a href="#state49">49</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state60">60</a>, <a href="#state68">68</a>, <a href="#state88">88</a>, 
-                  <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>, <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state94">94</a>
+    Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state19">19</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state27">27</a>, <a href="#state29">29</a>, <a href="#state40">40</a>, <a href="#state47">47</a>, <a href="#state50">50</a>, <a href="#state52">52</a>, <a href="#state54">54</a>, <a href="#state56">56</a>, <a href="#state58">58</a>, <a href="#state66">66</a>, <a href="#state86">86</a>, 
+                  <a href="#state88">88</a>, <a href="#state90">90</a>, <a href="#state92">92</a>, <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     66 unaryExp: DoubleCast . unaryExp
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state63">63</a>
-    IntValue       shift, and go to state <a href="#state65">65</a>
-    DoubleValue    shift, and go to state <a href="#state66">66</a>
-    BoolValue      shift, and go to state <a href="#state67">67</a>
-    OpenPar        shift, and go to state <a href="#state68">68</a>
-    Minus          shift, and go to state <a href="#state88">88</a>
-    BitNot         shift, and go to state <a href="#state90">90</a>
-    LogNot         shift, and go to state <a href="#state92">92</a>
-    IntCast        shift, and go to state <a href="#state94">94</a>
-    DoubleCast     shift, and go to state <a href="#state96">96</a>
+    Ident          shift, and go to state <a href="#state61">61</a>
+    IntValue       shift, and go to state <a href="#state63">63</a>
+    DoubleValue    shift, and go to state <a href="#state64">64</a>
+    BoolValue      shift, and go to state <a href="#state65">65</a>
+    OpenPar        shift, and go to state <a href="#state66">66</a>
+    Minus          shift, and go to state <a href="#state86">86</a>
+    BitNot         shift, and go to state <a href="#state88">88</a>
+    LogNot         shift, and go to state <a href="#state90">90</a>
+    IntCast        shift, and go to state <a href="#state92">92</a>
+    DoubleCast     shift, and go to state <a href="#state94">94</a>
 
   <b>Transitions</b>
-    unaryExp       go to state <a href="#state97">97</a>
-    term           go to state <a href="#state62">62</a>
-    const          go to state <a href="#state64">64</a>
+    unaryExp       go to state <a href="#state95">95</a>
+    term           go to state <a href="#state60">60</a>
+    const          go to state <a href="#state62">62</a>
 
 
-<b><a name="state97">State</a> <a href="#state97">97</a></b>
+<b><a name="state95">State</a> <a href="#state95">95</a></b>
     Shortest prefix: Program OpenBlock DoubleCast unaryExp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state96">96</a>-><a href="#state97">97</a>
-    Predecessors: <a href="#state96">96</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state94">94</a>-><a href="#state95">95</a>
+    Predecessors: <a href="#state94">94</a>
 
   <b>Kernel Items</b>
     66 unaryExp: DoubleCast unaryExp .
@@ -2873,10 +2847,10 @@
 
 
 
-<b><a name="state98">State</a> <a href="#state98">98</a></b>
+<b><a name="state96">State</a> <a href="#state96">96</a></b>
     Shortest prefix: Program OpenBlock logExp LogOr
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state51">51</a>-><a href="#state98">98</a>
-    Predecessors: <a href="#state51">51</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state49">49</a>-><a href="#state96">96</a>
+    Predecessors: <a href="#state49">49</a>
 
   <b>Kernel Items</b>
     37 logOp: LogOr .
@@ -2897,10 +2871,10 @@
 
 
 
-<b><a name="state99">State</a> <a href="#state99">99</a></b>
+<b><a name="state97">State</a> <a href="#state97">97</a></b>
     Shortest prefix: Program OpenBlock logExp LogAnd
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state51">51</a>-><a href="#state99">99</a>
-    Predecessors: <a href="#state51">51</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state49">49</a>-><a href="#state97">97</a>
+    Predecessors: <a href="#state49">49</a>
 
   <b>Kernel Items</b>
     38 logOp: LogAnd .
@@ -2921,9 +2895,9 @@
 
 
 
-<b><a name="state100">State</a> <a href="#state100">100</a></b>
+<b><a name="state98">State</a> <a href="#state98">98</a></b>
     Shortest prefix: Program OpenBlock expStatement
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state100">100</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state98">98</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state29">29</a>
 
   <b>Kernel Items</b>
@@ -2955,23 +2929,23 @@
 
 
 
-<b><a name="state101">State</a> <a href="#state101">101</a></b>
+<b><a name="state99">State</a> <a href="#state99">99</a></b>
     Shortest prefix: Program OpenBlock exp
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state101">101</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state99">99</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state29">29</a>
 
   <b>Kernel Items</b>
     33 expStatement: exp . Semicolon
 
   <b>Parser Actions</b>
-    Semicolon      shift, and go to state <a href="#state102">102</a>
+    Semicolon      shift, and go to state <a href="#state100">100</a>
 
 
 
-<b><a name="state102">State</a> <a href="#state102">102</a></b>
+<b><a name="state100">State</a> <a href="#state100">100</a></b>
     Shortest prefix: Program OpenBlock exp Semicolon
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state101">101</a>-><a href="#state102">102</a>
-    Predecessors: <a href="#state101">101</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state99">99</a>-><a href="#state100">100</a>
+    Predecessors: <a href="#state99">99</a>
 
   <b>Kernel Items</b>
     33 expStatement: exp Semicolon .
@@ -3002,26 +2976,13 @@
 
 
 
-<b><a name="state103">State</a> <a href="#state103">103</a></b>
+<b><a name="state101">State</a> <a href="#state101">101</a></b>
     Shortest prefix: Program OpenBlock error
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state103">103</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state101">101</a>
     Predecessors: <a href="#state10">10</a>, <a href="#state15">15</a>, <a href="#state21">21</a>, <a href="#state23">23</a>, <a href="#state29">29</a>
 
   <b>Kernel Items</b>
-    34 expStatement: error . Eof
-
-  <b>Parser Actions</b>
-    Eof            shift, and go to state <a href="#state104">104</a>
-
-
-
-<b><a name="state104">State</a> <a href="#state104">104</a></b>
-    Shortest prefix: Program OpenBlock error Eof
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state10">10</a>-><a href="#state103">103</a>-><a href="#state104">104</a>
-    Predecessors: <a href="#state103">103</a>
-
-  <b>Kernel Items</b>
-    34 expStatement: error Eof .
+    34 expStatement: error .
 	-lookahead: { CloseBlock, OpenBlock, If, While, Return, Read, Write, Ident, 
                 IntValue, DoubleValue, BoolValue, OpenPar, Minus, BitNot, 
                 LogNot, IntCast, DoubleCast, error, Else }
@@ -3049,9 +3010,9 @@
 
 
 
-<b><a name="state105">State</a> <a href="#state105">105</a></b>
+<b><a name="state102">State</a> <a href="#state102">102</a></b>
     Shortest prefix: Program OpenBlock declaration
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state105">105</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state102">102</a>
     Predecessors: <a href="#state9">9</a>
 
   <b>Kernel Items</b>
@@ -3085,36 +3046,36 @@
 
 
 
-<b><a name="state106">State</a> <a href="#state106">106</a></b>
+<b><a name="state103">State</a> <a href="#state103">103</a></b>
     Shortest prefix: Program OpenBlock type
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state106">106</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state103">103</a>
     Predecessors: <a href="#state9">9</a>
 
   <b>Kernel Items</b>
     9 declaration: type . Ident Semicolon
 
   <b>Parser Actions</b>
-    Ident          shift, and go to state <a href="#state107">107</a>
+    Ident          shift, and go to state <a href="#state104">104</a>
 
 
 
-<b><a name="state107">State</a> <a href="#state107">107</a></b>
+<b><a name="state104">State</a> <a href="#state104">104</a></b>
     Shortest prefix: Program OpenBlock type Ident
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state106">106</a>-><a href="#state107">107</a>
-    Predecessors: <a href="#state106">106</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state103">103</a>-><a href="#state104">104</a>
+    Predecessors: <a href="#state103">103</a>
 
   <b>Kernel Items</b>
     9 declaration: type Ident . Semicolon
 
   <b>Parser Actions</b>
-    Semicolon      shift, and go to state <a href="#state108">108</a>
+    Semicolon      shift, and go to state <a href="#state105">105</a>
 
 
 
-<b><a name="state108">State</a> <a href="#state108">108</a></b>
+<b><a name="state105">State</a> <a href="#state105">105</a></b>
     Shortest prefix: Program OpenBlock type Ident Semicolon
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state106">106</a>-><a href="#state107">107</a>-><a href="#state108">108</a>
-    Predecessors: <a href="#state107">107</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state103">103</a>-><a href="#state104">104</a>-><a href="#state105">105</a>
+    Predecessors: <a href="#state104">104</a>
 
   <b>Kernel Items</b>
     9 declaration: type Ident Semicolon .
@@ -3147,9 +3108,9 @@
 
 
 
-<b><a name="state109">State</a> <a href="#state109">109</a></b>
+<b><a name="state106">State</a> <a href="#state106">106</a></b>
     Shortest prefix: Program OpenBlock Int
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state109">109</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state106">106</a>
     Predecessors: <a href="#state9">9</a>
 
   <b>Kernel Items</b>
@@ -3161,9 +3122,9 @@
 
 
 
-<b><a name="state110">State</a> <a href="#state110">110</a></b>
+<b><a name="state107">State</a> <a href="#state107">107</a></b>
     Shortest prefix: Program OpenBlock Double
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state110">110</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state107">107</a>
     Predecessors: <a href="#state9">9</a>
 
   <b>Kernel Items</b>
@@ -3175,9 +3136,9 @@
 
 
 
-<b><a name="state111">State</a> <a href="#state111">111</a></b>
+<b><a name="state108">State</a> <a href="#state108">108</a></b>
     Shortest prefix: Program OpenBlock Bool
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state111">111</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state108">108</a>
     Predecessors: <a href="#state9">9</a>
 
   <b>Kernel Items</b>
@@ -3189,23 +3150,23 @@
 
 
 
-<b><a name="state112">State</a> <a href="#state112">112</a></b>
+<b><a name="state109">State</a> <a href="#state109">109</a></b>
     Shortest prefix: Program OpenBlock error
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state112">112</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state109">109</a>
     Predecessors: <a href="#state9">9</a>
 
   <b>Kernel Items</b>
     10 declaration: error . Eof
 
   <b>Parser Actions</b>
-    Eof            shift, and go to state <a href="#state113">113</a>
+    Eof            shift, and go to state <a href="#state110">110</a>
 
 
 
-<b><a name="state113">State</a> <a href="#state113">113</a></b>
+<b><a name="state110">State</a> <a href="#state110">110</a></b>
     Shortest prefix: Program OpenBlock error Eof
-    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state112">112</a>-><a href="#state113">113</a>
-    Predecessors: <a href="#state112">112</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state7">7</a>-><a href="#state8">8</a>-><a href="#state9">9</a>-><a href="#state109">109</a>-><a href="#state110">110</a>
+    Predecessors: <a href="#state109">109</a>
 
   <b>Kernel Items</b>
     10 declaration: error Eof .
@@ -3238,9 +3199,9 @@
 
 
 
-<b><a name="state114">State</a> <a href="#state114">114</a></b>
+<b><a name="state111">State</a> <a href="#state111">111</a></b>
     Shortest prefix: error
-    Shortest path: <a href="#state0">0</a>-><a href="#state114">114</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state111">111</a>
     Predecessors: <a href="#state0">0</a>
 
   <b>Kernel Items</b>
@@ -3248,30 +3209,30 @@
     5 start: error . Eof
 
   <b>Parser Actions</b>
-    Eof            shift, and go to state <a href="#state117">117</a>
+    Eof            shift, and go to state <a href="#state114">114</a>
     Program        shift, and go to state <a href="#state7">7</a>
 
   <b>Transitions</b>
-    program        go to state <a href="#state115">115</a>
+    program        go to state <a href="#state112">112</a>
 
 
-<b><a name="state115">State</a> <a href="#state115">115</a></b>
+<b><a name="state112">State</a> <a href="#state112">112</a></b>
     Shortest prefix: error program
-    Shortest path: <a href="#state0">0</a>-><a href="#state114">114</a>-><a href="#state115">115</a>
-    Predecessors: <a href="#state114">114</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state111">111</a>-><a href="#state112">112</a>
+    Predecessors: <a href="#state111">111</a>
 
   <b>Kernel Items</b>
     3 start: error program . Eof
 
   <b>Parser Actions</b>
-    Eof            shift, and go to state <a href="#state116">116</a>
+    Eof            shift, and go to state <a href="#state113">113</a>
 
 
 
-<b><a name="state116">State</a> <a href="#state116">116</a></b>
+<b><a name="state113">State</a> <a href="#state113">113</a></b>
     Shortest prefix: error program Eof
-    Shortest path: <a href="#state0">0</a>-><a href="#state114">114</a>-><a href="#state115">115</a>-><a href="#state116">116</a>
-    Predecessors: <a href="#state115">115</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state111">111</a>-><a href="#state112">112</a>-><a href="#state113">113</a>
+    Predecessors: <a href="#state112">112</a>
 
   <b>Kernel Items</b>
     3 start: error program Eof .
@@ -3282,10 +3243,10 @@
 
 
 
-<b><a name="state117">State</a> <a href="#state117">117</a></b>
+<b><a name="state114">State</a> <a href="#state114">114</a></b>
     Shortest prefix: error Eof
-    Shortest path: <a href="#state0">0</a>-><a href="#state114">114</a>-><a href="#state117">117</a>
-    Predecessors: <a href="#state114">114</a>
+    Shortest path: <a href="#state0">0</a>-><a href="#state111">111</a>-><a href="#state114">114</a>
+    Predecessors: <a href="#state111">111</a>
 
   <b>Kernel Items</b>
     5 start: error Eof .
