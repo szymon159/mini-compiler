@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 using MiniCompiler;
 
 public enum ValType
@@ -90,8 +84,8 @@ public class Compiler
             {
                 Console.WriteLine("FAILURE");
                 Console.WriteLine($"Found {errors.Count} errors:");
-                var syntaxErrors = errors.Where(e => e.IsSyntaxError);
-                var otherErrors = errors.Where(e => !e.IsSyntaxError);
+                var syntaxErrors = errors.Where(e => e.IsSyntaxError).OrderBy(e => e.LineNumber);
+                var otherErrors = errors.Where(e => !e.IsSyntaxError).OrderBy(e => e.LineNumber);
                 if(syntaxErrors.Count() > 0)
                     Console.WriteLine($"Syntax errors ({syntaxErrors.Count()}):");
                 foreach (var error in syntaxErrors)
@@ -242,7 +236,7 @@ public class DeclarationNode: SyntaxTreeNode
                 text = $".locals init ( int32 _{Name} )";
                 break;
             default:
-                Compiler.AddError(new UndefinedError(LineNo));
+                Compiler.AddError(new UndefinedRuntimeError(LineNo));
                 return text;
         }
         Compiler.EmitCode(text, false);
@@ -364,7 +358,7 @@ public class BinaryOperationNode : SyntaxTreeNode
                 text = "and";
                 break;
             default:
-                Compiler.AddError(new UndefinedError(LineNo));
+                Compiler.AddError(new UndefinedRuntimeError(LineNo));
                 break;
         }
 
@@ -438,7 +432,7 @@ public class UnaryOperationNode : SyntaxTreeNode
                 text = "conv.r8";
                 break;
             default:
-                Compiler.AddError(new UndefinedError(LineNo));
+                Compiler.AddError(new UndefinedRuntimeError(LineNo));
                 break;
         }
 
@@ -661,7 +655,7 @@ public class ReadNode : SyntaxTreeNode
                 Compiler.EmitCode("call bool [mscorlib]System.Boolean::Parse(string)");
                 break;
             default:
-                Compiler.AddError(new UndefinedError(LineNo));
+                Compiler.AddError(new UndefinedRuntimeError(LineNo));
                 break;
         }
         Compiler.EmitCode($"stloc _{Name}");
@@ -716,7 +710,7 @@ public class WriteNode : SyntaxTreeNode
                     Compiler.EmitCode($"call void [mscorlib]System.Console::Write(bool)");
                     break;
                 default:
-                    Compiler.AddError(new UndefinedError(LineNo));
+                    Compiler.AddError(new UndefinedRuntimeError(LineNo));
                     break;
             }
         }
@@ -786,7 +780,7 @@ public class VariableNotDeclaredError: MiniCompilerError
 
     public override string ToString()
     {
-        return base.ToString() + $"Variable {VariableName} has not been declared.";
+        return base.ToString() + $"Undeclared variable {VariableName}.";
     }
 }
 
@@ -802,7 +796,7 @@ public class VariableAlreadyDeclaredError: MiniCompilerError
 
     public override string ToString()
     {
-        return base.ToString() + $"Variable {VariableName} has already been declared.";
+        return base.ToString() + $"Variable already declared: {VariableName}.";
     }
 }
 
@@ -826,9 +820,9 @@ public class InvalidTypeError : MiniCompilerError
     }
 }
 
-public class UndefinedError : MiniCompilerError
+public class UndefinedRuntimeError : MiniCompilerError
 {
-    public UndefinedError(int lineNumber)
+    public UndefinedRuntimeError(int lineNumber)
         :base(lineNumber)
     {
 
@@ -836,7 +830,7 @@ public class UndefinedError : MiniCompilerError
 
     public override string ToString()
     {
-        return base.ToString() + "Undefined error.";
+        return base.ToString() + "Undefined runtime error.";
     }
 }
  

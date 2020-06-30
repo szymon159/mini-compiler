@@ -70,12 +70,6 @@ declaration     :   type Ident Semicolon
                             Compiler.AddError(new VariableAlreadyDeclaredError(Compiler.GetLineNumber(), $2));
                         }
                     }
-                |   error Eof
-                    {
-                        Compiler.AddError(new UnexpectedTokenError(Compiler.GetLineNumber()-1));
-                        yyerrok();
-                        YYABORT;
-                    }
                 ;
 
 type            :   Int             { $$ = ValType.Int; }
@@ -336,6 +330,11 @@ relExp          :   relExp relOp addExp
                                 else if($1 != ValType.Bool && $3 == ValType.Bool)
                                 {
                                     Compiler.AddError(new InvalidTypeError(Compiler.GetLineNumber(), $3, $1));
+                                    invalidType = true;
+                                }
+                                else
+                                {
+                                    Compiler.AddError(new InvalidTypeError(Compiler.GetLineNumber(), $1, ValType.Int, ValType.Double));
                                     invalidType = true;
                                 }
                             }
