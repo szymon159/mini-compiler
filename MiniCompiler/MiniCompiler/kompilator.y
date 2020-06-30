@@ -338,6 +338,11 @@ relExp          :   relExp relOp addExp
                                     Compiler.AddError(new InvalidTypeError(Compiler.GetLineNumber(), $3, $1));
                                     invalidType = true;
                                 }
+                                else
+                                {
+                                    Compiler.AddError(new InvalidTypeError(Compiler.GetLineNumber(), $1, ValType.Int, ValType.Double));
+                                    invalidType = true;
+                                }
                             }
                             // And both are bool
                             else if($1 != $3)

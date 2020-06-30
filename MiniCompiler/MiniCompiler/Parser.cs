@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-LRNG15B
-// DateTime: 30.06.2020 18:46:05
+// DateTime: 30.06.2020 18:55:47
 // UserName: szymo
-// Input file <../../kompilator.y - 30.06.2020 18:45:37>
+// Input file <../../kompilator.y - 30.06.2020 18:55:46>
 
 // options: conflicts no-lines diagnose & report gplex conflicts
 
@@ -594,6 +594,11 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                                 else if(ValueStack[ValueStack.Depth-3].val_type != ValType.Bool && ValueStack[ValueStack.Depth-1].val_type == ValType.Bool)
                                 {
                                     Compiler.AddError(new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-1].val_type, ValueStack[ValueStack.Depth-3].val_type));
+                                    invalidType = true;
+                                }
+                                else
+                                {
+                                    Compiler.AddError(new InvalidTypeError(Compiler.GetLineNumber(), ValueStack[ValueStack.Depth-3].val_type, ValType.Int, ValType.Double));
                                     invalidType = true;
                                 }
                             }
