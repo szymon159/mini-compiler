@@ -625,14 +625,16 @@ public class WhileStatementNode : SyntaxTreeNode
 
     public override string GenCode()
     {
-        var beginLabel = Compiler.GenerateLabel();
-        Compiler.EmitCode("nop", true, beginLabel);
-        ThenStatement.GenCode();
-
+        var endLabel = Compiler.GenerateLabel();
         var condLabel = Compiler.GenerateLabel();
         Compiler.EmitCode("nop", true, condLabel);
         Condition.GenCode();
-        Compiler.EmitCode($"brtrue {beginLabel}");
+        Compiler.EmitCode($"brfalse {endLabel}");
+
+        ThenStatement.GenCode();
+        Compiler.EmitCode($"br {condLabel}");
+
+        Compiler.EmitCode("nop", true, endLabel);
 
         return "";
     }
