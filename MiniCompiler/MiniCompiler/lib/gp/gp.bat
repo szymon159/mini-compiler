@@ -1,2 +1,2 @@
-Gppg.exe /gplex /nolines /conflicts /report /verbose /out:../../Parser.cs ../../kompilator.y
-Gplex.exe /verbose /out:../../Scanner.cs ../../kompilator.lex
+Gppg.exe /gplex /out:../../Parser.cs ../../kompilator.y
+Gplex.exe /out:../../Scanner.cs ../../kompilator.lex
