@@ -48,8 +48,6 @@ Comment			"//".*
 "&"				{ return (int)Tokens.BitAnd; }
 "~"				{ return (int)Tokens.BitNot; }
 "!"				{ return (int)Tokens.LogNot; }
-"(int)"         { return (int)Tokens.IntCast; }
-"(double)"      { return (int)Tokens.DoubleCast; }
 
 {Int}			{ yylval.i_val = int.Parse(yytext); return (int)Tokens.IntValue; }
 {Double}		{ yylval.d_val = double.Parse(yytext, System.Globalization.CultureInfo.InvariantCulture); return (int)Tokens.DoubleValue; }
