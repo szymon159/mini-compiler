@@ -1,2 +1,2 @@
 # mini-compiler
-Compiler of  simple programming language called "MINI" created for university classes using Gardens Point Tools
+Compiler of  simple programming language called "MINI" designed with Gardens Point Tools. Created for Computer Science classes at Warsaw University og Technology.
