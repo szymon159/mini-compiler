@@ -15,7 +15,7 @@ Supported keywords: __program if else while read write return int double bool tr
 Supported operators: __ = || && | & == != > >= < <= + - * / ! ~ ( ) { } ;__
 
 ## About
-The input of the program is a code in "MINI" language and the output is the _*.il_ file with CIL code which can be then made into executable using ILAsm tools. 
+The input of the program is a code in "MINI" language (path to the input file should be specified as the only command line argument for the _MiniCompiler.exe_) and the output is the _*.il_ file with CIL code which can be then made into executable using ILAsm tools. 
 
 In order to make changes in parser or scanner code, you need to modify _kompilator.lex_ or _kompilator.y_ files respectively and run a script _gp.bat_ included in subdirectory _lib/gp_ to generate actual .NET Framework compatible code.
 
