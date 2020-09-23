@@ -1,11 +1,18 @@
 # Mini Compiler
-Compiler of  simple programming language called "MINI" designed with Gardens Point tools. Created for Computer Science classes at Warsaw University og Technology.
+Compiler of  simple programming language called "MINI" designed with Gardens Point tools. Created for Computer Science classes at Warsaw University of Technology.
 
 ## Language
-MINI language is a simple language using a few ideas and syntax similar to what was originally introduced in C. Source code cannot be divided into multiple methods - the one only supported method is _program_ which contains all the code of the program. All supported data types are: bool, int and double. Grammar for the lanugage can be found in the file _kompilator.report.html_
+"MINI" language is a simple language using a few ideas and syntax similar to what was originally introduced in C. 
 
-- Supported keywords: program if else while read write return int double bool true false
-- Supported operators: = || && | & == != > >= < <= + - * / ! ~ ( ) { } ;
+Source code cannot be divided into multiple methods - the one only supported method is _program_ which contains all the code of the program. 
+
+All the supported data types are: bool, int and double.
+
+Grammar for the lanugage can be found in the file _kompilator.report.html_
+
+Supported keywords: __program if else while read write return int double bool true false__
+
+Supported operators: __ = || && | & == != > >= < <= + - * / ! ~ ( ) { } ;__
 
 ## About
 The input of the program is a code in "MINI" language and the output is the _*.il_ file with CIL code which can be then made into executable using ILAsm tools. 
